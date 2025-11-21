@@ -1,4 +1,6 @@
 import random
+import os
+import csv
 
 def get_random_graph(n, p=0.5):
     matrix = [[0] * n for _ in range(n)]
@@ -22,6 +24,14 @@ def list_to_mat(adj):
         for neighbor in neighbors:
             matrix[node][neighbor] = 1
     return matrix
+
+def write_csv(filepath, header, rows):
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+
+    with open(filepath, "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+        writer.writerows(rows)
 
 # Usage
 if __name__ == "__main__":

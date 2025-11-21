@@ -1,0 +1,10 @@
+# --- Python cache files ---
+__pycache__/
+*.pyc
+*.pyo
+
+# --- Experiment outputs ---
+experiments/*/results/*.csv
+
+# --- Generated plots ---
+plots/*/images/*.png
