@@ -7,7 +7,7 @@ from common_utils import get_random_graph, mat_to_list, write_csv
 # EXPERIMENT: Effect of Graph size (n) on Centrality Runtimes
 
 def run_size_experiment(
-    sizes=[50, 100, 150, 200, 300, 500, 1000],
+    sizes=[50, 100, 150, 200, 300, 400, 500, 600, 700, 800],
     p=0.1,
     seed=42,
     out_csv="experiments/centrality/results/size_results.csv"
