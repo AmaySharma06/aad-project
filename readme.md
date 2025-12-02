@@ -2,6 +2,9 @@
 
 Graph theory algorithms for synthetic friendship networks.
 
+## Repository Link
+https://github.com/AmaySharma06/aad-project
+
 ## Structure
 
 ```
