@@ -28,10 +28,10 @@ git clone https://github.com/AmaySharma06/aad-project.git
 cd aad-project
 
 # Install Python dependencies
-pip install matplotlib numpy pandas scikit-learn
+pip install matplotlib numpy pandas scikit-learn networkx
 
 # Verify installation
-python -c "import matplotlib, numpy, pandas, sklearn; print('Setup complete!')"
+python -c "import matplotlib, numpy, pandas, sklearn, networkx; print('Setup complete!')"
 ```
 
 ## Quick Start
@@ -60,6 +60,7 @@ python experiments/community/run_experiments.py --experiment comparison
 # Generate plots for each module
 python plots/traversal/plot_experiments.py
 python plots/centrality/plot_experiments.py
+python plots/centrality/plot_centrality_heatmaps.py  # Centrality heatmap visualizations
 python plots/recommender/plot_experiments.py
 python plots/community/plot_experiments.py
 ```
@@ -82,7 +83,7 @@ pdflatex main.tex
 ## Requirements
 
 - Python 3.12+
-- Matplotlib, NumPy, Pandas
+- Matplotlib, NumPy, Pandas, NetworkX
 - LaTeX distribution (MiKTeX/TeX Live)
 
 ## Team
