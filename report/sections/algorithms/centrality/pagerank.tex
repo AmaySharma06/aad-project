@@ -1,0 +1,166 @@
+\subsubsection{PageRank Centrality}
+
+\paragraph{Intuition.}
+PageRank is a measure of global importance originally proposed by Brin and Page
+to rank webpages.
+The key intuition is:
+\begin{quote}
+A node is important if it is linked to by other important nodes.
+\end{quote}
+Unlike degree centrality, which counts only the number of incident edges, PageRank
+propagates importance recursively across the network.
+A node with few but highly influential neighbors can receive a high PageRank score,
+while a node with many low-quality neighbors may not.
+
+In undirected graphs, PageRank reduces to a ``smoothed'' version of degree centrality,
+but on directed graphs it captures substantial additional structure.
+In our project, even though our graphs are undirected, PageRank still provides a useful
+interpretation as a random-walk based centrality.
+
+\paragraph{Theoretical Background.}
+PageRank is defined as the stationary distribution of a random walk on the graph with
+a damping factor.
+Let \(G = (V,E)\) be a graph and let \(N(v)\) denote the set of neighbors of node \(v\).
+A random walker located at node \(v\) chooses a neighbor uniformly at random and moves
+to it; with probability \(1-\alpha\), the walker instead ``teleports'' to a uniformly
+chosen node.
+
+Formally, the PageRank score \(PR(v)\) satisfies the recurrence:
+\[
+PR(v)
+= \frac{1-\alpha}{n} + \alpha \sum_{u \in N(v)} \frac{PR(u)}{\deg(u)},
+\]
+where \(0 < \alpha < 1\) is the damping factor (commonly \(\alpha = 0.85\)).
+In vector form:
+\[
+\mathbf{PR}
+= (1-\alpha)\frac{\mathbf{1}}{n}
++ \alpha \, P^{\top} \mathbf{PR},
+\]
+where \(P\) is the random-walk transition matrix:
+\[
+P_{uv} =
+\begin{cases}
+\frac{1}{\deg(u)} & \text{if } (u,v)\in E, \\
+0 & \text{otherwise}.
+\end{cases}
+\]
+The PageRank vector is therefore the unique stationary solution of this affine
+recursive system.
+
+\paragraph{Algorithm Description.}
+We describe the standard power-iteration PageRank algorithm used in our implementation.
+
+\begin{enumerate}
+    \item \textbf{Initialization.}
+    Assign each node an initial PageRank value
+    \[
+    PR^{(0)}(v) = \frac{1}{n}.
+    \]
+
+    \item \textbf{Iterative update.}
+    At iteration \(k\), compute the next estimate using:
+    \[
+    PR^{(k+1)}(v)
+    =
+    \frac{1-\alpha}{n}
+    +
+    \alpha \sum_{u \in N(v)} \frac{PR^{(k)}(u)}{\deg(u)}.
+    \]
+    This is performed simultaneously for all nodes.
+
+    \item \textbf{Convergence check.}
+    Continue iterating until
+    \[
+    \lVert \, PR^{(k+1)} - PR^{(k)} \, \rVert_1 < \varepsilon,
+    \]
+    where \(\varepsilon\) is a small tolerance (e.g. \(10^{-6}\)).
+    To ensure termination, we cap the number of iterations at a predefined max\_iter (e.g., 100). The algorithm stops early if the PageRank vector converges under tolerance \(\varepsilon\).
+
+    \item \textbf{Output.}
+    The final vector \(PR^{(k)}\) is returned as the PageRank centrality.
+\end{enumerate}
+
+This is the classical power-iteration method for computing the stationary
+distribution of a Markov chain with teleportation.
+
+\paragraph{Proof of Correctness.}
+
+We prove that the algorithm converges and that the limit is the true PageRank vector.
+
+\subparagraph{(1) Existence and Uniqueness of the PageRank vector.}
+Define the transition matrix with teleportation:
+\[
+M = \alpha P + (1-\alpha)\frac{\mathbf{1}\mathbf{1}^{\top}}{n}.
+\]
+This matrix is:
+\begin{itemize}
+    \item \emph{stochastic}: each row sums to \(1\),
+    \item \emph{aperiodic}: because teleportation gives every node a self-loop,
+    \item \emph{irreducible}: because teleportation allows a transition from any node to any other node.
+\end{itemize}
+
+A fundamental theorem of Markov chains states that any stochastic, aperiodic, and irreducible matrix has a \emph{unique} stationary distribution.
+Therefore, the PageRank vector \(\mathbf{PR}\) is uniquely defined.
+
+\subparagraph{(2) Convergence of the power iteration.}
+Given the update rule:
+\[
+\mathbf{PR}^{(k+1)} = M^{\top} \mathbf{PR}^{(k)},
+\]
+and knowing that \(M\) is stochastic and irreducible, standard Markov chain theory implies:
+\[
+\lim_{k \to \infty} \mathbf{PR}^{(k)} = \mathbf{PR},
+\]
+regardless of initialization.
+
+\subparagraph{(3) Correctness of the iterative PageRank formula.}
+Expanding the fixed-point equation:
+\[
+\mathbf{PR} = M^{\top} \mathbf{PR}
+\]
+gives:
+\[
+PR(v)
+= \frac{1-\alpha}{n}
++ \alpha \sum_{u \in N(v)} \frac{PR(u)}{\deg(u)}.
+\]
+The update rule in the algorithm is exactly this equation used as an iterative refinement.
+
+Thus, once the iteration converges, all nodes satisfy the PageRank recurrence
+and therefore the final vector is the correct PageRank.
+
+\hfill $\square$
+
+\paragraph{Time Complexity.}
+Each iteration performs the following work:
+\begin{itemize}
+    \item for each vertex \(v\), we look at its neighbors \(N(v)\),
+    \item across all vertices, the total neighbor-scanning cost is
+    \[
+    \sum_{v \in V} \deg(v) = 2m.
+    \]
+\end{itemize}
+
+Thus, each iteration costs \(\Theta(n + m)\).
+If the algorithm performs \(K\) iterations before convergence, the total time is:
+\[
+\Theta\bigl( K (n + m) \bigr).
+\]
+In practice, PageRank converges in a small number of iterations (typically 20--50).
+
+\paragraph{Space Complexity.}
+Beyond the input graph (stored as adjacency lists), the algorithm maintains:
+\begin{itemize}
+    \item two rank vectors \(\mathbf{PR}^{(k)}\) and \(\mathbf{PR}^{(k+1)}\), each of size \(n\),
+    \item temporary scalar values for convergence checking.
+\end{itemize}
+
+Thus the additional space is
+\[
+\Theta(n).
+\]
+Including the adjacency lists, the total storage is
+\[
+\Theta(n + m).
+\]

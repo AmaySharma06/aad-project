@@ -1,0 +1,306 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Traversal Algorithms}{3}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.0.1}Breadth-First Search (BFS)}{3}{subsubsection.1.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Intuition.}{3}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Formal definition.}{3}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithm description.}{3}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Proof of correctness.}{4}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Time complexity.}{4}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Space complexity.}{5}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Comparison with DFS.}{5}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.0.2}Depth-First Search (DFS)}{5}{subsubsection.1.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Intuition.}{5}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Formal definition.}{6}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithm description.}{6}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Proof of correctness.}{7}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Time complexity.}{7}{section*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Space complexity.}{8}{section*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Recursive vs. Iterative DFS.}{8}{section*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Applications and comparison with BFS.}{9}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.0.3}Union-Find (Disjoint Set Union)}{9}{subsubsection.1.0.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Intuition.}{9}{section*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Formal definition.}{9}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Data structure representation.}{10}{section*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithm description.}{10}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Proof of correctness.}{11}{section*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Time complexity (amortized analysis).}{11}{section*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Space complexity.}{12}{section*.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Application to connected components.}{12}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Comparison with BFS and DFS.}{12}{section*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.0.4}Implementation Details}{13}{subsubsection.1.0.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Data Structures.}{13}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Implementation Choices.}{13}{section*.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Code Organization.}{14}{section*.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Testing and Validation.}{14}{section*.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Optimization Considerations.}{15}{section*.30}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.0.5}Experimental Setup}{15}{subsubsection.1.0.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Synthetic Graph Generation.}{15}{section*.31}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experimental Tasks.}{15}{section*.32}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithms Tested.}{16}{section*.33}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Timing Methodology.}{16}{section*.34}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Reproducibility.}{17}{section*.35}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hardware and Software Environment.}{17}{section*.36}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Plotting and Visualization.}{17}{section*.37}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Expected Theoretical Behavior.}{17}{section*.38}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.0.6}Results and Analysis}{18}{subsubsection.1.0.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Metrics.}{18}{section*.39}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Scaling with graph size.}{18}{section*.40}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Running time of BFS, DFS (recursive and iterative), and Union-Find as a function of graph size \(n\) for Erd\H {o}s--R\'enyi graphs \(G(n, 0.1)\).}}{18}{figure.1}\protected@file@percent }
+\newlabel{fig:size-time-traversal}{{1}{18}{Running time of BFS, DFS (recursive and iterative), and Union-Find as a function of graph size \(n\) for Erd\H {o}s--R\'enyi graphs \(G(n, 0.1)\)}{figure.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Absolute timing comparison.}{19}{section*.41}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Scaling with graph density.}{19}{section*.42}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Running time of BFS, DFS (recursive and iterative), and Union-Find as a function of edge probability \(p\) for Erd\H {o}s--R\'enyi graphs \(G(500, p)\).}}{20}{figure.2}\protected@file@percent }
+\newlabel{fig:density-time-traversal}{{2}{20}{Running time of BFS, DFS (recursive and iterative), and Union-Find as a function of edge probability \(p\) for Erd\H {o}s--R\'enyi graphs \(G(500, p)\)}{figure.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Practical insights.}{20}{section*.43}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Comparison with theoretical complexity.}{20}{section*.44}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{When to use each algorithm.}{21}{section*.45}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Summary of findings.}{21}{section*.46}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Centrality Algorithms}{22}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.0.1}Degree Centrality}{22}{subsubsection.2.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Intuition.}{22}{section*.47}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Formal definition.}{22}{section*.48}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithm description.}{23}{section*.49}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Proof of correctness.}{23}{section*.50}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Time complexity.}{24}{section*.51}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Space complexity.}{24}{section*.52}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.0.2}Harmonic Closeness Centrality}{24}{subsubsection.2.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Intuition.}{24}{section*.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Theoretical Background.}{24}{section*.54}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithm Description.}{25}{section*.55}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Proof of Correctness.}{25}{section*.56}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Time Complexity.}{26}{section*.57}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Space Complexity.}{26}{section*.58}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.0.3}Betweenness Centrality}{27}{subsubsection.2.0.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Intuition.}{27}{section*.59}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Theoretical Background.}{27}{section*.60}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Intuition for Brandes' Algorithm.}{28}{section*.61}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithm Description (Brandes' Algorithm for Unweighted Graphs).}{28}{section*.62}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Proof of Correctness.}{29}{section*.63}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{(1) Correctness of the BFS Phase.}{29}{section*.64}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{(2) Correctness of the Dependency Accumulation Step.}{29}{section*.65}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{(3) Correctness of Reverse-Order Processing.}{31}{section*.66}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Time Complexity.}{31}{section*.67}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Space Complexity.}{31}{section*.68}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.0.4}PageRank Centrality}{32}{subsubsection.2.0.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Intuition.}{32}{section*.69}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Theoretical Background.}{32}{section*.70}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithm Description.}{32}{section*.71}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Proof of Correctness.}{33}{section*.72}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{(1) Existence and Uniqueness of the PageRank vector.}{33}{section*.73}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{(2) Convergence of the power iteration.}{33}{section*.74}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{(3) Correctness of the iterative PageRank formula.}{34}{section*.75}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Time Complexity.}{34}{section*.76}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Space Complexity.}{34}{section*.77}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.0.5}Implementation Details}{34}{subsubsection.2.0.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Data Structures.}{35}{section*.78}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.0.6}Experimental Setup}{35}{subsubsection.2.0.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Synthetic Graph Generation.}{35}{section*.79}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experimental Tasks.}{35}{section*.80}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Reproducibility.}{35}{section*.81}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Plotting and Visualisation.}{35}{section*.82}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.0.7}Results and Analysis}{36}{subsubsection.2.0.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Metrics.}{36}{section*.83}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Scaling with graph size.}{36}{section*.84}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Running time of degree, harmonic closeness, betweenness (Brandes), and PageRank as a function of graph size $n$ for Erd\H {o}s--R\'enyi graphs $G(n,0.1)$.}}{36}{figure.3}\protected@file@percent }
+\newlabel{fig:size-time-centrality}{{3}{36}{Running time of degree, harmonic closeness, betweenness (Brandes), and PageRank as a function of graph size $n$ for Erd\H {o}s--R\'enyi graphs $G(n,0.1)$}{figure.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Scaling with graph density.}{37}{section*.85}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Running time of degree, harmonic closeness, betweenness (Brandes), and PageRank as a function of edge probability $p$ for Erd\H {o}s--R\'enyi graphs $G(100,p)$.}}{37}{figure.4}\protected@file@percent }
+\newlabel{fig:density-time-centrality}{{4}{37}{Running time of degree, harmonic closeness, betweenness (Brandes), and PageRank as a function of edge probability $p$ for Erd\H {o}s--R\'enyi graphs $G(100,p)$}{figure.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Qualitative comparison using a showcase graph.}{37}{section*.86}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Heatmaps of degree, harmonic closeness, betweenness, and PageRank on the manually constructed showcase graph.}}{38}{figure.5}\protected@file@percent }
+\newlabel{fig:showcase-heatmaps}{{5}{38}{Heatmaps of degree, harmonic closeness, betweenness, and PageRank on the manually constructed showcase graph}{figure.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{Summary of findings.}{38}{section*.87}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Recommendation Algorithms}{39}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.0.1}Jaccard Similarity for Link Prediction}{39}{subsubsection.3.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Intuition.}{39}{section*.88}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Formal definition.}{39}{section*.89}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Link prediction interpretation.}{39}{section*.90}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithm description.}{40}{section*.91}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Proof of correctness.}{40}{section*.92}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Time complexity.}{41}{section*.93}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Space complexity.}{41}{section*.94}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Related link prediction metrics.}{42}{section*.95}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Advantages and limitations.}{42}{section*.96}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.0.2}Hybrid Friend Recommendation System}{43}{subsubsection.3.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Intuition.}{43}{section*.97}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Formal definition.}{43}{section*.98}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithm description.}{44}{section*.99}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Proof of correctness.}{44}{section*.100}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Time complexity.}{45}{section*.101}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Optimization strategies.}{45}{section*.102}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Space complexity.}{46}{section*.103}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Evaluation metrics.}{46}{section*.104}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Advantages of the hybrid approach.}{47}{section*.105}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.0.3}Implementation Details}{47}{subsubsection.3.0.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Data Structures.}{47}{section*.106}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Implementation Choices.}{48}{section*.107}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Code Organization.}{49}{section*.108}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Evaluation Framework.}{49}{section*.109}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Noise Injection.}{50}{section*.110}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Optimization Benchmarking.}{50}{section*.111}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Testing and Validation.}{50}{section*.112}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Extensibility.}{50}{section*.113}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.0.4}Experimental Setup}{51}{subsubsection.3.0.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Synthetic Social Network Generation.}{51}{section*.114}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experimental Tasks.}{51}{section*.115}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Timing Methodology.}{52}{section*.116}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Evaluation Methodology.}{53}{section*.117}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Reproducibility.}{53}{section*.118}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hardware and Software Environment.}{54}{section*.119}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Parameter Choices.}{54}{section*.120}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Expected Theoretical Behavior.}{54}{section*.121}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Plotting and Visualization.}{55}{section*.122}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.0.5}Experimental Results and Analysis}{55}{subsubsection.3.0.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Runtime Scalability Analysis}{55}{section*.123}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Runtime vs graph size for recommender operations. The all-pairs Jaccard computation dominates for large graphs, while hybrid recommendation remains efficient even for individual users in networks with 1000 nodes.}}{56}{figure.6}\protected@file@percent }
+\newlabel{fig:recommender_size}{{6}{56}{Runtime vs graph size for recommender operations. The all-pairs Jaccard computation dominates for large graphs, while hybrid recommendation remains efficient even for individual users in networks with 1000 nodes}{figure.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Raw timing measurements for recommender operations across different graph sizes ($p = 0.1$, $k = 10$). Values represent means over 5 runs.}}{56}{table.1}\protected@file@percent }
+\newlabel{tab:recommender_timing}{{1}{56}{Raw timing measurements for recommender operations across different graph sizes ($p = 0.1$, $k = 10$). Values represent means over 5 runs}{table.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Single User Efficiency.}{56}{section*.124}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Batch Recommendation Overhead.}{56}{section*.125}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Practical Implications.}{56}{section*.126}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Recommendation Quality Analysis}{57}{section*.127}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.0.6}Empirical Results}{57}{subsubsection.3.0.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Recommendation quality metrics vs $k$ for $f = 0.2$ test fraction. All metrics improve with larger $k$, with hit rate showing the steepest increase as more users receive at least one relevant recommendation.}}{57}{figure.7}\protected@file@percent }
+\newlabel{fig:recommender_quality}{{7}{57}{Recommendation quality metrics vs $k$ for $f = 0.2$ test fraction. All metrics improve with larger $k$, with hit rate showing the steepest increase as more users receive at least one relevant recommendation}{figure.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Recommendation quality metrics across different test fractions and $k$ values ($n = 500$, $p = 0.1$). Higher test fractions make the task more challenging as more information is hidden.}}{58}{table.2}\protected@file@percent }
+\newlabel{tab:recommender_quality}{{2}{58}{Recommendation quality metrics across different test fractions and $k$ values ($n = 500$, $p = 0.1$). Higher test fractions make the task more challenging as more information is hidden}{table.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Test Fraction Sensitivity.}{58}{section*.128}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Precision-Recall Trade-off.}{58}{section*.129}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hit Rate as Primary Metric.}{58}{section*.130}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Contextual Interpretation.}{58}{section*.131}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Robustness to Noisy Data}{58}{section*.132}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Impact of edge noise on recommendation quality. The system maintains stable performance up to 20\% noise but degrades significantly at 30\%, suggesting reasonable robustness to typical data quality issues.}}{59}{figure.8}\protected@file@percent }
+\newlabel{fig:recommender_noise}{{8}{59}{Impact of edge noise on recommendation quality. The system maintains stable performance up to 20\% noise but degrades significantly at 30\%, suggesting reasonable robustness to typical data quality issues}{figure.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Recommendation quality degradation under increasing edge noise ($n = 500$, $p = 0.1$, $k = 10$). The system tolerates moderate noise but suffers noticeable loss beyond 20\%.}}{59}{table.3}\protected@file@percent }
+\newlabel{tab:recommender_noise}{{3}{59}{Recommendation quality degradation under increasing edge noise ($n = 500$, $p = 0.1$, $k = 10$). The system tolerates moderate noise but suffers noticeable loss beyond 20\%}{table.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Graceful Degradation.}{60}{section*.133}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{20\% Threshold.}{60}{section*.134}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hybrid System Advantage.}{60}{section*.135}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Practical Recommendations.}{60}{section*.136}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Comparative Analysis with Baseline Methods}{60}{section*.137}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Performance comparison of recommender methods ($n = 500$, $p = 0.1$, $f = 0.2$, $k = 10$). Our hybrid approach outperforms both baselines, with 10× improvement over random and 27\% improvement over common neighbors.}}{60}{table.4}\protected@file@percent }
+\newlabel{tab:recommender_comparison}{{4}{60}{Performance comparison of recommender methods ($n = 500$, $p = 0.1$, $f = 0.2$, $k = 10$). Our hybrid approach outperforms both baselines, with 10× improvement over random and 27\% improvement over common neighbors}{table.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Algorithmic Insights and Future Directions}{61}{section*.138}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Scalability Bottlenecks.}{61}{section*.139}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Quality-Efficiency Trade-offs.}{61}{section*.140}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Noise Resilience Strategies.}{61}{section*.141}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Personalization Opportunities.}{61}{section*.142}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cold Start Problem.}{61}{section*.143}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Evaluation Limitations.}{61}{section*.144}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Community Detection Algorithms \textit  {(Bonus Content)}}{62}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.0.1}Louvain Method for Community Detection}{62}{subsubsection.4.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Intuition.}{62}{section*.145}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Formal Definition.}{62}{section*.146}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithm Description.}{63}{section*.147}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Pseudocode.}{63}{section*.148}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Correctness.}{64}{section*.149}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Time Complexity.}{64}{section*.150}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Resolution Parameter.}{64}{section*.151}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Limitations.}{65}{section*.152}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.0.2}Leiden Algorithm for Community Detection}{65}{subsubsection.4.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Intuition.}{65}{section*.153}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Motivation: The Louvain Problem.}{65}{section*.154}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Formal Definition.}{66}{section*.155}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithm Description.}{66}{section*.156}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Pseudocode.}{67}{section*.157}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Correctness and Guarantees.}{67}{section*.158}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Time Complexity.}{67}{section*.159}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Comparison with Louvain.}{68}{section*.160}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Temperature Parameter.}{68}{section*.161}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.0.3}Modularity: Quality Metric for Community Detection}{68}{subsubsection.4.0.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Intuition.}{68}{section*.162}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Formal Definition.}{68}{section*.163}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Efficient Computation.}{69}{section*.164}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Resolution-Parameterized Modularity.}{69}{section*.165}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Modularity Gain Formula.}{69}{section*.166}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Interpretation of Modularity Values.}{70}{section*.167}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Evaluation Metrics for Comparison.}{70}{section*.168}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Limitations of Modularity.}{70}{section*.169}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Implementation Notes.}{70}{section*.170}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.0.4}Implementation Details}{71}{subsubsection.4.0.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Object-Oriented Design.}{71}{section*.171}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Data Structures.}{71}{section*.172}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Key Implementation Techniques.}{71}{section*.173}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Graph Aggregation.}{72}{section*.174}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Modularity Computation.}{73}{section*.175}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Evaluation Metrics Implementation.}{74}{section*.176}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Code Organization.}{74}{section*.177}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Convenience Functions.}{74}{section*.178}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.0.5}Experimental Setup}{75}{subsubsection.4.0.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experiment 1: Size Scaling.}{75}{section*.179}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experiment 2: Density Scaling.}{75}{section*.180}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experiment 3: Quality Evaluation.}{76}{section*.181}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experiment 4: Resolution Parameter Study.}{76}{section*.182}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Experiment 5: Algorithm Comparison.}{77}{section*.183}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Timing Methodology.}{77}{section*.184}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hardware and Software.}{77}{section*.185}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Graph Generation.}{77}{section*.186}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Reproducibility.}{78}{section*.187}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Visualization.}{78}{section*.188}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.0.6}Experimental Results and Analysis}{78}{subsubsection.4.0.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Runtime Scalability Analysis}{78}{section*.189}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Comparable Performance.}{78}{section*.190}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Runtime vs graph size for Louvain and Leiden algorithms. Both algorithms scale near-linearly with respect to the number of edges $m$, confirming the theoretical $O(m \log n)$ complexity bound.}}{79}{figure.9}\protected@file@percent }
+\newlabel{fig:community_size_scaling}{{9}{79}{Runtime vs graph size for Louvain and Leiden algorithms. Both algorithms scale near-linearly with respect to the number of edges $m$, confirming the theoretical $O(m \log n)$ complexity bound}{figure.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Raw timing and community count measurements across graph sizes ($p = 0.1$).}}{79}{table.5}\protected@file@percent }
+\newlabel{tab:community_size_timing}{{5}{79}{Raw timing and community count measurements across graph sizes ($p = 0.1$)}{table.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{Sublinear Scaling.}{79}{section*.191}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Density Scaling Analysis}{79}{section*.192}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Modularity achieved by both algorithms vs graph size. Modularity naturally decreases for random graphs as size increases, since larger Erdős-Rényi graphs approach homogeneity.}}{80}{figure.10}\protected@file@percent }
+\newlabel{fig:community_size_modularity}{{10}{80}{Modularity achieved by both algorithms vs graph size. Modularity naturally decreases for random graphs as size increases, since larger Erdős-Rényi graphs approach homogeneity}{figure.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Runtime and modularity across edge densities ($n = 500$).}}{80}{table.6}\protected@file@percent }
+\newlabel{tab:community_density}{{6}{80}{Runtime and modularity across edge densities ($n = 500$)}{table.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Modularity vs. Density.}{80}{section*.193}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithm Parity.}{80}{section*.194}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Runtime vs edge density for both algorithms with $n=500$ nodes. Runtime increases approximately linearly with edge count, as expected from the $O(m)$ dependence in the complexity bound.}}{81}{figure.11}\protected@file@percent }
+\newlabel{fig:community_density_scaling}{{11}{81}{Runtime vs edge density for both algorithms with $n=500$ nodes. Runtime increases approximately linearly with edge count, as expected from the $O(m)$ dependence in the complexity bound}{figure.11}{}}
+\@writefile{toc}{\contentsline {paragraph}{Detection Quality Analysis}{81}{section*.195}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Quality metrics vs. community strength ($n = 200$, 4 communities, $p_{inter} = 0.01$).}}{81}{table.7}\protected@file@percent }
+\newlabel{tab:community_quality}{{7}{81}{Quality metrics vs. community strength ($n = 200$, 4 communities, $p_{inter} = 0.01$)}{table.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces NMI vs intra-community edge probability. Both algorithms achieve perfect community recovery (NMI = 1.0) when $p_{\text  {intra}} \geq 0.2$, demonstrating robust performance on graphs with clear community structure.}}{82}{figure.12}\protected@file@percent }
+\newlabel{fig:community_quality_nmi}{{12}{82}{NMI vs intra-community edge probability. Both algorithms achieve perfect community recovery (NMI = 1.0) when $p_{\text {intra}} \geq 0.2$, demonstrating robust performance on graphs with clear community structure}{figure.12}{}}
+\@writefile{toc}{\contentsline {paragraph}{Detection Threshold.}{82}{section*.196}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Leiden's Edge at Low Signal.}{82}{section*.197}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Robust High-Signal Detection.}{82}{section*.198}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Resolution Parameter Sensitivity}{82}{section*.199}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces ARI vs intra-community edge probability. The pattern mirrors NMI results, with both algorithms achieving perfect recovery for $p_{\text  {intra}} \geq 0.2$.}}{83}{figure.13}\protected@file@percent }
+\newlabel{fig:community_quality_ari}{{13}{83}{ARI vs intra-community edge probability. The pattern mirrors NMI results, with both algorithms achieving perfect recovery for $p_{\text {intra}} \geq 0.2$}{figure.13}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Resolution parameter effects (Ground truth: 10 communities).}}{83}{table.8}\protected@file@percent }
+\newlabel{tab:community_resolution}{{8}{83}{Resolution parameter effects (Ground truth: 10 communities)}{table.8}{}}
+\@writefile{toc}{\contentsline {paragraph}{Louvain's Over-Fragmentation.}{83}{section*.200}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Leiden's Robustness.}{83}{section*.201}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Modularity Behavior.}{83}{section*.202}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Practical Recommendation.}{83}{section*.203}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Effect of resolution parameter on community detection. Left: Number of detected communities increases with $\gamma $. Right: NMI remains high across resolution values, with Leiden maintaining perfect recovery even at high $\gamma $.}}{84}{figure.14}\protected@file@percent }
+\newlabel{fig:community_resolution}{{14}{84}{Effect of resolution parameter on community detection. Left: Number of detected communities increases with $\gamma $. Right: NMI remains high across resolution values, with Leiden maintaining perfect recovery even at high $\gamma $}{figure.14}{}}
+\@writefile{toc}{\contentsline {paragraph}{Direct Algorithm Comparison}{84}{section*.204}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Comprehensive comparison of Louvain vs Leiden across 10 trials. Error bars show standard deviation. Both achieve perfect detection quality (NMI = ARI = 1.0) with near-identical modularity, but Louvain is approximately 30\% faster.}}{84}{figure.15}\protected@file@percent }
+\newlabel{fig:community_comparison}{{15}{84}{Comprehensive comparison of Louvain vs Leiden across 10 trials. Error bars show standard deviation. Both achieve perfect detection quality (NMI = ARI = 1.0) with near-identical modularity, but Louvain is approximately 30\% faster}{figure.15}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Statistical comparison over 10 trials (Louvain is 37\% faster).}}{84}{table.9}\protected@file@percent }
+\newlabel{tab:community_comparison}{{9}{84}{Statistical comparison over 10 trials (Louvain is 37\% faster)}{table.9}{}}
+\@writefile{toc}{\contentsline {paragraph}{Identical Quality.}{85}{section*.205}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Runtime Difference.}{85}{section*.206}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Low Variance.}{85}{section*.207}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithmic Insights and Future Directions}{85}{section*.208}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Algorithm Selection Guidelines.}{85}{section*.209}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Scalability Observations.}{85}{section*.210}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Modularity Interpretation.}{85}{section*.211}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Future Extensions.}{86}{section*.212}\protected@file@percent }
+\bibcite{brandes2001}{1}
+\bibcite{brin1998}{2}
+\bibcite{freeman1979}{3}
+\bibcite{cormen2009}{4}
+\bibcite{tarjan1972}{5}
+\bibcite{jaccard1912}{6}
+\bibcite{liben2007}{7}
+\bibcite{blondel2008}{8}
+\bibcite{traag2019}{9}
+\bibcite{newman2004}{10}
+\bibcite{boldi2011}{11}
+\bibcite{networkx}{12}
+\@writefile{toc}{\contentsline {section}{\numberline {5}References}{87}{section.5}\protected@file@percent }
+\gdef \@abspage@last{88}

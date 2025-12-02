@@ -1,0 +1,22 @@
+\subsubsection{Experimental Setup}
+
+\paragraph{Synthetic Graph Generation.}
+All experiments were conducted on synthetic graphs. Two types of synthetic graphs were used:
+\begin{itemize}
+    \item \textbf{Erd\H{o}s--R\'enyi random graphs} $G(n,p)$ for size-based and density-based runtime experiments.
+    \item \textbf{A custom ``showcase'' graph} constructed manually to highlight structural differences between the four centrality measures.
+\end{itemize}
+Random generation was always performed with a fixed seed to ensure reproducibility.
+
+\paragraph{Experimental Tasks.}
+Two experiments were performed:
+\begin{itemize}
+    \item \textbf{Size vs. runtime:} fixing $p$, increasing the number of vertices $n$, and measuring execution times for each algorithm.
+    \item \textbf{Density vs. runtime:} fixing $n$, varying the edge probability $p$, and analysing how runtime scales with increasing density.
+\end{itemize}
+
+\paragraph{Reproducibility.}
+All experiments write numerical results into CSV files inside \texttt{/experiments/centrality/results}. All plots are generated exclusively from these CSV files.
+
+\paragraph{Plotting and Visualisation.}
+All visualisations were generated using the \texttt{matplotlib} library. Structural illustrations such as heatmaps and the custom showcase graph were constructed using \texttt{NetworkX}, which provides convenient tools for graph layouts and rendering. These libraries were used exclusively for visual analysis and did not influence the algorithmic computations themselves.

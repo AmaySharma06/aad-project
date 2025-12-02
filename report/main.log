@@ -1,0 +1,963 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.1.15)  2 DEC 2025 05:37
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**./main.tex
+(main.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo
+File: size10.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count187
+\c@section=\count188
+\c@subsection=\count189
+\c@subsubsection=\count190
+\c@paragraph=\count191
+\c@subparagraph=\count192
+\c@figure=\count193
+\c@table=\count194
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\bibindent=\dimen140
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen141
+\Gin@req@width=\dimen142
+) (C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+Package: amsmath 2023/05/13 v2.17o AMS math features
+\@mathmargin=\skip50
+For additional information on amsmath, use the `?' option.
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks18
+\ex@=\dimen143
+))
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen144
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count195
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count196
+\leftroot@=\count197
+LaTeX Info: Redefining \overline on input line 399.
+LaTeX Info: Redefining \colon on input line 410.
+\classnum@=\count198
+\DOTSCASE@=\count199
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box51
+\strutbox@=\box52
+LaTeX Info: Redefining \big on input line 722.
+LaTeX Info: Redefining \Big on input line 723.
+LaTeX Info: Redefining \bigg on input line 724.
+LaTeX Info: Redefining \Bigg on input line 725.
+\big@size=\dimen145
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count266
+LaTeX Info: Redefining \bmod on input line 905.
+LaTeX Info: Redefining \pmod on input line 910.
+LaTeX Info: Redefining \smash on input line 940.
+LaTeX Info: Redefining \relbar on input line 970.
+LaTeX Info: Redefining \Relbar on input line 971.
+\c@MaxMatrixCols=\count267
+\dotsspace@=\muskip16
+\c@parentequation=\count268
+\dspbrk@lvl=\count269
+\tag@help=\toks19
+\row@=\count270
+\column@=\count271
+\maxfields@=\count272
+\andhelp@=\toks20
+\eqnshift@=\dimen146
+\alignsep@=\dimen147
+\tagshift@=\dimen148
+\tagwidth@=\dimen149
+\totwidth@=\dimen150
+\lineht@=\dimen151
+\@envbody=\toks21
+\multlinegap=\skip51
+\multlinetaggap=\skip52
+\mathdisplay@stack=\toks22
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.st
+y
+Package: hyperref 2023-11-26 v7.01g Hypertext links for LaTeX
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
+ty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefine
+keys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.s
+ty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds
+.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+))
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/letltxmacro\letltxmacro
+.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/auxhook\auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettit
+lestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count273
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count274
+)
+\@linkdim=\dimen152
+\Hy@linkcounter=\count275
+\Hy@pagecounter=\count276
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+File: pd1enc.def 2023-11-26 v7.01g Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count277
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
+File: puenc.def 2023-11-26 v7.01g Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4181.
+Package hyperref Info: Link nesting OFF on input line 4186.
+Package hyperref Info: Hyper index ON on input line 4189.
+Package hyperref Info: Plain pages OFF on input line 4196.
+Package hyperref Info: Backreferencing OFF on input line 4201.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4448.
+\c@Hy@tempcnt=\count278
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4786.
+\XeTeXLinkMargin=\dimen153
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc
+.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count279
+\Field@Width=\dimen154
+\Fld@charsize=\dimen155
+Package hyperref Info: Hyper figures OFF on input line 6065.
+Package hyperref Info: Link nesting OFF on input line 6070.
+Package hyperref Info: Hyper index ON on input line 6073.
+Package hyperref Info: backreferencing OFF on input line 6080.
+Package hyperref Info: Link coloring OFF on input line 6085.
+Package hyperref Info: Link coloring with OCG OFF on input line 6090.
+Package hyperref Info: PDF/A mode OFF on input line 6095.
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/base\atbegshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+\Hy@abspage=\count280
+\c@Item=\count281
+\c@Hfootnote=\count282
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+File: hpdftex.def 2023-11-26 v7.01g Hyperref driver for pdfTeX
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/base\atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
+kage
+with kernel methods
+)
+\Fld@listcount=\count283
+\c@bookmark@seq@number=\count284
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfil
+echeck.sty
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquec
+ounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+85.
+)
+\Hy@SectionHShift=\skip53
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/base\makeidx.sty
+Package: makeidx 2021/10/04 v1.0m Standard LaTeX package
+)
+\@indexfile=\write3
+\openout3 = `main.idx'.
+
+
+Writing index file main.idx
+Package hyperref Info: Option `colorlinks' set `true' on input line 17.
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def
+File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count285
+\l__pdf_internal_box=\box53
+) (main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count286
+\scratchdimen=\dimen156
+\scratchbox=\box54
+\nofMPsegments=\count287
+\nofMParguments=\count288
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count289
+\MPscratchDim=\dimen157
+\MPnumerator=\count290
+\makeMPintoPDFobject=\count291
+\everyMPtoPDFconversion=\toks24
+)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+)) (C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/graphics\color.sty
+Package: color 2022/01/06 v1.3d Standard LaTeX Color (DPC)
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 149.
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+)
+Package hyperref Info: Link coloring ON on input line 22.
+ (main.out) (main.out)
+\@outlinefile=\write4
+\openout4 = `main.out'.
+
+
+
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.52     \\
+           [0.2cm]\rule{\textwidth}{1.5pt}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 64.
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 64.
+
+
+(C:\Users\sarth\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+[1
+
+{C:/Users/sarth/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] (main.toc)
+\tf@toc=\write5
+\openout5 = `main.toc'.
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.80 \newpage
+              [1] [2] (sections/algorithms/traversal/bfs.tex
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 1.
+
+[3] [4]) (sections/algorithms/traversal/dfs.tex [5] [6] [7] [8])
+(sections/algorithms/traversal/union_find.tex
+Overfull \hbox (6.41734pt too wide) in paragraph at lines 10--11
+[]\OT1/cmr/m/n/10 These op-er-a-tions are fun-da-men-tal for track-ing con-nec-
+tiv-ity in dy-namic graphs,
+ []
+
+[9] [10] [11]) (sections/algorithms/traversal/implementation.tex [12] [13]
+Overfull \hbox (104.71211pt too wide) in paragraph at lines 64--67
+\OT1/cmr/m/n/10 can be too low for deep graphs. In our ex-per-i-ments script, w
+e use \OT1/cmtt/m/n/10 sys.setrecursionlimit(10000)
+ []
+
+
+Overfull \hbox (52.36687pt too wide) in paragraph at lines 73--74
+ []\OT1/cmr/bx/n/10 Code Or-ga-ni-za-tion.[] \OT1/cmr/m/n/10 The traver-sal al-
+go-rithms are or-ga-nized in \OT1/cmtt/m/n/10 algorithms/traversal/\OT1/cmr/m/n
+/10 : 
+ []
+
+[14]) (sections/algorithms/traversal/experimental_setup.tex [15]
+Overfull \hbox (54.23029pt too wide) in paragraph at lines 56--58
+ []\OT1/cmr/bx/n/10 Timing Method-ol-ogy.[] \OT1/cmr/m/n/10 All tim-ings were m
+ea-sured us-ing Python's \OT1/cmtt/m/n/10 time.perf[]counter()\OT1/cmr/m/n/10 ,
+
+ []
+
+
+Overfull \hbox (12.85303pt too wide) in paragraph at lines 73--74
+ []\OT1/cmr/bx/n/10 Reproducibility.[] \OT1/cmr/m/n/10 All ex-per-i-men-tal cod
+e is lo-cated in \OT1/cmtt/m/n/10 experiments/traversal/\OT1/cmr/m/n/10 : 
+ []
+
+[16]) (sections/algorithms/traversal/results.tex [17]
+<./plots/traversal/size_vs_time.png, id=338, 714.0276pt x 424.9476pt>
+File: ./plots/traversal/size_vs_time.png Graphic file (type png)
+<use ./plots/traversal/size_vs_time.png>
+Package pdftex.def Info: ./plots/traversal/size_vs_time.png  used on input line
+ 15.
+(pdftex.def)             Requested size: 258.75pt x 153.99254pt.
+ [18 <./plots/traversal/size_vs_time.png>]
+Overfull \hbox (7.0567pt too wide) in paragraph at lines 33--35
+[]\OT1/cmr/bx/n/10 Growth rate com-par-i-son: \OT1/cmr/m/n/10 All al-go-rithms 
+show roughly quadratic growth,
+ []
+
+<./plots/traversal/density_vs_time.png, id=350, 714.0276pt x 424.9476pt>
+File: ./plots/traversal/density_vs_time.png Graphic file (type png)
+<use ./plots/traversal/density_vs_time.png>
+Package pdftex.def Info: ./plots/traversal/density_vs_time.png  used on input l
+ine 57.
+(pdftex.def)             Requested size: 258.75pt x 153.99254pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (1.35327pt too wide) in paragraph at lines 72--75
+[]\OT1/cmr/bx/n/10 Union-Find shows the steep-est in-crease: \OT1/cmr/m/n/10 As
+ den-sity in-creases, Union-
+ []
+
+[19]
+Overfull \hbox (6.6962pt too wide) in paragraph at lines 99--100
+[]\OT1/cmr/m/n/10 For sparse graphs ($\OML/cmm/m/it/10 p \OMS/cmsy/m/n/10 ^^\ \
+OT1/cmr/m/n/10 1$), BFS and DFS are ex-tremely fast (sub-millisecond
+ []
+
+[20 <./plots/traversal/density_vs_time.png>]) [21]
+(sections/algorithms/centrality/degree.tex
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 1.
+
+[22] [23]
+Overfull \hbox (9.0486pt too wide) in paragraph at lines 112--113
+ []\OT1/cmr/bx/n/10 Space com-plex-ity.[] \OT1/cmr/m/n/10 We anal-yse the ad-di
+-tional space used be-yond the adjacency-
+ []
+
+) (sections/algorithms/centrality/harmonic_closeness.tex [24] [25])
+(sections/algorithms/centrality/betweenness.tex [26] [27]
+Overfull \hbox (11.3192pt too wide) in paragraph at lines 72--75
+[]\OT1/cmr/bx/n/10 BFS to com-pute shortest-path struc-ture. \OT1/cmr/m/n/10 Wh
+ile the queue is nonempty,
+ []
+
+[28] [29] [30]) (sections/algorithms/centrality/pagerank.tex [31] [32] [33])
+(sections/algorithms/centrality/implementation.tex [34]
+Overfull \hbox (15.49475pt too wide) in paragraph at lines 14--15
+[]\OT1/cmr/bx/n/10 PageRank\OT1/cmr/m/n/10 : two rank vec-tors rep-re-sented as
+ dic-tio-nar-ies (\OT1/cmtt/m/n/10 rank \OT1/cmr/m/n/10 and \OT1/cmtt/m/n/10 ne
+w[]rank\OT1/cmr/m/n/10 )
+ []
+
+) (sections/algorithms/centrality/experimental_setup.tex)
+(sections/algorithms/centrality/results.tex [35]
+<./plots/centrality/images/size_vs_time.png, id=494, 722.7pt x 433.62pt>
+File: ./plots/centrality/images/size_vs_time.png Graphic file (type png)
+<use ./plots/centrality/images/size_vs_time.png>
+Package pdftex.def Info: ./plots/centrality/images/size_vs_time.png  used on in
+put line 10.
+(pdftex.def)             Requested size: 241.49895pt x 144.90134pt.
+ [36 <./plots/centrality/images/size_vs_time.png>]
+<./plots/centrality/images/density_vs_time.png, id=505, 722.7pt x 433.62pt>
+File: ./plots/centrality/images/density_vs_time.png Graphic file (type png)
+<use ./plots/centrality/images/density_vs_time.png>
+Package pdftex.def Info: ./plots/centrality/images/density_vs_time.png  used on
+ input line 29.
+(pdftex.def)             Requested size: 241.49895pt x 144.90134pt.
+<./plots/centrality/images/centrality_heatmap_grid.png, id=507, 860.013pt x 860
+.4948pt>
+File: ./plots/centrality/images/centrality_heatmap_grid.png Graphic file (type 
+png)
+<use ./plots/centrality/images/centrality_heatmap_grid.png>
+Package pdftex.def Info: ./plots/centrality/images/centrality_heatmap_grid.png 
+ used on input line 46.
+(pdftex.def)             Requested size: 345.0pt x 345.1897pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[37 <./plots/centrality/images/density_vs_time.png>])
+(sections/algorithms/recommender/jaccard.tex
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 1.
+
+[38 <./plots/centrality/images/centrality_heatmap_grid.png>] [39] [40] [41])
+(sections/algorithms/recommender/friend_recommender.tex [42]
+Overfull \hbox (1.14711pt too wide) in paragraph at lines 9--10
+[]\OT1/cmr/bx/n/10 Structural sim-i-lar-ity: \OT1/cmr/m/n/10 Jac-card sim-i-lar
+-ity and com-mon neigh-bors (graph-
+ []
+
+LaTeX Font Info:    Trying to load font information for OMS+cmtt on input line 
+17.
+LaTeX Font Info:    No file OMScmtt.fd. on input line 17.
+
+LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textbraceleft' on input line 17.
+
+
+Overfull \hbox (0.6951pt too wide) in paragraph at lines 36--38
+\OT1/cmr/m/n/10 We nor-mal-ize us-ing a sigmoid-like func-tion to map the un-bo
+unded Adamic-
+ []
+
+[43] [44]
+Overfull \hbox (16.77022pt too wide) in paragraph at lines 152--153
+[]\OT1/cmr/m/n/10 Tag matches: for each tag $\OML/cmm/m/it/10 t \OMS/cmtt/m/n/1
+0 2 \OML/cmm/m/it/10 T\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 u\OT1/cmr/m/n/10 )$, ad
+d all users from \OT1/cmtt/m/n/10 tag[]index[t]\OT1/cmr/m/n/10 . 
+ []
+
+[45] [46]) (sections/algorithms/recommender/implementation.tex [47]
+Overfull \hbox (1.03337pt too wide) in paragraph at lines 61--62
+[]\OT1/cmtt/m/n/10 recommend[]all[]inverted[]index() \OT1/cmr/m/n/10 - Op-ti-mi
+zed us-ing friend-of-friend
+ []
+
+
+Overfull \hbox (3.72256pt too wide) in paragraph at lines 66--69
+\OT1/cmtt/m/n/10 True\OT1/cmr/m/n/10 ) en-sures rec-om-men-da-tions don't in-cl
+ude users who are al-ready friends.
+ []
+
+
+Overfull \hbox (97.50577pt too wide) in paragraph at lines 72--73
+ []\OT1/cmr/bx/n/10 Code Or-ga-ni-za-tion.[] \OT1/cmr/m/n/10 The rec-om-men-da-
+tion al-go-rithms are or-ga-nized in \OT1/cmtt/m/n/10 algorithms/recommender/\O
+T1/cmr/m/n/10 : 
+ []
+
+[48] [49]
+Overfull \hbox (47.72989pt too wide) in paragraph at lines 130--131
+ []\OT1/cmr/bx/n/10 Optimization Bench-mark-ing.[] \OT1/cmr/m/n/10 In the demon
+-stra-tion script (\OT1/cmtt/m/n/10 friend[]recommender.py\OT1/cmr/m/n/10 ),
+ []
+
+[50]) (sections/algorithms/recommender/experimental_setup.tex [51]
+Overfull \hbox (19.55605pt too wide) in paragraph at lines 45--46
+[]\OT1/cmr/m/n/10 Varied test frac-tions: frac-tion of edges held out for test-
+ing $\OMS/cmtt/m/n/10 2 f\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 1\O
+ML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 2\OML/cmm/m
+/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 3\OMS/cmtt/m/n/10 g
+$\OT1/cmr/m/n/10 . 
+ []
+
+
+Overfull \hbox (71.75053pt too wide) in paragraph at lines 55--56
+[]\OT1/cmr/m/n/10 Varied noise lev-els: frac-tion of train-ing edges per-turbed
+ $\OMS/cmtt/m/n/10 2 f\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 0\OML/
+cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 05\OML/cmm/m/i
+t/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 ; \
+OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 15\OML/cmm/m/it/10 ; \OT1/cmr
+/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 2\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 
+0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 3\OMS/cmtt/m/n/10 g$\OT1/cmr/m/n/10 . 
+ []
+
+
+Overfull \hbox (54.23029pt too wide) in paragraph at lines 63--64
+ []\OT1/cmr/bx/n/10 Timing Method-ol-ogy.[] \OT1/cmr/m/n/10 All tim-ings were m
+ea-sured us-ing Python's \OT1/cmtt/m/n/10 time.perf[]counter()\OT1/cmr/m/n/10 ,
+
+ []
+
+[52]
+Overfull \hbox (23.35294pt too wide) in paragraph at lines 109--110
+ []\OT1/cmr/bx/n/10 Reproducibility.[] \OT1/cmr/m/n/10 All ex-per-i-men-tal cod
+e is lo-cated in \OT1/cmtt/m/n/10 experiments/recommender/\OT1/cmr/m/n/10 : 
+ []
+
+[53] [54]) (sections/algorithms/recommender/results.tex
+Overfull \hbox (14.80598pt too wide) in paragraph at lines 185--1
+ []\OT1/cmr/bx/n/10 Plotting and Vi-su-al-iza-tion.[] \OT1/cmr/m/n/10 All vi-su
+-al-iza-tions are gen-er-ated us-ing \OT1/cmtt/m/n/10 matplotlib\OT1/cmr/m/n/10
+ .
+ []
+
+
+Overfull \hbox (9.77844pt too wide) in paragraph at lines 3--4
+\OT1/cmr/m/n/10 We eval-u-ate the per-for-mance of our rec-om-mender sys-tem im
+-ple-men-ta-tions through
+ []
+
+
+Overfull \hbox (21.61385pt too wide) in paragraph at lines 9--10
+[]\OT1/cmr/m/n/10 For the scal-a-bil-ity ex-per-i-ment, we test on graphs with 
+$\OML/cmm/m/it/10 n \OMS/cmtt/m/n/10 2 f\OT1/cmr/m/n/10 50\OML/cmm/m/it/10 ; \O
+T1/cmr/m/n/10 100\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 200\OML/cmm/m/it/10 ; \OT1/
+cmr/m/n/10 500\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 1000\OMS/cmtt/m/n/10 g$
+ []
+
+<plots/recommender/size_vs_time.png, id=681, 714.0276pt x 424.9476pt>
+File: plots/recommender/size_vs_time.png Graphic file (type png)
+<use plots/recommender/size_vs_time.png>
+Package pdftex.def Info: plots/recommender/size_vs_time.png  used on input line
+ 21.
+(pdftex.def)             Requested size: 310.4979pt x 184.79234pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (1.95946pt too wide) in paragraph at lines 30--41
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[55] [56 <./plots/recommender/size_vs_time.png>]
+<plots/recommender/quality_vs_k.png, id=703, 1075.3776pt x 352.6776pt>
+File: plots/recommender/quality_vs_k.png Graphic file (type png)
+<use plots/recommender/quality_vs_k.png>
+Package pdftex.def Info: plots/recommender/quality_vs_k.png  used on input line
+ 73.
+(pdftex.def)             Requested size: 327.74895pt x 107.48846pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[57 <./plots/recommender/quality_vs_k.png>]
+Overfull \hbox (23.69844pt too wide) in paragraph at lines 117--118
+\OT1/cmr/m/n/10 con-trolled noise by ran-domly per-turb-ing a frac-tion $\OML/c
+mm/m/it/10 ^^Z \OMS/cmtt/m/n/10 2 f\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/
+m/n/10 0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 0
+5\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 10\OML/c
+mm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 15\OML/cmm/m/it
+/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 20\OML/cmm/m/it/10 ; \
+OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 30\OMS/cmtt/m/n/10 g$
+ []
+
+[58]
+<plots/recommender/noise_vs_quality.png, id=723, 714.0276pt x 424.9476pt>
+File: plots/recommender/noise_vs_quality.png Graphic file (type png)
+<use plots/recommender/noise_vs_quality.png>
+Package pdftex.def Info: plots/recommender/noise_vs_quality.png  used on input 
+line 125.
+(pdftex.def)             Requested size: 310.4979pt x 184.79234pt.
+ [59 <./plots/recommender/noise_vs_quality.png>] [60]
+Overfull \hbox (19.36905pt too wide) in paragraph at lines 198--199
+ []\OT1/cmr/bx/n/10 Quality-Efficiency Trade-offs.[] \OT1/cmr/m/n/10 Single-use
+r rec-om-men-da-tion re-mains fast enough
+ []
+
+
+Overfull \hbox (16.4606pt too wide) in paragraph at lines 202--203
+ []\OT1/cmr/bx/n/10 Personalization Op-por-tu-ni-ties.[] \OT1/cmr/m/n/10 Our cu
+r-rent im-ple-men-ta-tion uses fixed weights
+ []
+
+
+Overfull \hbox (1.43161pt too wide) in paragraph at lines 206--207
+ []\OT1/cmr/bx/n/10 Evaluation Lim-i-ta-tions.[] \OT1/cmr/m/n/10 Our ex-per-i-m
+ents use syn-thetic Erd}os-R^^Senyi graphs,
+ []
+
+) [61]
+Overfull \hbox (13.60074pt too wide) in paragraph at lines 112--112
+[]\OT1/cmr/bx/n/14.4 Community De-tec-tion Al-go-rithms \OT1/cmr/bx/it/14.4 (Bo
+nus Con-
+ []
+
+(sections/algorithms/community/louvain.tex
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 1.
+
+[62] [63]
+Overfull \hbox (8.81194pt too wide) in paragraph at lines 109--110
+[]\OT1/cmr/bx/n/10 Hierarchical lev-els: \OT1/cmr/m/n/10 The num-ber of ag-gre-
+ga-tion lev-els is typ-i-cally $\OML/cmm/m/it/10 O\OT1/cmr/m/n/10 ([] \OML/cmm/
+m/it/10 n\OT1/cmr/m/n/10 )$. 
+ []
+
+[64]) (sections/algorithms/community/leiden.tex
+Overfull \hbox (1.23647pt too wide) in paragraph at lines 4--5
+ []\OT1/cmr/bx/n/10 Intuition.[] \OT1/cmr/m/n/10 The Lei-den al-go-rithm is an 
+im-proved vari-ant of the Lou-vain method
+ []
+
+[65] [66]
+Overfull \hbox (2.0315pt too wide) in paragraph at lines 91--92
+ []\OT1/cmr/bx/n/10 Correctness and Guar-an-tees.[] \OT1/cmr/m/n/10 The Lei-den
+ al-go-rithm pro-vides stronger guar-
+ []
+
+[67]) (sections/algorithms/community/modularity.tex [68]
+Overfull \hbox (23.28453pt too wide) in paragraph at lines 50--51
+ []\OT1/cmr/bx/n/10 Modularity Gain For-mula.[] \OT1/cmr/m/n/10 When op-ti-miz-
+ing mod-u-lar-ity (as in Lou-vain/Leiden),
+ []
+
+[69]
+Overfull \hbox (24.94391pt too wide) in paragraph at lines 89--91
+\OT1/cmr/m/n/10 where RI is the Rand In-dex (frac-tion of node pairs cor-rectly
+ clas-si-fied as same/different
+ []
+
+
+Overfull \hbox (58.17305pt too wide) in paragraph at lines 101--102
+ []\OT1/cmr/bx/n/10 Implementation Notes.[] \OT1/cmr/m/n/10 Our im-ple-men-ta-t
+ion in \OT1/cmtt/m/n/10 algorithms/community/modularity.py
+ []
+
+
+Overfull \hbox (0.16042pt too wide) in paragraph at lines 103--104
+[]\OT1/cmtt/m/n/10 compute[]modularity(graph, partition, resolution)\OT1/cmr/m/
+n/10 : $\OML/cmm/m/it/10 O\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 n \OT1/cmr/m/n/10 +
+ \OML/cmm/m/it/10 m\OT1/cmr/m/n/10 )$ mod-
+ []
+
+) (sections/algorithms/community/implementation.tex [70]
+Overfull \hbox (53.99652pt too wide) in paragraph at lines 44--44
+[]\OT1/cmtt/m/n/10 community_total_degree: Dict[int, int]  # community -> sum o
+f member degrees[] 
+ []
+
+[71]
+Overfull \hbox (6.5207pt too wide) in paragraph at lines 95--96
+ []\OT1/cmr/bx/n/10 Graph Ag-gre-ga-tion.[] \OT1/cmr/m/n/10 The ag-gre-ga-tion 
+phase col-lapses com-mu-ni-ties into super-
+ []
+
+[72] [73]
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 190--190
+[]    \OT1/cmtt/m/n/10 H1 = -sum((len(c)/n) * log(len(c)/n) for c in comms1.val
+ues())[] 
+ []
+
+
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 190--190
+[]    \OT1/cmtt/m/n/10 H2 = -sum((len(c)/n) * log(len(c)/n) for c in comms2.val
+ues())[] 
+ []
+
+
+Overfull \hbox (43.49661pt too wide) in paragraph at lines 190--190
+[]                \OT1/cmtt/m/n/10 MI += p_joint * log(p_joint / ((len(c1)/n) *
+ (len(c2)/n)))[] 
+ []
+
+
+Overfull \hbox (32.9967pt too wide) in paragraph at lines 210--210
+[]\OT1/cmtt/m/n/10 from algorithms.community import louvain_communities, leiden
+_communities[] 
+ []
+
+[74]
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 210--210
+[]\OT1/cmtt/m/n/10 partition, Q = louvain_communities(graph, resolution=1.0, se
+ed=42)[] 
+ []
+
+) (sections/algorithms/community/experimental_setup.tex [75] [76]
+Overfull \hbox (3.508pt too wide) in paragraph at lines 98--99
+ []\OT1/cmr/bx/n/10 Timing Method-ol-ogy.[] \OT1/cmr/m/n/10 All tim-ings use Py
+thon's \OT1/cmtt/m/n/10 time.perf[]counter()\OT1/cmr/m/n/10 , mea-
+ []
+
+[77]
+Overfull \hbox (14.58397pt too wide) in paragraph at lines 140--141
+[]\OT1/cmr/m/n/10 Experimental code is lo-cated in \OT1/cmtt/m/n/10 experiments
+/community/run[]experiments.py
+ []
+
+
+Overfull \hbox (98.43883pt too wide) in paragraph at lines 143--144
+ []\OT1/cmr/bx/n/10 Visualization.[] \OT1/cmr/m/n/10 Plots are gen-er-ated us-i
+ng \OT1/cmtt/m/n/10 matplotlib \OT1/cmr/m/n/10 via \OT1/cmtt/m/n/10 plots/commu
+nity/plot[]experiments.py\OT1/cmr/m/n/10 : 
+ []
+
+) (sections/algorithms/community/results.tex
+Overfull \hbox (10.16737pt too wide) in paragraph at lines 3--4
+\OT1/cmr/m/n/10 We eval-u-ate the per-for-mance of our com-mu-nity de-tec-tion 
+im-ple-men-ta-tions through
+ []
+
+<plots/community/size_scaling.png, id=886, 714.0276pt x 424.9476pt>
+File: plots/community/size_scaling.png Graphic file (type png)
+<use plots/community/size_scaling.png>
+Package pdftex.def Info: plots/community/size_scaling.png  used on input line 1
+5.
+(pdftex.def)             Requested size: 310.4979pt x 184.79234pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[78]
+<plots/community/size_modularity.png, id=900, 714.0276pt x 424.9476pt>
+File: plots/community/size_modularity.png Graphic file (type png)
+<use plots/community/size_modularity.png>
+Package pdftex.def Info: plots/community/size_modularity.png  used on input lin
+e 49.
+(pdftex.def)             Requested size: 310.4979pt x 184.79234pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<plots/community/density_scaling.png, id=902, 714.0276pt x 424.9476pt>
+File: plots/community/density_scaling.png Graphic file (type png)
+<use plots/community/density_scaling.png>
+Package pdftex.def Info: plots/community/density_scaling.png  used on input lin
+e 66.
+(pdftex.def)             Requested size: 310.4979pt x 184.79234pt.
+[79 <./plots/community/size_scaling.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (2.9792pt too wide) in paragraph at lines 96--97
+ []\OT1/cmr/bx/n/10 Algorithm Par-ity.[] \OT1/cmr/m/n/10 Both al-go-rithms achi
+eve nearly iden-ti-cal mod-u-lar-ity scores
+ []
+
+[80 <./plots/community/size_modularity.png>]
+<plots/community/quality_nmi.png, id=923, 714.0276pt x 424.9476pt>
+File: plots/community/quality_nmi.png Graphic file (type png)
+<use plots/community/quality_nmi.png>
+Package pdftex.def Info: plots/community/quality_nmi.png  used on input line 11
+0.
+(pdftex.def)             Requested size: 310.4979pt x 184.79234pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<plots/community/quality_ari.png, id=924, 714.0276pt x 424.9476pt>
+File: plots/community/quality_ari.png Graphic file (type png)
+<use plots/community/quality_ari.png>
+Package pdftex.def Info: plots/community/quality_ari.png  used on input line 11
+7.
+(pdftex.def)             Requested size: 310.4979pt x 184.79234pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[81 <./plots/community/density_scaling.png>]
+<plots/community/resolution_effect.png, id=941, 1003.1076pt x 352.6776pt>
+File: plots/community/resolution_effect.png Graphic file (type png)
+<use plots/community/resolution_effect.png>
+Package pdftex.def Info: plots/community/resolution_effect.png  used on input l
+ine 161.
+(pdftex.def)             Requested size: 327.74895pt x 115.23233pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[82 <./plots/community/quality_nmi.png>]
+Overfull \hbox (29.19234pt too wide) in paragraph at lines 194--195
+\OT1/cmr/m/n/10 as ex-pected from the mod-i-fied mod-u-lar-ity for-mula $\OML/c
+mm/m/it/10 Q[] \OT1/cmr/m/n/10 = [] [][] [] \OML/cmm/m/it/10 ^^N\OT1/cmr/m/n/10
+ (\OML/cmm/m/it/10 c[]; c[]\OT1/cmr/m/n/10 )$.
+ []
+
+[83 <./plots/community/quality_ari.png>]
+<plots/community/algorithm_comparison.png, id=964, 1075.3776pt x 352.6776pt>
+File: plots/community/algorithm_comparison.png Graphic file (type png)
+<use plots/community/algorithm_comparison.png>
+Package pdftex.def Info: plots/community/algorithm_comparison.png  used on inpu
+t line 208.
+(pdftex.def)             Requested size: 327.74895pt x 107.48846pt.
+ [84 <./plots/community/resolution_effect.png> <./plots/community/algorithm_com
+parison.png>]
+Overfull \hbox (6.61232pt too wide) in paragraph at lines 262--263
+[]\OT1/cmr/bx/n/10 Approximate Meth-ods\OT1/cmr/m/n/10 : For graphs ex-ceed-ing
+ 10 mil-lion edges, sampling-
+ []
+
+[85]) [86] [87] (main.ind) (main.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+ ***********
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: D763C944642400C674E40BA2867FD371;6064.
+ ) 
+Here is how much of TeX's memory you used:
+ 10647 strings out of 474486
+ 172630 string characters out of 5743755
+ 1939542 words of memory out of 5000000
+ 32195 multiletter control sequences out of 15000+600000
+ 570895 words of font info for 84 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 75i,14n,79p,992b,663s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\sarth\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
+1000.pk><C:/Users/sarth/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmbx10.pfb><C:/Users/sarth/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmbx12.pfb><C:/Users/sarth/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmbx8.pfb><C:/Users/sarth/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/sarth/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/sarth/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/sarth/
+AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Use
+rs/sarth/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pf
+b><C:/Users/sarth/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmmi5.pfb><C:/Users/sarth/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
+onts/cm/cmmi6.pfb><C:/Users/sarth/AppData/Local/Programs/MiKTeX/fonts/type1/pub
+lic/amsfonts/cm/cmmi7.pfb><C:/Users/sarth/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmmi8.pfb><C:/Users/sarth/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/sarth/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/sarth/AppData/Local
+/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/sarth/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/sart
+h/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Use
+rs/sarth/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb>
+<C:/Users/sarth/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
+r9.pfb><C:/Users/sarth/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmsy10.pfb><C:/Users/sarth/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/amsfonts/cm/cmsy7.pfb><C:/Users/sarth/AppData/Local/Programs/MiKTeX/fonts/typ
+e1/public/amsfonts/cm/cmsy9.pfb><C:/Users/sarth/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/sarth/AppData/Local/Programs
+/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/sarth/AppData/Local
+/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb><C:/Users/sarth/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Use
+rs/sarth/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm
+10.pfb>
+Output written on main.pdf (88 pages, 3108822 bytes).
+PDF statistics:
+ 1245 PDF objects out of 1440 (max. 8388607)
+ 529 named destinations out of 1000 (max. 500000)
+ 316 words of extra memory for PDF output out of 10000 (max. 10000000)
+

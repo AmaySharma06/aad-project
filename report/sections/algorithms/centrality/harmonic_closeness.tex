@@ -1,0 +1,98 @@
+\subsubsection{Harmonic Closeness Centrality}
+\paragraph{Intuition.} A node obtains a higher harmonic closeness score if it is, on average, at shorter distances from many other nodes in the graph.
+The score captures ``information-spreading efficiency,'' because nodes that can quickly reach many others accumulate larger reciprocals.
+
+\paragraph{Theoretical Background.} Classical closeness centrality for a node $v$ in a connected graph is defined as
+\[
+C_{\mathrm{clo}}(v) = \frac{1}{\sum_{u \in V} d(v,u)},
+\]
+where $d(v,u)$ is the shortest-path distance from $v$ to $u$.
+However, this definition fails on disconnected graphs, because the distance
+$d(v,u)$ becomes infinite for unreachable nodes, and the denominator becomes undefined.
+
+To address this, \emph{harmonic closeness centrality}
+was proposed by Marchiori and Latora (2000).
+Instead of using the reciprocal of a sum of distances, the measure directly
+sums the reciprocals of the distances:
+\[
+C_{\mathrm{harm}}(v) =
+\sum_{\substack{u \in V \\ u \neq v}} \frac{1}{d(v,u)},
+\]
+where we adopt the convention
+\[
+\frac{1}{\infty} = 0.
+\]
+This makes the measure well-defined even for disconnected graphs:
+if $u$ is unreachable from $v$, it contributes zero to the score.
+
+\paragraph{Algorithm Description.}
+To compute harmonic closeness centrality for all nodes, we perform the following steps:
+\begin{enumerate}
+    \item  For each node $v$, we perform a Breadth-First Search (BFS) to compute the shortest-path distance from $v$ to all reachable nodes.
+    \item BFS produces a distance array $dist[\cdot]$. For each node $u$ such that $dist[u] > 0$, we accumulate
+    \[
+        \frac{1}{dist[u]}.
+    \]
+    \item Nodes for which $dist[u]$ remains set to $inf$ are unreachable and contribute zero.
+    \item The harmonic score for $v$ is computed as
+    \[
+        C_{H}(v) = \sum_{\substack{dist[u]!=inf}} \frac{1}{dist[u]}.
+    \]
+    \item Repeating this process for every node yields all harmonic closeness scores.
+\end{enumerate}
+ 
+\paragraph{Proof of Correctness.}
+We argue that the algorithm computes exactly the harmonic closeness score as defined above.
+
+\begin{enumerate}
+    \item \textbf{BFS computes correct distances.}
+    For an unweighted, undirected graph, BFS explores vertices in order of non-decreasing distance from the source.
+    Therefore, when BFS assigns $d(v,u) = k$, it is guaranteed that:
+    \begin{itemize}
+        \item there exists a path of length $k$ from $v$ to $u$,
+        \item no shorter path exists, because BFS would have discovered $u$ earlier.
+    \end{itemize}
+    Hence BFS returns the correct shortest-path distance from $v$ to every vertex in its component.
+    
+
+    \item \textbf{Reachability is correctly handled.}
+    Nodes not reached by BFS from $v$ are exactly those for which no path from $v$ exists. Their distance is effectively infinite, so their harmonic contribution is $\frac{1}{\infty} = 0$. Because the algorithm never adds terms for unreachable nodes, this matches the formal definition.
+
+    \item \textbf{The algorithm sums the required values.}
+    For each reachable node $u \neq v$, the algorithm adds
+    \[
+    \frac{1}{dist[u]} = \frac{1}{d(v,u)},
+    \]
+    exactly as required by the formula. No other nodes contribute anything.
+
+    \item \textbf{Repeating BFS for all $v$ yields all centrality values.}
+    Because BFS from $v$ computes all and only the distances needed for $C_{\mathrm{harm}}(v)$, and the algorithm repeats this for every node, the final dictionary contains the harmonic closeness centralities for the whole graph.
+\end{enumerate}
+
+Thus, the computed value matches the theoretical definition.
+
+\paragraph{Time Complexity.}
+For each node $v$, a BFS is performed, costing $\Theta(n + m)$ time for a graph with $n$ nodes and $m$ edges. Since BFS is repeated for all $n$ nodes, the total runtime is:
+\[
+\Theta\bigl(n(n + m)\bigr).
+\]
+When $m \geq n$, it can be written as
+\[
+\Theta(nm).
+\]
+\paragraph{Space Complexity.}
+For each BFS rooted at a node $v$, the algorithm stores:
+\begin{itemize}
+    \item a distance array of size $n$,
+    \item a queue holding up to $n$ nodes,
+    \item temporary variables for summation.
+\end{itemize}
+Therefore, excluding the space required to store the input graph itself, the space complexity of the algorithm is:
+\[
+\Theta(n).
+\]
+
+If we include the storage required for the adjacency-list representation of the graph, which occupies $\Theta(n + m)$ space, the overall space usage becomes:
+\[
+\Theta(n + m).
+\]

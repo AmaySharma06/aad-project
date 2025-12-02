@@ -1,0 +1,190 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref} % Enable hyperlinks and clickable references
+\usepackage{makeidx} % Required for index generation
+
+\makeindex % Enable index generation
+
+% Configure hyperref for better appearance
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue,
+    pdfborderstyle={/S/U/W 1}
+}
+
+\title{Social Network Analysis}
+\date{December 2025}
+
+\begin{document}
+
+% Custom title page
+\begin{titlepage}
+    \centering
+    
+    % Top spacing
+    \vspace*{0.5cm}
+    
+    
+    \vspace{1cm}
+    
+    % Project Report - MAIN TITLE
+    {\Huge\textbf{PROJECT REPORT}\par}
+    
+    \vspace{0.4cm}
+    
+    % Course code and name
+    {\Large CS1.301 --- Algorithm Analysis and Design\par}
+    
+    \vspace{1.2cm}
+    
+    % University name
+    {\textsc{International Institute of Information Technology, Hyderabad}\par}
+    
+    % Project title with rule
+    \rule{\textwidth}{1.5pt}\\[0.3cm]
+    {\LARGE\bfseries Analysis and Recommendation in Synthetic\par}
+    \vspace{0.1cm}
+    {\LARGE\bfseries Friendship Networks Using Graph Theory\par}
+    \\[0.2cm]\rule{\textwidth}{1.5pt}
+    
+    \vspace{1.2cm}
+    
+    % Team name
+    {\large\textbf{Team: DROP TABLE Teams;}\par}
+    
+    \vspace{0.8cm}
+    
+    % Team members
+    {\large\textbf{Team Members}\par}
+    \vspace{0.4cm}
+    \begin{tabular}{l}
+        Sarthak Mishra \textit{(2024117007)}\\[0.15cm]
+        Amay Sharma \textit{(2024101095)}\\[0.15cm]
+        Yashav Bhatnagar \textit{(2024101030)}\\[0.15cm]
+        Lasya Katari \textit{(2024115004)}\\[0.15cm]
+        Kartik Thapa \textit{(2024115009)}
+    \end{tabular}
+    
+    \vspace{1cm}
+    
+    % Bottom date
+    {\large December 2025\par}
+    
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\begin{abstract}
+This project explores the application of graph theory algorithms to analyze and understand social network dynamics through synthetic friendship networks. We implement and evaluate four categories of algorithms: graph traversal (BFS, DFS, and Union-Find), centrality measures (Degree, Harmonic Closeness, Betweenness, and PageRank), friend recommendation systems (Jaccard similarity-based), and community detection (Louvain and Leiden methods). Through comprehensive experimental analysis, we examine how network properties such as size and density affect algorithm performance and quality metrics. Our implementations are compared against NetworkX benchmarks, demonstrating competitive performance while providing insights into the computational complexity and practical applications of these algorithms in social network analysis. The results highlight trade-offs between accuracy and efficiency, with particular focus on scalability for large-scale networks.
+\end{abstract}
+
+\newpage
+
+\section{Traversal Algorithms}
+\input{sections/algorithms/traversal/bfs}
+\input{sections/algorithms/traversal/dfs}
+\input{sections/algorithms/traversal/union\_find}
+\input{sections/algorithms/traversal/implementation}
+\input{sections/algorithms/traversal/experimental\_setup}
+\input{sections/algorithms/traversal/results}
+
+\section{Centrality Algorithms}
+\input{sections/algorithms/centrality/degree}
+\input{sections/algorithms/centrality/harmonic\_closeness}
+\input{sections/algorithms/centrality/betweenness}
+\input{sections/algorithms/centrality/pagerank}
+\input{sections/algorithms/centrality/implementation}
+\input{sections/algorithms/centrality/experimental\_setup}
+\input{sections/algorithms/centrality/results}
+
+\section{Recommendation Algorithms}
+\input{sections/algorithms/recommender/jaccard}
+\input{sections/algorithms/recommender/friend\_recommender}
+\input{sections/algorithms/recommender/implementation}
+\input{sections/algorithms/recommender/experimental\_setup}
+\input{sections/algorithms/recommender/results}
+
+\section{Community Detection Algorithms \textit{(Bonus Content)}}
+\input{sections/algorithms/community/louvain}
+\input{sections/algorithms/community/leiden}
+\input{sections/algorithms/community/modularity}
+\input{sections/algorithms/community/implementation}
+\input{sections/algorithms/community/experimental\_setup}
+\input{sections/algorithms/community/results}
+
+\newpage
+
+\section{References}
+\begin{thebibliography}{99}
+
+\bibitem{brandes2001}
+Brandes, U. (2001). 
+\textit{A Faster Algorithm for Betweenness Centrality.}
+Journal of Mathematical Sociology, 25(2), 163-177.
+
+\bibitem{brin1998}
+Brin, S., \& Page, L. (1998). 
+\textit{The Anatomy of a Large-Scale Hypertextual Web Search Engine.}
+Computer Networks and ISDN Systems, 30(1-7), 107-117.
+
+\bibitem{freeman1979}
+Freeman, L. C. (1979). 
+\textit{Centrality in Social Networks: Conceptual Clarification.}
+Social Networks, 1(3), 215-239.
+
+\bibitem{cormen2009}
+Cormen, T. H., Leiserson, C. E., Rivest, R. L., \& Stein, C. (2009).
+\textit{Introduction to Algorithms} (3rd ed.).
+MIT Press.
+
+\bibitem{tarjan1972}
+Tarjan, R. E. (1972).
+\textit{Depth-First Search and Linear Graph Algorithms.}
+SIAM Journal on Computing, 1(2), 146-160.
+
+\bibitem{jaccard1912}
+Jaccard, P. (1912).
+\textit{The Distribution of the Flora in the Alpine Zone.}
+New Phytologist, 11(2), 37-50.
+
+\bibitem{liben2007}
+Liben-Nowell, D., \& Kleinberg, J. (2007).
+\textit{The Link-Prediction Problem for Social Networks.}
+Journal of the American Society for Information Science and Technology, 58(7), 1019-1031.
+
+\bibitem{blondel2008}
+Blondel, V. D., Guillaume, J.-L., Lambiotte, R., \& Lefebvre, E. (2008).
+\textit{Fast Unfolding of Communities in Large Networks.}
+Journal of Statistical Mechanics: Theory and Experiment, 2008(10), P10008.
+
+\bibitem{traag2019}
+Traag, V. A., Waltman, L., \& van Eck, N. J. (2019).
+\textit{From Louvain to Leiden: Guaranteeing Well-Connected Communities.}
+Scientific Reports, 9, 5233.
+
+\bibitem{newman2004}
+Newman, M. E. J., \& Girvan, M. (2004).
+\textit{Finding and Evaluating Community Structure in Networks.}
+Physical Review E, 69(2), 026113.
+
+\bibitem{boldi2011}
+Boldi, P., \& Vigna, S. (2011).
+\textit{In-Core Computation of Geometric Centralities with HyperBall: A Hundred Billion Nodes and Beyond.}
+IEEE International Conference on Data Mining Workshops, 621-628.
+
+\bibitem{networkx}
+Hagberg, A., Swart, P., \& S Chult, D. (2008).
+\textit{Exploring Network Structure, Dynamics, and Function using NetworkX.}
+Proceedings of the 7th Python in Science Conference (SciPy2008), 11-15.
+
+\end{thebibliography}
+
+\newpage
+\printindex
+
+\end{document}

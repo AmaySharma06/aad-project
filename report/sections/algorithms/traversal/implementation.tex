@@ -1,0 +1,110 @@
+\subsubsection{Implementation Details}
+
+In this project, all traversal algorithms were implemented in Python using an adjacency-list representation of the graph.
+This representation is particularly well-suited for traversal algorithms, as it allows efficient iteration over neighbors.
+
+\paragraph{Data Structures.}
+Each algorithm operates on a dictionary-based adjacency list:
+\[
+\texttt{graph} : V \to \text{list of neighbors}.
+\]
+
+For each algorithm, the following specific structures were used:
+
+\begin{itemize}
+    \item \textbf{BFS}: 
+    \begin{itemize}
+        \item A \texttt{deque} (double-ended queue) from Python's \texttt{collections} module for \(O(1)\) enqueue and dequeue operations.
+        \item A \texttt{set} for tracking visited vertices, providing \(O(1)\) average-case membership testing.
+        \item A \texttt{dict} for storing distances from the source vertex.
+    \end{itemize}
+    
+    \item \textbf{DFS (Recursive)}: 
+    \begin{itemize}
+        \item A \texttt{set} for tracking visited vertices.
+        \item Python's call stack for managing the recursion.
+        \item Optional \texttt{dict} for storing parent pointers or timestamps.
+    \end{itemize}
+    
+    \item \textbf{DFS (Iterative)}: 
+    \begin{itemize}
+        \item A \texttt{list} used as a stack (append/pop operations are \(O(1)\)).
+        \item A \texttt{set} for tracking visited vertices.
+    \end{itemize}
+    
+    \item \textbf{Union-Find}: 
+    \begin{itemize}
+        \item Two \texttt{dict} structures: \texttt{parent} and \texttt{rank}.
+        \item Each dictionary maps vertex IDs to integers.
+        \item Path compression implemented recursively in the \texttt{find} operation.
+        \item Union by rank implemented in the \texttt{union} operation.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{Implementation Choices.}
+Several design decisions were made to balance clarity, correctness, and performance:
+
+\begin{itemize}
+    \item \textbf{Adjacency list over adjacency matrix:} 
+    For sparse graphs (typical in social networks), adjacency lists use \(O(V + E)\) space compared to \(O(V^2)\) for matrices.
+    Neighbor iteration is also more efficient: \(O(\deg(v))\) vs \(O(V)\).
+    
+    \item \textbf{Sets for visited tracking:}
+    Python sets use hash tables internally, providing average \(O(1)\) insertion and lookup.
+    This is crucial for the \(O(V + E)\) complexity of traversal algorithms.
+    
+    \item \textbf{Both recursive and iterative DFS:}
+    We implemented both variants to:
+    \begin{itemize}
+        \item Compare their practical performance.
+        \item Demonstrate different implementation strategies.
+        \item Avoid stack overflow issues for large graphs (iterative version).
+    \end{itemize}
+    
+    \item \textbf{Recursion limit adjustment:}
+    Python's default recursion limit (\(\sim 1000\)) can be too low for deep graphs.
+    In our experiments script, we use \texttt{sys.setrecursionlimit(10000)} to allow deeper recursion for the recursive DFS variant.
+    
+    \item \textbf{Path compression in Union-Find:}
+    Implemented recursively for simplicity, though an iterative two-pass approach (find root, then update parents) could avoid deep recursion.
+\end{itemize}
+
+\paragraph{Code Organization.}
+The traversal algorithms are organized in \texttt{algorithms/traversal/}:
+\begin{itemize}
+    \item \texttt{bfs.py}: BFS traversal, shortest paths, connected components, and level-order functions.
+    \item \texttt{dfs.py}: Recursive and iterative DFS, cycle detection, and timestamp computation.
+    \item \texttt{union\_find.py}: Union-Find class with path compression and union by rank.
+\end{itemize}
+
+Each file includes comprehensive docstrings explaining:
+\begin{itemize}
+    \item Algorithm purpose and intuition.
+    \item Parameter and return value specifications.
+    \item Time and space complexity.
+    \item Usage examples.
+\end{itemize}
+
+\paragraph{Testing and Validation.}
+All implementations were validated through:
+\begin{itemize}
+    \item \textbf{Unit tests:} Small hand-crafted graphs with known properties.
+    \item \textbf{Consistency checks:} Comparing BFS, DFS, and Union-Find component counts on the same graphs.
+    \item \textbf{Property tests:} Verifying BFS distances satisfy triangle inequality, DFS timestamps follow the parenthesis theorem, etc.
+    \item \textbf{Large-scale experiments:} Testing on randomly generated graphs with up to 5000 vertices.
+\end{itemize}
+
+\paragraph{Optimization Considerations.}
+While our implementations prioritize clarity and correctness, several optimizations could be applied:
+
+\begin{itemize}
+    \item \textbf{Neighbor iteration order:} Reversing the neighbor list in iterative DFS to match recursive order adds overhead; omitting this would improve performance slightly.
+    
+    \item \textbf{Early termination:} For single-source queries (e.g., BFS to a target), we can terminate early once the target is found.
+    
+    \item \textbf{Bidirectional search:} For point-to-point shortest paths, bidirectional BFS can reduce the search space.
+    
+    \item \textbf{Iterative path compression:} In Union-Find, a two-pass iterative find could avoid recursion entirely.
+\end{itemize}
+
+However, for the scale of our experiments (graphs up to 5000 vertices), the current implementations provide excellent performance while remaining readable and maintainable.

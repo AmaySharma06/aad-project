@@ -1,0 +1,212 @@
+\subsubsection{Implementation Details}
+
+\paragraph{Object-Oriented Design.}
+Our community detection module follows a class-based architecture that encapsulates algorithm state and provides a clean API:
+
+\begin{verbatim}
+class LouvainCommunityDetection:
+    def __init__(self, resolution=1.0, seed=None, 
+                 max_iterations=100, min_modularity_gain=1e-7)
+    def fit(self, graph) -> (partition, modularity)
+    def fit_hierarchical(self, graph) -> list[partition]
+
+class LeidenCommunityDetection:
+    def __init__(self, resolution=1.0, theta=0.01, seed=None,
+                 max_iterations=100, min_modularity_gain=1e-7)
+    def fit(self, graph) -> (partition, modularity)
+\end{verbatim}
+
+Both classes share common design patterns:
+\begin{itemize}
+    \item Constructor parameters control algorithm behavior
+    \item \texttt{fit()} returns the final partition and modularity score
+    \item Internal methods handle specific algorithm phases
+    \item Random seed support enables reproducible results
+\end{itemize}
+
+\paragraph{Data Structures.}
+
+\textbf{Graph Representation.} Graphs are represented as adjacency lists using Python dictionaries:
+\begin{verbatim}
+graph: Dict[int, List[int]]  # node -> list of neighbors
+\end{verbatim}
+This representation provides $O(1)$ neighbor access and efficient iteration.
+
+\textbf{Partition Representation.} Community assignments use a flat dictionary:
+\begin{verbatim}
+partition: Dict[int, int]  # node -> community_id
+\end{verbatim}
+This enables $O(1)$ lookup of any node's community.
+
+\textbf{Community Statistics.} For efficient modularity gain computation, we maintain:
+\begin{verbatim}
+community_total_degree: Dict[int, int]  # community -> sum of member degrees
+\end{verbatim}
+These are updated incrementally as nodes move between communities.
+
+\paragraph{Key Implementation Techniques.}
+
+\textbf{Randomized Node Ordering.}
+Both algorithms shuffle the node order before each pass:
+\begin{verbatim}
+nodes = list(graph.keys())
+random.shuffle(nodes)
+\end{verbatim}
+This reduces order-dependent bias and improves result quality across multiple runs.
+
+\textbf{Incremental Degree Updates.}
+Rather than recomputing community statistics after each move, we update incrementally:
+\begin{verbatim}
+# Remove node from old community
+community_total_degree[old_comm] -= degree[node]
+# Add to new community
+community_total_degree[new_comm] += degree[node]
+\end{verbatim}
+This reduces Phase 1 complexity from $O(nm)$ to $O(m)$ per pass.
+
+\textbf{Queue-Based Processing (Leiden).}
+Leiden uses a queue to track nodes needing reevaluation:
+\begin{verbatim}
+queue = list(graph.keys())
+in_queue = set(queue)
+while queue:
+    node = queue.pop(0)
+    in_queue.discard(node)
+    # ... process node ...
+    if moved:
+        for neighbor in graph[node]:
+            if neighbor not in in_queue:
+                queue.append(neighbor)
+                in_queue.add(neighbor)
+\end{verbatim}
+This avoids redundant evaluations of stable nodes.
+
+\textbf{Best Partition Tracking.}
+To avoid over-aggregation (which can reduce modularity), we track the best partition seen:
+\begin{verbatim}
+if current_modularity > best_modularity:
+    best_modularity = current_modularity
+    best_partition = partition.copy()
+elif current_modularity < best_modularity - threshold:
+    break  # Stop if quality decreasing
+\end{verbatim}
+
+\paragraph{Graph Aggregation.}
+The aggregation phase collapses communities into super-nodes:
+
+\begin{verbatim}
+def _aggregate_graph(graph, partition):
+    # Map communities to new node IDs
+    communities = sorted(set(partition.values()))
+    comm_to_node = {c: i for i, c in enumerate(communities)}
+    
+    # Count edges between communities
+    edge_counts = {}
+    for node, neighbors in graph.items():
+        new_node = comm_to_node[partition[node]]
+        for neighbor in neighbors:
+            new_neighbor = comm_to_node[partition[neighbor]]
+            edge = (min(new_node, new_neighbor), 
+                    max(new_node, new_neighbor))
+            edge_counts[edge] = edge_counts.get(edge, 0) + 1
+    
+    # Build new graph with weighted edges
+    new_graph = {i: [] for i in range(len(communities))}
+    for (u, v), count in edge_counts.items():
+        if u == v:
+            # Self-loops (intra-community edges)
+            new_graph[u].extend([u] * (count // 2))
+        else:
+            # Inter-community edges
+            weight = count // 2
+            new_graph[u].extend([v] * weight)
+            new_graph[v].extend([u] * weight)
+    
+    return new_graph
+\end{verbatim}
+
+The edge weights are represented by repeated entries in the adjacency list, maintaining compatibility with our unweighted graph representation.
+
+\paragraph{Modularity Computation.}
+Efficient $O(n+m)$ modularity calculation:
+
+\begin{verbatim}
+def compute_modularity(graph, partition, resolution=1.0):
+    m = sum(len(n) for n in graph.values()) / 2
+    if m == 0:
+        return 0.0
+    
+    degree = {n: len(adj) for n, adj in graph.items()}
+    
+    # Group by community
+    communities = {}
+    for node, comm in partition.items():
+        communities.setdefault(comm, set()).add(node)
+    
+    Q = 0.0
+    for comm_id, members in communities.items():
+        # Count internal edges
+        edges_within = sum(
+            1 for node in members 
+            for neighbor in graph[node] 
+            if neighbor in members
+        ) / 2
+        e_c = edges_within / m
+        
+        # Sum of degrees in community
+        a_c = sum(degree[n] for n in members) / (2 * m)
+        
+        Q += e_c - resolution * a_c * a_c
+    
+    return Q
+\end{verbatim}
+
+\paragraph{Evaluation Metrics Implementation.}
+
+\textbf{Normalized Mutual Information:}
+\begin{verbatim}
+def normalized_mutual_information(part1, part2):
+    nodes = set(part1.keys()) & set(part2.keys())
+    n = len(nodes)
+    
+    # Build community sets
+    comms1 = group_by_community(part1, nodes)
+    comms2 = group_by_community(part2, nodes)
+    
+    # Entropy H(P) = -sum(p * log(p))
+    H1 = -sum((len(c)/n) * log(len(c)/n) for c in comms1.values())
+    H2 = -sum((len(c)/n) * log(len(c)/n) for c in comms2.values())
+    
+    # Mutual information
+    MI = 0.0
+    for c1 in comms1.values():
+        for c2 in comms2.values():
+            overlap = len(c1 & c2)
+            if overlap > 0:
+                p_joint = overlap / n
+                MI += p_joint * log(p_joint / ((len(c1)/n) * (len(c2)/n)))
+    
+    return 2 * MI / (H1 + H2) if H1 + H2 > 0 else 1.0
+\end{verbatim}
+
+\paragraph{Code Organization.}
+The community detection module is organized as:
+\begin{verbatim}
+algorithms/community/
+    __init__.py          # Module exports
+    louvain.py           # LouvainCommunityDetection class
+    leiden.py            # LeidenCommunityDetection class  
+    modularity.py        # Scoring and evaluation functions
+\end{verbatim}
+
+\paragraph{Convenience Functions.}
+For quick usage, we provide module-level functions:
+\begin{verbatim}
+from algorithms.community import louvain_communities, leiden_communities
+
+# Simple API
+partition, Q = louvain_communities(graph, resolution=1.0, seed=42)
+partition, Q = leiden_communities(graph, resolution=1.0, seed=42)
+\end{verbatim}
+
+These wrap the class-based implementation with sensible defaults.

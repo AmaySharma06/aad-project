@@ -1,0 +1,300 @@
+\subsubsection{Betweenness Centrality}
+
+\paragraph{Intuition.}
+Betweenness centrality captures how often a node lies ``in between'' other pairs of nodes on their shortest paths.
+Intuitively, a node has high betweenness if it acts as a bridge or bottleneck: many pairs of other nodes must pass through it if they want to reach each other via shortest routes.
+In a social network, such nodes are important brokers or intermediaries between different groups or communities.
+
+\paragraph{Theoretical Background.}
+Let $G=(V,E)$ be a connected, unweighted graph with $|V| = n$.
+For any two distinct nodes $s,t \in V$, let:
+\begin{itemize}
+    \item $\sigma_{st}$ denote the number of shortest paths from $s$ to $t$;
+    \item $\sigma_{st}(v)$ denote the number of those shortest paths that pass through a node $v \in V\setminus\{s,t\}$.
+\end{itemize}
+
+The betweenness centrality of a node $v$ is defined as:
+\[
+C_B(v) \;=\; \sum_{\substack{s,t \in V \\ s \neq v \neq t \\ s \neq t}} \frac{\sigma_{st}(v)}{\sigma_{st}}.
+\]
+That is, for every ordered pair $(s,t)$ with $s \neq t$ and $v \notin \{s,t\}$, we measure the fraction of shortest $s$--$t$ paths that pass through $v$, and sum these contributions.
+
+A useful concept in Brandes' algorithm is the \emph{dependency} of a source $s$ on an intermediate node $v$, denoted $\delta_s(v)$:
+\[
+\delta_s(v) \;=\; \sum_{\substack{t \in V \\ t \neq s,\, t \neq v}} \frac{\sigma_{st}(v)}{\sigma_{st}}.
+\]
+Then the betweenness centrality can be written as:
+\[
+C_B(v) \;=\; \sum_{\substack{s \in V \\ s \neq v}} \delta_s(v).
+\]
+So the problem reduces to efficiently computing $\delta_s(v)$ for all $s$ and $v$.
+
+For a fixed source $s$, consider the directed acyclic graph (DAG) of shortest paths from $s$, in which we orient each edge from a node at distance $d$ from $s$ to a node at distance $d+1$.
+Brandes showed the following key recurrence for each source $s$:
+\[
+\delta_s(v) \;=\; \sum_{w: v \in \mathrm{Pred}_s(w)} \frac{\sigma_{sv}}{\sigma_{sw}} \left( 1 + \delta_s(w) \right),
+\]
+where $\mathrm{Pred}_s(w)$ is the set of predecessors of $w$ on shortest paths from $s$ to $w$, and $\sigma_{sw}$ is the number of shortest $s$--$w$ paths.
+This recurrence is the basis of the algorithm.
+
+\paragraph{Intuition for Brandes' Algorithm.}
+For each source node $s$, the algorithm does two main things:
+\begin{enumerate}
+    \item It performs a single-source shortest paths computation (BFS in the unweighted case) to find, for every node $w$:
+    \begin{itemize}
+        \item the distance from $s$ to $w$,
+        \item the number of shortest paths $\sigma_{sw}$ from $s$ to $w$,
+        \item the list of predecessors $\mathrm{Pred}_s(w)$ that lie just before $w$ on shortest $s$--$w$ paths.
+    \end{itemize}
+    \item It then processes the nodes in reverse order of distance from $s$ (from farthest back to $s$), and for each node $w$ it distributes its dependency $\delta_s(w)$ backward to its predecessors $v \in \mathrm{Pred}_s(w)$ using the recurrence above.
+\end{enumerate}
+The idea is that all dependency ``flow'' from targets back towards the source via the shortest-path DAG.
+By the time we finish processing all nodes for a given source $s$, we know $\delta_s(v)$ for every $v$, and we can add these values to the global betweenness scores $C_B(v)$.
+
+\paragraph{Algorithm Description (Brandes' Algorithm for Unweighted Graphs).}
+
+Brandes' algorithm computes betweenness centrality by performing a
+single-source shortest-path (SSSP) exploration from every source
+$s \in V$ and then accumulating \emph{dependencies} that quantify how
+often each vertex lies on shortest paths from $s$ to all other
+targets.
+
+For each fixed source $s$, the algorithm proceeds in three conceptual
+phases:
+
+\begin{enumerate}
+    \item \textbf{Initialization.}
+    For every vertex $w$, we set $\texttt{dist}[w] = -1$,
+    $\texttt{sigma}[w] = 0$, $\texttt{Pred}[w] = \emptyset$.
+    We initialize $\texttt{dist}[s]=0$ and $\texttt{sigma}[s]=1$.
+    A BFS queue is created, and $s$ is enqueued.
+
+    \item \textbf{BFS to compute shortest-path structure.}
+    While the queue is nonempty, a vertex $v$ is dequeued and pushed
+    onto a stack $S$.  For each neighbor $w$:
+    \begin{itemize}
+        \item If $w$ is seen for the first time, set
+        $\texttt{dist}[w] = \texttt{dist}[v] + 1$ and enqueue $w$.
+        \item If $\texttt{dist}[w] = \texttt{dist}[v] + 1$,
+        then $v$ lies on a shortest $s$--$w$ path.
+        We therefore increment $\texttt{sigma}[w]$ by $\texttt{sigma}[v]$
+        and append $v$ to $\texttt{Pred}[w]$.
+    \end{itemize}
+    When BFS completes, $\texttt{dist}$, $\texttt{sigma}$, and
+    $\texttt{Pred}$ together form the shortest-path DAG rooted at $s$.
+
+    \item \textbf{Dependency accumulation.}
+    We create an array $\texttt{delta}[w]=0$ for all $w$.
+    Then, vertices are popped from the stack $S$, which yields them in
+    \emph{reverse} order of distance from $s$.
+    For each vertex $w$ popped from $S$ and each predecessor $v \in
+    \texttt{Pred}[w]$, we update:
+    \[
+        \texttt{delta}[v]
+        \;+\!\!=\;
+        \frac{\texttt{sigma}[v]}{\texttt{sigma}[w]}\,(1 + \texttt{delta}[w]).
+    \]
+    If $w \neq s$, we add $\texttt{delta}[w]$ to $C_B(w)$.
+\end{enumerate}
+
+After repeating this three-phase procedure for every $s \in V$, we also apply a normalization factor
+\[\frac{2}{(n-1)(n-2)}\]
+
+for an undirected, unweighted graph so that the final betweenness scores lie in the interval $[0,1]$.
+
+\paragraph{Proof of Correctness.}
+
+We show that, for each vertex $v$,
+\[
+C_B(v)
+=
+\sum_{\substack{s,t\in V\\ s\neq v\neq t}}
+\frac{\sigma_{st}(v)}{\sigma_{st}}.
+\]
+
+\paragraph{(1) Correctness of the BFS Phase.}
+
+Fix a source $s$.  Standard BFS properties imply that for every vertex
+$w$, the first time we assign $\texttt{dist}[w]$ we have discovered a
+shortest $s$--$w$ path, so $\texttt{dist}[w] = d(s,w)$.
+
+We show by induction on distance that $\texttt{sigma}[w]=\sigma_{sw}$.
+For $w=s$, $\texttt{sigma}[s]=1$, matching the single trivial path.
+Assume the claim holds for all vertices at distance $<d$.
+
+Let $\texttt{dist}[w]=d$.  Every shortest $s$--$w$ path must come from a
+neighbor $v$ with $\texttt{dist}[v]=d-1$.
+Whenever BFS encounters such a neighbor, it adds $\texttt{sigma}[v]$ to
+$\texttt{sigma}[w]$.
+Thus:
+\[
+\texttt{sigma}[w]
+=
+\sum_{v:\,\texttt{dist}[v]=d-1} \texttt{sigma}[v]
+=
+\sum_{v:\,\texttt{dist}[v]=d-1} \sigma_{sv}
+=
+\sigma_{sw}.
+\]
+Likewise, $\texttt{Pred}[w]$ contains exactly those neighbors $v$ that
+precede $w$ on shortest paths; hence BFS correctly constructs the
+shortest-path DAG.
+
+\paragraph{(2) Correctness of the Dependency Accumulation Step.}
+
+Fix a source vertex $s$.
+Recall that the dependency of $s$ on a vertex $v$ is defined as
+\[
+\delta_s(v)
+=
+\sum_{\substack{t \in V \\ t \neq s,\, t \neq v}}
+\frac{\sigma_{st}(v)}{\sigma_{st}},
+\]
+where $\sigma_{st}(v)$ is the number of shortest $s$--$t$ paths that
+pass through $v$, and $\sigma_{st}$ is the total number of shortest
+$s$--$t$ paths.
+
+Consider any shortest path from $s$ to a target $t$ that goes through a
+vertex $v$.
+Such a path must continue from $v$ to some successor $w$ satisfying
+\[
+\mathrm{dist}[w] = \mathrm{dist}[v] + 1.
+\]
+Thus every shortest $s$--$t$ path that passes through $v$ has the form
+\[
+s \rightsquigarrow v \to w \rightsquigarrow t,
+\]
+where $v$ lies in $\mathrm{Pred}_s(w)$ and $w$ lies closer to $t$ than $v$.
+
+For a fixed successor $w$ of $v$, the proportion of all shortest
+$s$--$t$ paths that pass through $v$ and then $w$ can be decomposed as:
+\[
+\frac{\sigma_{st}(v\!\to\! w)}{\sigma_{st}}
+=
+\frac{\sigma_{sv}}{\sigma_{sw}} \cdot \frac{\sigma_{st}(w)}{\sigma_{st}}.
+\]
+
+The meaning of each factor is:
+\begin{itemize}
+    \item $\dfrac{\sigma_{sv}}{\sigma_{sw}}$ is the fraction of shortest
+    $s$--$w$ paths that reach $w$ \emph{via $v$}.
+    \item $\dfrac{\sigma_{st}(w)}{\sigma_{st}}$ is the fraction of shortest
+    $s$--$t$ paths that go through $w$.
+\end{itemize}
+
+Summing over all possible successors $w$ gives:
+\[
+\frac{\sigma_{st}(v)}{\sigma_{st}}
+=
+\sum_{w:\, v \in \mathrm{Pred}_s(w)}
+\frac{\sigma_{sv}}{\sigma_{sw}} \cdot
+\frac{\sigma_{st}(w)}{\sigma_{st}}.
+\]
+This identity expresses the contribution of $v$ to the pair $(s,t)$ in
+terms of contributions of the nodes $w$ one level farther from $s$.
+
+Sum the above equality over all $t \neq s,v$:
+\[
+\delta_s(v)
+=
+\sum_{t\neq s,v}
+\frac{\sigma_{st}(v)}{\sigma_{st}}
+=
+\sum_{t\neq s,v}
+\sum_{w:\, v \in \mathrm{Pred}_s(w)}
+\frac{\sigma_{sv}}{\sigma_{sw}}
+\cdot
+\frac{\sigma_{st}(w)}{\sigma_{st}}.
+\]
+We may interchange the sums:
+\[
+\delta_s(v)
+=
+\sum_{w:\, v \in \mathrm{Pred}_s(w)}
+\frac{\sigma_{sv}}{\sigma_{sw}}
+\left(
+\sum_{t\neq s,v} \frac{\sigma_{st}(w)}{\sigma_{st}}
+\right).
+\]
+
+Now observe that the inner sum is precisely
+\[
+1 + \delta_s(w).
+\]
+The ``$1$'' corresponds to the special case $t=w$, and
+$\delta_s(w)$ accounts for all remaining targets $t\neq s,w$.
+Thus:
+\[
+\delta_s(v)
+=
+\sum_{w:\, v \in \mathrm{Pred}_s(w)}
+\frac{\sigma_{sv}}{\sigma_{sw}}\,
+\bigl(1 + \delta_s(w)\bigr).
+\]
+
+This is exactly the recurrence implemented in Brandes' algorithm:
+\[
+\texttt{delta[v] += (sigma[v]/sigma[w]) * (1 + delta[w])}.
+\]
+
+\paragraph{(3) Correctness of Reverse-Order Processing.}
+
+Because the shortest-path structure from $s$ is a DAG whose edges point
+from smaller to larger distances, every vertex's dependency $\delta_s(v)$
+depends only on $\delta_s(w)$ for vertices $w$ one level farther from
+$s$.
+The stack $S$ lists vertices in reverse BFS order (i.e. decreasing
+distance), ensuring that every $\delta_s(w)$ is known before computing
+$\delta_s(v)$.
+Thus the recurrence computes all $\delta_s(v)$ correctly in a single
+pass.
+
+Finally, summing over all sources,
+\[
+C_B(v)
+=
+\sum_{s\neq v} \delta_s(v)
+=
+\sum_{\substack{s,t\\ s\neq v\neq t}}
+\frac{\sigma_{st}(v)}{\sigma_{st}},
+\]
+which is exactly the definition of betweenness centrality.
+\hfill $\square$
+
+\paragraph{Time Complexity.}
+
+We analyse the algorithm for an unweighted graph using BFS.
+
+For each source $s \in V$:
+\begin{itemize}
+    \item The BFS phase explores every edge at most once in each direction, giving time $\Theta(n+m)$.
+    \item The accumulation phase iterates over each node and over its predecessor list.
+    The total size of all predecessor lists for a fixed source is at most $m$ (one entry per directed edge in the shortest-path DAG).
+    Hence, the accumulation phase also runs in $\Theta(n + m)$ time.
+\end{itemize}
+Therefore, for a single source $s$, the total work is $\Theta(n + m)$, which we can write as $\Theta(m)$ when $m \geq n$.
+
+We perform this for all $n$ choices of $s$, so the total running time is:
+\[
+\Theta\bigl( n (n + m) \bigr) = \Theta(nm)
+\]
+for an unweighted graph using adjacency lists.
+
+\paragraph{Space Complexity.}
+
+For a fixed source $s$, the algorithm stores:
+\begin{itemize}
+    \item arrays \texttt{dist}, \texttt{sigma}, and \texttt{delta} of size $n$ each,
+    \item the predecessor lists \texttt{Pred[w]} for all $w$, whose total length is $O(m)$,
+    \item the BFS queue and the stack $S$, each of which can hold up to $n$ nodes.
+\end{itemize}
+
+Thus, excluding the storage for the graph itself, the extra working storage used by the algorithm is:
+\[
+\Theta(n + m).
+\]
+
+If we also include the adjacency-list representation of the input graph (which itself requires $\Theta(n + m)$ space), the overall space usage remains:
+\[
+\Theta(n + m).
+\]
