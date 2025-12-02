@@ -1,0 +1,15 @@
+\subsubsection{Implementation Details}
+In this project, all centrality algorithms were implemented in Python using an adjacency--list representation of the graph. This choice provides efficient neighbourhood scans for sparse graphs, which are frequently necessary for centrality analysis.
+
+\paragraph{Data Structures.}
+Each algorithm operates on a dictionary-based adjacency list:
+\[
+\texttt{graph} : V \to \text{list of neighbors}.
+\]
+
+For intermediate computation, the following structures were used:
+\begin{itemize}
+    \item \textbf{Degree and harmonic closeness}: dictionaries storing numeric scores, one entry per vertex.
+    \item \textbf{Brandes' betweenness}: arrays (Python dictionaries) for \texttt{dist}, \texttt{sigma}, \texttt{Pred}, and \texttt{delta}, matching the canonical Brandes formulation.
+    \item \textbf{PageRank}: two rank vectors represented as dictionaries (\texttt{rank} and \texttt{new\_rank}) and an \texttt{outdeg} dictionary to precompute out-degrees.
+\end{itemize}

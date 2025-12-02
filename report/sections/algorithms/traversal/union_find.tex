@@ -1,0 +1,166 @@
+\subsubsection{Union-Find (Disjoint Set Union)}
+
+\paragraph{Intuition.}
+The Union-Find data structure, also known as Disjoint Set Union (DSU), efficiently maintains a collection of disjoint sets and supports two primary operations:
+\begin{itemize}
+    \item \textbf{Find:} Determine which set an element belongs to (identify its representative).
+    \item \textbf{Union:} Merge two sets into one.
+\end{itemize}
+
+These operations are fundamental for tracking connectivity in dynamic graphs, where edges are added incrementally and we need to efficiently answer queries like ``Are vertices \(u\) and \(v\) in the same connected component?''
+
+In a social network, Union-Find can efficiently track friendship groups: each union operation represents forming a connection between two groups, and find operations identify which group a user belongs to.
+
+Unlike BFS and DFS which explore graph structure explicitly, Union-Find provides an implicit representation of connectivity through a forest of trees, where each tree represents one connected component.
+
+\paragraph{Formal definition.}
+Let \(\mathcal{S} = \{S_1, S_2, \ldots, S_k\}\) be a partition of a universe \(U\) into \(k\) disjoint sets:
+\[
+S_i \cap S_j = \emptyset \text{ for } i \neq j, \quad \text{and} \quad \bigcup_{i=1}^{k} S_i = U.
+\]
+
+For each set \(S_i\), we designate a \emph{representative element} \(r_i \in S_i\).
+
+The Union-Find data structure supports:
+\begin{itemize}
+    \item \(\texttt{Find}(x)\): Return the representative of the set containing \(x\).
+    \item \(\texttt{Union}(x, y)\): Merge the sets containing \(x\) and \(y\) into a single set.
+    \item \(\texttt{Connected}(x, y)\): Return true if \(x\) and \(y\) belong to the same set (equivalent to \(\texttt{Find}(x) = \texttt{Find}(y)\)).
+\end{itemize}
+
+\paragraph{Data structure representation.}
+Union-Find represents each set as a rooted tree, where:
+\begin{itemize}
+    \item The root of each tree is the representative of that set.
+    \item Each node stores a pointer to its parent.
+    \item The root points to itself: \(\texttt{parent}[r] = r\).
+\end{itemize}
+
+This forest representation is maintained using two arrays:
+\begin{itemize}
+    \item \(\texttt{parent}[x]\): the parent of element \(x\) in its tree.
+    \item \(\texttt{rank}[x]\): an upper bound on the height of the subtree rooted at \(x\).
+\end{itemize}
+
+\paragraph{Algorithm description.}
+The basic operations are defined as follows:
+
+\textbf{Find operation (with path compression):}
+\begin{enumerate}
+    \item If \(\texttt{parent}[x] = x\), then \(x\) is the root; return \(x\).
+    \item Otherwise, recursively find the root: \(r = \texttt{Find}(\texttt{parent}[x])\).
+    \item \textbf{Path compression:} Set \(\texttt{parent}[x] = r\) (flatten the tree).
+    \item Return \(r\).
+\end{enumerate}
+
+Path compression dramatically reduces tree height: as we traverse from \(x\) to the root, we make every node on the path point directly to the root.
+
+\textbf{Union operation (with union by rank):}
+\begin{enumerate}
+    \item Find the roots: \(r_x = \texttt{Find}(x)\), \(r_y = \texttt{Find}(y)\).
+    \item If \(r_x = r_y\), \(x\) and \(y\) are already in the same set; return.
+    \item \textbf{Union by rank:} Compare \(\texttt{rank}[r_x]\) and \(\texttt{rank}[r_y]\):
+    \begin{enumerate}
+        \item If \(\texttt{rank}[r_x] < \texttt{rank}[r_y]\): Set \(\texttt{parent}[r_x] = r_y\).
+        \item If \(\texttt{rank}[r_x] > \texttt{rank}[r_y]\): Set \(\texttt{parent}[r_y] = r_x\).
+        \item If \(\texttt{rank}[r_x] = \texttt{rank}[r_y]\): Set \(\texttt{parent}[r_y] = r_x\) and increment \(\texttt{rank}[r_x]\).
+    \end{enumerate}
+\end{enumerate}
+
+Union by rank ensures that the tree with fewer levels is attached under the root of the tree with more levels, keeping trees shallow.
+
+\paragraph{Proof of correctness.}
+We prove that Union-Find correctly maintains the partition of elements into disjoint sets.
+
+\textbf{Claim 1:} \(\texttt{Find}(x)\) returns the unique representative of the set containing \(x\).
+
+\textbf{Proof:} 
+\begin{itemize}
+    \item Initially, each element \(x\) is in its own set with \(\texttt{parent}[x] = x\), so \(x\) is its own representative.
+    \item The only operation that changes \(\texttt{parent}\) pointers is \(\texttt{Union}\).
+    When merging sets with representatives \(r_x\) and \(r_y\), we set \(\texttt{parent}[r_i] = r_j\) for some \(i, j\).
+    This makes \(r_j\) the new representative of the merged set.
+    \item \(\texttt{Find}(x)\) follows parent pointers until reaching a node \(r\) with \(\texttt{parent}[r] = r\).
+    By construction, \(r\) is the root of the tree containing \(x\), hence the representative.
+    \item Path compression does not change which root is reached; it only shortens the path, maintaining correctness.
+\end{itemize}
+
+\textbf{Claim 2:} \(\texttt{Union}(x, y)\) correctly merges the sets containing \(x\) and \(y\).
+
+\textbf{Proof:} 
+Let \(S_x\) and \(S_y\) be the sets containing \(x\) and \(y\) respectively, with representatives \(r_x\) and \(r_y\).
+After \(\texttt{Union}(x, y)\):
+\begin{itemize}
+    \item We set \(\texttt{parent}[r_x] = r_y\) (or vice versa), making \(r_y\) the new root.
+    \item All elements in \(S_x\) and \(S_y\) now have the same representative: \(\texttt{Find}(z)\) returns \(r_y\) for all \(z \in S_x \cup S_y\).
+    \item No other sets are affected, maintaining the partition property.
+\end{itemize}
+
+\paragraph{Time complexity (amortized analysis).}
+Without optimizations, \(\texttt{Find}\) can take \(\Theta(n)\) time in the worst case (a long chain).
+However, with both \emph{path compression} and \emph{union by rank}, the amortized time per operation is nearly constant.
+
+\textbf{Theorem (Tarjan):} With path compression and union by rank, a sequence of \(m\) operations (finds and unions) on \(n\) elements takes total time \(O(m \cdot \alpha(n))\), where \(\alpha(n)\) is the inverse Ackermann function.
+
+\(\alpha(n)\) is an extremely slowly growing function:
+\[
+\alpha(n) \leq 4 \text{ for all practical values of } n < 2^{65536}.
+\]
+
+Thus, the amortized time per operation is effectively \(O(1)\) for all practical purposes.
+
+\textbf{Intuition for the analysis:}
+\begin{itemize}
+    \item \emph{Union by rank} ensures that tree heights grow logarithmically: after \(k\) unions, the height is at most \(\log_2(k)\).
+    \item \emph{Path compression} flattens trees during finds, dramatically reducing subsequent operation costs.
+    \item The combination of both heuristics achieves near-constant amortized time.
+\end{itemize}
+
+The formal proof involves potential function analysis and is beyond the scope of this report, but the result is well-established in the literature.
+
+\paragraph{Space complexity.}
+The Union-Find structure requires:
+\begin{itemize}
+    \item \(\texttt{parent}\) array: \(\Theta(n)\) space for \(n\) elements.
+    \item \(\texttt{rank}\) array: \(\Theta(n)\) space.
+    \item No additional data structures are needed.
+\end{itemize}
+
+Total space: \(\Theta(n)\).
+
+This is significantly more space-efficient than explicitly storing adjacency lists or connectivity matrices.
+
+\paragraph{Application to connected components.}
+To find connected components in a graph \(G = (V, E)\):
+\begin{enumerate}
+    \item Initialize Union-Find with \(|V|\) elements (one per vertex).
+    \item For each edge \((u, v) \in E\):
+    \begin{enumerate}
+        \item Call \(\texttt{Union}(u, v)\).
+    \end{enumerate}
+    \item After processing all edges, \(\texttt{Find}(u) = \texttt{Find}(v)\) if and only if \(u\) and \(v\) are in the same connected component.
+\end{enumerate}
+
+Time complexity: \(O(m \cdot \alpha(n))\) for \(m\) edges and \(n\) vertices, nearly linear in practice.
+
+\paragraph{Comparison with BFS and DFS.}
+For finding connected components:
+\begin{itemize}
+    \item \textbf{BFS/DFS:} 
+    \begin{itemize}
+        \item Time: \(\Theta(n + m)\) per component query after initial traversal.
+        \item Best for static graphs where all queries are known upfront.
+        \item Provides additional information (distances, tree structure).
+    \end{itemize}
+    
+    \item \textbf{Union-Find:}
+    \begin{itemize}
+        \item Time: \(O(\alpha(n))\) per query, amortized.
+        \item Best for dynamic graphs with incremental edge additions.
+        \item Only tracks connectivity, not distances or paths.
+        \item More space-efficient (no need to store full traversal).
+    \end{itemize}
+\end{itemize}
+
+Union-Find excels when edges arrive online (e.g., in Kruskal's MST algorithm) or when we need fast repeated connectivity queries.
+BFS/DFS are better when we need detailed structural information beyond just connectivity.

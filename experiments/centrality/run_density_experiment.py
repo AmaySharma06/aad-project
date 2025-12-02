@@ -1,8 +1,12 @@
 import os
-import random
+import sys
+
+# Add project root to path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from centrality.run_centrality_experiment import run_centrality_experiment
-from common_utils import get_random_graph, mat_to_list, write_csv
+from graph.graph_generator import generate_random_graph
+from utils import write_csv, print_progress
 
 # EXPERIMENT: Effect of Graph density (p) on Centrality Runtimes
 
@@ -19,8 +23,6 @@ def run_density_experiment(
     CSV Columns:
         n, p, degree_time, closeness_time, betweenness_time, pagerank_time
     """
-    random.seed(seed)
-
     rows = []
     header = [
         "n", 
@@ -31,13 +33,16 @@ def run_density_experiment(
         "pagerank_time"
     ]
 
-    # Ensure folder exists
-    os.makedirs(os.path.dirname(out_csv), exist_ok=True)
+    print("=== Centrality Density Experiment ===")
+    print(f"Graph size: {n} nodes")
+    print(f"Testing densities: {densities}")
+    print()
 
-    for p in densities:
-        # Generate graph
-        matrix = get_random_graph(n, p)
-        graph = mat_to_list(matrix)
+    for i, p in enumerate(densities):
+        print_progress(i, len(densities), prefix=f"Density {p:.2f}")
+
+        # Generate graph (returns adjacency list directly)
+        graph = generate_random_graph(n, p, seed=seed + i)
 
         # Run centrality experiment
         result = run_centrality_experiment(graph)
@@ -50,6 +55,9 @@ def run_density_experiment(
             result["betweenness_time"],
             result["pagerank_time"],
         ])
+
+    print_progress(len(densities), len(densities), prefix="Complete")
+    print()
 
     # Save CSV
     write_csv(out_csv, header, rows)

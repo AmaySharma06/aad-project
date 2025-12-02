@@ -1,0 +1,120 @@
+\subsubsection{Degree Centrality}
+
+\paragraph{Intuition.}
+Degree centrality is the simplest notion of ``importance'' in a network.
+In an undirected, unweighted social network, a vertex represents a user and an edge represents a friendship (or connection).
+The most immediate way to quantify how ``central'' a user is, is to simply count how many neighbours they have.
+A vertex with many neighbours is considered more central, because it is directly connected to many other vertices and can influence or reach them in one step.
+
+In our project we work with simple, undirected, unweighted graphs, so each edge represents a symmetric, unweighted relationship between two nodes.
+
+\paragraph{Formal definition.}
+Let \(G = (V, E)\) be a simple undirected graph with vertex set \(V\) and edge set \(E\), where \(|V| = n\).
+For a vertex \(v \in V\), let \(N(v)\) denote the set of neighbours of \(v\), i.e.,
+\[
+N(v) = \{\, u \in V \mid \{u,v\} \in E \ \,\}.
+\]
+The \emph{degree} of \(v\) is
+\[
+\deg(v) = |N(v)|.
+\]
+
+The (unnormalised) degree centrality of \(v\) is then defined as
+\[
+C_D(v) = \deg(v).
+\]
+
+Sometimes, it is convenient to scale the centrality values into the range \([0,1]\).
+In that case, the \emph{normalised degree centrality} is defined as
+\[
+\widetilde{C}_D(v) = \frac{\deg(v)}{n - 1}.
+\]
+This normalisation is natural because, in a simple graph with \(n\) vertices, any vertex can be adjacent to at most \(n-1\) other vertices.
+Thus \(\widetilde{C}_D(v) = 1\) corresponds to a vertex connected to every other vertex in the graph.
+
+In our implementation, we primarily compute \(C_D(v)\) and optionally normalise it to obtain \(\widetilde{C}_D(v)\).
+
+\paragraph{Algorithm description.}
+We store the graph in an adjacency-list representation: for each vertex \(v \in V\), we have a list \(\texttt{graph}[v]\) that contains all neighbours of \(v\).
+The algorithm for computing degree centrality is therefore straightforward:
+
+\begin{enumerate}
+    \item For each vertex \(v \in V\):
+    \begin{enumerate}
+        \item Read its adjacency list \(\texttt{graph}[v]\).
+        \item Let \(k_v = |\texttt{graph}[v]|\), i.e., the length of this list.
+        \item Set \(C_D(v) \gets k_v\).
+    \end{enumerate}
+    \item (Optional normalisation) If we want normalised degree centrality, compute \(\widetilde{C}_D(v) = \dfrac{C_D(v)}{n-1}\) for all \(v \in V\).
+\end{enumerate}
+
+\paragraph{Proof of correctness.}
+We now argue that the algorithm correctly computes the (possibly normalised) degree centrality according to the formal definition.
+
+\begin{itemize}
+    \item By construction of the adjacency-list representation, for every vertex \(v \in V\), the list \(\texttt{graph}[v]\) contains \emph{exactly} the neighbours of \(v\):
+    \[
+    \texttt{graph}[v] = N(v).
+    \]
+    This means that the length of this list is equal to the number of neighbours:
+    \[
+    |\texttt{graph}[v]| = |N(v)| = \deg(v).
+    \]
+
+    \item In the first loop, for each vertex \(v\), the algorithm sets \(C_D(v) \gets |\texttt{graph}[v]|\).
+    Using the above equality, this is exactly
+    \[
+    C_D(v) = \deg(v),
+    \]
+    which matches the formal definition of (unnormalised) degree centrality.
+
+    \item In the optional normalisation step, for each \(v \in V\) we compute
+    \[
+    \widetilde{C}_D(v) = \frac{C_D(v)}{n - 1} = \frac{\deg(v)}{n - 1},
+    \]
+    which matches the formal definition of the normalised degree centrality.
+    Since in a simple graph a vertex cannot have more than \(n-1\) neighbours, we also have
+    \[
+    0 \leq \widetilde{C}_D(v) = \frac{\deg(v)}{n - 1} \leq 1,
+    \]
+    so the values indeed lie in the interval \([0,1]\), as intended.
+\end{itemize}
+
+Thus every value produced by the algorithm coincides with the corresponding mathematically defined degree centrality (and its normalised variant), so the algorithm is correct.
+
+\paragraph{Time complexity.}
+Let \(n = |V|\) and \(m = |E|\).
+In an undirected graph, each edge \(\{u, v\}\) appears exactly twice in the adjacency lists: once in \(\texttt{graph}[u]\) and once in \(\texttt{graph}[v]\).
+
+\begin{itemize}
+    \item The loop over all vertices runs n times.
+    \item For each vertex \(v\), accessing \(\texttt{length(graph[v])}\) is \(\Theta(1)\) in Python, but even if we model it as scanning the list, the total cost is
+    \[
+        \sum_{v \in V} \deg(v) = 2m,
+    \]
+    because the sum of degrees in an undirected graph is \(2m\).
+\end{itemize}
+
+Thus the total running time of the algorithm is
+\[
+    \Theta(n + m).
+\]
+In sparse graphs where \(m = \Theta(n)\), this becomes simply \(\Theta(n)\).
+
+The optional normalisation step performs \(\Theta(1)\) work per vertex and therefore adds another \(\Theta(n)\), which does not change the asymptotic bound.
+
+Hence, the final time complexity is
+\[
+    T(n,m) = \Theta(n + m).
+\]
+
+\paragraph{Space complexity.}
+We analyse the additional space used beyond the adjacency-list representation of the input graph.
+
+\begin{itemize}
+    \item The adjacency lists require \(\Theta(n + m)\) space.
+    \item The dictionary (or array) of degree centrality scores stores one value per vertex and therefore uses \(\Theta(n)\) space.
+\end{itemize}
+
+Thus, the extra space used by the algorithm, excluding the adjacency lists, is \(\Theta(n)\).
+Including the graph itself, the overall space usage is \(\Theta(n + m)\).

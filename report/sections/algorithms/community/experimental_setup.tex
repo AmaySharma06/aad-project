@@ -1,0 +1,149 @@
+\subsubsection{Experimental Setup}
+
+We evaluate our Louvain and Leiden implementations through five complementary experiments designed to assess runtime scalability, detection quality, and parameter sensitivity.
+
+\paragraph{Experiment 1: Size Scaling.}
+\textbf{Objective:} Measure how runtime scales with graph size.
+
+\textbf{Configuration:}
+\begin{itemize}
+    \item Graph sizes: $n \in \{50, 100, 200, 500, 1000, 2000\}$
+    \item Edge probability: $p = 0.1$ (sparse graphs)
+    \item Graph model: Erd\H{o}s-R\'enyi $G(n, p)$
+    \item Random seed: 42 (for reproducibility)
+\end{itemize}
+
+\textbf{Metrics recorded:}
+\begin{itemize}
+    \item Wall-clock time for Louvain and Leiden
+    \item Number of detected communities
+    \item Final modularity score
+\end{itemize}
+
+\paragraph{Experiment 2: Density Scaling.}
+\textbf{Objective:} Study how graph density affects community detection.
+
+\textbf{Configuration:}
+\begin{itemize}
+    \item Fixed size: $n = 500$
+    \item Edge probabilities: $p \in \{0.02, 0.05, 0.1, 0.2, 0.3, 0.5\}$
+    \item Graph model: Erd\H{o}s-R\'enyi $G(n, p)$
+\end{itemize}
+
+\textbf{Rationale:} As density increases, community structure becomes less pronounced (approaching a complete graph with single community). We expect:
+\begin{itemize}
+    \item Longer runtimes (more edges to process)
+    \item Fewer detected communities
+    \item Lower modularity scores
+\end{itemize}
+
+\paragraph{Experiment 3: Quality Evaluation.}
+\textbf{Objective:} Assess how accurately algorithms recover planted communities.
+
+\textbf{Configuration:}
+\begin{itemize}
+    \item Graph size: $n = 200$
+    \item Planted communities: 4 equal-sized groups of 50 nodes
+    \item Intra-community edge probability: $p_{\text{intra}} \in \{0.1, 0.2, 0.3, 0.4, 0.5, 0.6\}$
+    \item Inter-community edge probability: $p_{\text{inter}} = 0.01$
+\end{itemize}
+
+\textbf{Graph generation:}
+We use a planted partition model (stochastic block model):
+\begin{itemize}
+    \item Nodes are pre-assigned to $k$ communities
+    \item Edges within communities: probability $p_{\text{intra}}$
+    \item Edges between communities: probability $p_{\text{inter}}$
+\end{itemize}
+
+\textbf{Metrics recorded:}
+\begin{itemize}
+    \item Modularity of detected partition
+    \item Normalized Mutual Information (NMI) with ground truth
+    \item Adjusted Rand Index (ARI) with ground truth
+    \item Number of detected vs. planted communities
+\end{itemize}
+
+\paragraph{Experiment 4: Resolution Parameter Study.}
+\textbf{Objective:} Investigate how resolution $\gamma$ affects detected community granularity.
+
+\textbf{Configuration:}
+\begin{itemize}
+    \item Graph: $n = 500$, 10 planted communities
+    \item $p_{\text{intra}} = 0.3$, $p_{\text{inter}} = 0.01$
+    \item Resolution values: $\gamma \in \{0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 3.0\}$
+\end{itemize}
+
+\textbf{Expected behavior:}
+\begin{itemize}
+    \item $\gamma < 1$: Merge communities (detect fewer than 10)
+    \item $\gamma = 1$: Match planted structure (detect 10)
+    \item $\gamma > 1$: Split communities (detect more than 10)
+\end{itemize}
+
+\paragraph{Experiment 5: Algorithm Comparison.}
+\textbf{Objective:} Compare Louvain and Leiden across multiple random trials.
+
+\textbf{Configuration:}
+\begin{itemize}
+    \item Graph: $n = 500$, 5 planted communities
+    \item $p_{\text{intra}} = 0.4$, $p_{\text{inter}} = 0.02$
+    \item Number of trials: 10 (different random graphs)
+    \item Metrics: runtime, NMI, ARI, modularity
+\end{itemize}
+
+\textbf{Statistical analysis:} We report mean and variance across trials to assess consistency.
+
+\paragraph{Timing Methodology.}
+All timings use Python's \texttt{time.perf\_counter()}, measuring wall-clock time:
+\begin{verbatim}
+from utils import time_function
+
+(partition, modularity), elapsed = time_function(
+    louvain_communities, graph, seed=seed
+)
+\end{verbatim}
+
+\paragraph{Hardware and Software.}
+\begin{itemize}
+    \item Python 3.10+
+    \item Single-threaded execution
+    \item No external libraries for core algorithms (pure Python)
+    \item Results measured on consistent hardware (no virtualization)
+\end{itemize}
+
+\paragraph{Graph Generation.}
+We use two graph models:
+
+\textbf{Erd\H{o}s-R\'enyi $G(n, p)$:} For size and density experiments where we don't need ground truth communities.
+
+\textbf{Planted Partition Model:} For quality experiments where we need known community structure:
+\begin{verbatim}
+from graph.social_network import generate_community_network
+
+network, ground_truth = generate_community_network(
+    n=200, 
+    num_communities=4,
+    p_intra=0.3, 
+    p_inter=0.01,
+    seed=42
+)
+\end{verbatim}
+
+\paragraph{Reproducibility.}
+All experiments use fixed random seeds:
+\begin{itemize}
+    \item Base seed: 42
+    \item Per-trial offset: seed + trial\_number
+\end{itemize}
+
+Experimental code is located in \texttt{experiments/community/run\_experiments.py} with results saved to \texttt{experiments/community/results/*.csv}.
+
+\paragraph{Visualization.}
+Plots are generated using \texttt{matplotlib} via \texttt{plots/community/plot\_experiments.py}:
+\begin{itemize}
+    \item Size vs. time (log-log scale)
+    \item Density vs. modularity
+    \item Quality metrics (NMI, ARI) vs. community separation
+    \item Resolution parameter effects
+\end{itemize}

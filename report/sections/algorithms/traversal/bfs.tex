@@ -1,0 +1,132 @@
+\subsubsection{Breadth-First Search (BFS)}
+
+\paragraph{Intuition.}
+Breadth-First Search (BFS) is a fundamental graph traversal algorithm that explores vertices in order of their distance from a starting vertex.
+It visits all vertices at distance \(k\) before visiting any vertex at distance \(k+1\), proceeding layer by layer through the graph.
+This makes BFS particularly well-suited for finding shortest paths in unweighted graphs and for exploring the structure of connected components.
+
+In a social network context, BFS can model how information spreads through friend connections: first to direct friends, then to friends-of-friends, and so on.
+
+\paragraph{Formal definition.}
+Let \(G = (V, E)\) be a simple undirected graph with vertex set \(V\) and edge set \(E\).
+For a starting vertex \(s \in V\), define the \emph{distance} \(d(s, v)\) as the minimum number of edges in any path from \(s\) to \(v\), or \(\infty\) if no such path exists.
+
+BFS visits vertices in non-decreasing order of distance from \(s\):
+\[
+\text{If } v \text{ is visited before } w \text{, then } d(s, v) \leq d(s, w).
+\]
+
+More precisely, BFS constructs a \emph{BFS tree} rooted at \(s\) such that:
+\begin{itemize}
+    \item Each vertex \(v \neq s\) has a parent \(\pi(v)\) that was used to discover it.
+    \item The path from \(s\) to any \(v\) in the BFS tree is a shortest path in \(G\).
+    \item All edges either connect vertices in the same level or adjacent levels (no ``skip'' edges).
+\end{itemize}
+
+\paragraph{Algorithm description.}
+BFS uses a queue data structure (first-in, first-out) to maintain the frontier of exploration.
+The algorithm can be described as follows:
+
+\begin{enumerate}
+    \item Initialize:
+    \begin{enumerate}
+        \item Create an empty queue \(Q\).
+        \item Mark \(s\) as visited and set \(d(s) = 0\).
+        \item Enqueue \(s\) into \(Q\).
+    \end{enumerate}
+    \item While \(Q\) is not empty:
+    \begin{enumerate}
+        \item Dequeue a vertex \(u\) from \(Q\).
+        \item For each neighbor \(v\) of \(u\) in \(\texttt{graph}[u]\):
+        \begin{enumerate}
+            \item If \(v\) has not been visited:
+            \begin{enumerate}
+                \item Mark \(v\) as visited.
+                \item Set \(d(v) = d(u) + 1\).
+                \item Set \(\pi(v) = u\) (optional, for path reconstruction).
+                \item Enqueue \(v\) into \(Q\).
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+
+The visited set ensures each vertex is processed exactly once, and the queue ensures vertices are processed in order of increasing distance.
+
+\paragraph{Proof of correctness.}
+We prove that BFS correctly computes shortest distances and produces a valid BFS tree.
+
+\textbf{Claim 1:} When BFS visits vertex \(v\), it assigns \(d(v)\) equal to the shortest path distance from \(s\) to \(v\).
+
+\textbf{Proof by induction on distance:}
+\begin{itemize}
+    \item \emph{Base case:} \(d(s) = 0\) is correct since \(s\) is the start.
+    
+    \item \emph{Inductive step:} Assume the claim holds for all vertices at distance \(< k\).
+    Consider a vertex \(v\) at distance exactly \(k\) from \(s\).
+    Let \(u\) be the predecessor of \(v\) on some shortest path: \(d(s, u) = k - 1\) and \((u, v) \in E\).
+    
+    By the inductive hypothesis, when BFS visits \(u\), it has \(d(u) = k - 1\).
+    When processing \(u\)'s neighbors, BFS will discover \(v\) (if not already visited) and set \(d(v) = d(u) + 1 = k\).
+    
+    Since BFS processes vertices in non-decreasing distance order (enforced by the queue), no vertex at distance \(< k\) remains in the queue when \(v\) is discovered.
+    Thus \(v\) cannot be reached earlier via a shorter path, so \(d(v) = k\) is correct.
+\end{itemize}
+
+\textbf{Claim 2:} BFS visits all vertices reachable from \(s\).
+
+\textbf{Proof:} By contradiction. Suppose vertex \(v\) is reachable from \(s\) but never visited.
+Let \(P = s \to v_1 \to v_2 \to \cdots \to v_k = v\) be a shortest path from \(s\) to \(v\).
+Let \(v_i\) be the first vertex on \(P\) that BFS does not visit, and let \(v_{i-1}\) be its predecessor.
+Since \(v_{i-1}\) is visited (by minimality), BFS processes all its neighbors, including \(v_i\).
+Thus \(v_i\) is visited, contradicting our assumption.
+Therefore, BFS visits all reachable vertices.
+
+\paragraph{Time complexity.}
+Let \(n = |V|\) and \(m = |E|\).
+We analyze the cost of each operation:
+
+\begin{itemize}
+    \item \textbf{Initialization:} Creating the visited set and queue takes \(\Theta(1)\).
+    
+    \item \textbf{Vertex processing:} Each vertex \(v\) is enqueued and dequeued at most once, since the visited set prevents reprocessing.
+    This costs \(\Theta(1)\) per vertex, for a total of \(\Theta(n)\).
+    
+    \item \textbf{Edge exploration:} For each vertex \(u\), we iterate through all neighbors in \(\texttt{graph}[u]\).
+    Summing over all vertices:
+    \[
+    \sum_{u \in V} |\texttt{graph}[u]| = \sum_{u \in V} \deg(u) = 2m,
+    \]
+    since each edge appears twice in an undirected adjacency list.
+    Each neighbor check costs \(\Theta(1)\), giving a total of \(\Theta(m)\).
+\end{itemize}
+
+Therefore, the overall time complexity is:
+\[
+T(n, m) = \Theta(n + m).
+\]
+
+In sparse graphs where \(m = O(n)\), this is effectively \(\Theta(n)\).
+In dense graphs where \(m = \Theta(n^2)\), this becomes \(\Theta(n^2)\).
+
+\paragraph{Space complexity.}
+The space usage consists of:
+\begin{itemize}
+    \item The adjacency list representation: \(\Theta(n + m)\).
+    \item The visited set: \(\Theta(n)\) (stores up to \(n\) vertices).
+    \item The queue: In the worst case, the queue can hold all vertices at one level.
+    For certain graph structures (e.g., complete bipartite graphs), this can be \(\Theta(n)\).
+    \item The distance dictionary: \(\Theta(n)\) (one entry per visited vertex).
+\end{itemize}
+
+Excluding the input graph, the additional space is \(\Theta(n)\).
+Including the graph, the total space is \(\Theta(n + m)\).
+
+\paragraph{Comparison with DFS.}
+While both BFS and DFS are \(\Theta(n + m)\) traversal algorithms, they differ in:
+\begin{itemize}
+    \item \textbf{Data structure:} BFS uses a queue (FIFO), DFS uses a stack (LIFO).
+    \item \textbf{Path properties:} BFS finds shortest paths; DFS does not.
+    \item \textbf{Memory:} BFS can use more memory in wide graphs (large frontier), while DFS uses more in deep graphs (long recursion stack).
+    \item \textbf{Applications:} BFS is preferred for shortest path problems, level-order traversal, and finding connected components when distance matters.
+    DFS is preferred for topological sorting, cycle detection, and exploring all paths.
+\end{itemize}

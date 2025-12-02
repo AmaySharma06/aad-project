@@ -1,0 +1,148 @@
+\subsubsection{Leiden Algorithm for Community Detection}
+
+\paragraph{Intuition.}
+The Leiden algorithm is an improved variant of the Louvain method that addresses a critical flaw: Louvain can produce communities that are internally \emph{disconnected}. The Leiden algorithm guarantees that all detected communities are \emph{well-connected}, meaning every node has sufficient edges to other members of its community.
+
+Named after Leiden University where it was developed, this algorithm maintains Louvain's speed while providing stronger theoretical guarantees about community quality.
+
+\paragraph{Motivation: The Louvain Problem.}
+Consider a community $C$ detected by Louvain. During the aggregation phase, all nodes in $C$ become a single super-node. If the algorithm later moves additional nodes into this super-node's community, it cannot ``see'' that these new nodes may connect to only a small subset of the original $C$. This can result in:
+\begin{itemize}
+    \item Disconnected communities (nodes in the same community with no path between them)
+    \item Weakly connected communities (communities held together by a single bridge node)
+\end{itemize}
+
+The Leiden algorithm addresses this through a \emph{refinement phase} that ensures community cohesion before aggregation.
+
+\paragraph{Formal Definition.}
+Given graph $G = (V, E)$, the Leiden algorithm finds a partition $\mathcal{C}$ maximizing modularity while guaranteeing that each community $C \in \mathcal{C}$ is \textbf{$\gamma$-connected}:
+
+A community $C$ is $\gamma$-connected if for every node $v \in C$:
+\[
+\sum_{u \in C \setminus \{v\}} A_{vu} \geq \gamma \cdot \frac{k_v \cdot \sum_{u \in C \setminus \{v\}} k_u}{2m}
+\]
+
+This condition ensures that each node's edges within its community exceed what would be expected under the null model, scaled by resolution $\gamma$.
+
+\paragraph{Algorithm Description.}
+Leiden extends Louvain with a three-phase structure:
+
+\textbf{Phase 1: Local Moving (Fast).}
+Similar to Louvain's Phase 1, but uses a queue-based approach for efficiency:
+\begin{enumerate}
+    \item Initialize queue with all nodes in random order
+    \item For each node, find the best neighboring community (maximum $\Delta Q$)
+    \item If a node moves, add its \emph{neighbors not in the target community} to the queue
+    \item Continue until queue is empty
+\end{enumerate}
+
+This queue-based approach avoids redundant computations by only reconsidering nodes affected by recent moves.
+
+\textbf{Phase 2: Refinement.}
+Before aggregation, refine the partition to ensure well-connectedness:
+\begin{enumerate}
+    \item For each community $C$ from Phase 1:
+    \item Check if each node $v \in C$ is well-connected to $C$
+    \item If $v$ has weak connectivity (few edges relative to community size), consider moving it to a better-connected neighboring community
+    \item This may split poorly-connected communities or reassign bridge nodes
+\end{enumerate}
+
+The refinement phase uses a connectivity threshold: a node is considered weakly connected if its edges to the community are below 10\% of the possible connections.
+
+\textbf{Phase 3: Aggregation.}
+Collapse refined communities into super-nodes:
+\begin{itemize}
+    \item Use the \emph{refined partition} for determining super-node membership
+    \item Initialize the new partition using communities from Phase 1 (not Phase 2)
+    \item This allows Phase 1 to consider larger moves on the aggregated graph
+\end{itemize}
+
+\paragraph{Pseudocode.}
+\begin{verbatim}
+Algorithm: Leiden Community Detection
+Input: Graph G = (V, E), resolution gamma, temperature theta
+Output: Partition C, modularity Q
+
+1. Initialize: each node in its own community
+2. repeat
+3.     // Phase 1: Fast Local Moving (queue-based)
+4.     queue <- all nodes (shuffled)
+5.     while queue not empty:
+6.         node <- queue.pop()
+7.         best_comm <- find_best_community(node)
+8.         if best_comm != current_community(node):
+9.             move node to best_comm
+10.            add affected neighbors to queue
+11.    
+12.    // Phase 2: Refinement
+13.    for each community C:
+14.        for each node v in C:
+15.            if not well_connected(v, C):
+16.                try moving v to better neighbor community
+17.    
+18.    // Phase 3: Aggregation
+19.    G_new <- aggregate using refined partition
+20.    initialize new partition from Phase 1 communities
+21. until convergence
+22. return partition, modularity
+\end{verbatim}
+
+\paragraph{Correctness and Guarantees.}
+The Leiden algorithm provides stronger guarantees than Louvain:
+
+\begin{enumerate}
+    \item \textbf{Well-connected communities:} The refinement phase ensures no community contains disconnected or weakly-connected subgraphs.
+    
+    \item \textbf{Subset property:} Communities at finer hierarchy levels are strict subsets of coarser levels.
+    
+    \item \textbf{Monotonic quality:} Each iteration maintains or improves partition quality.
+    
+    \item \textbf{Convergence:} The algorithm terminates when no further refinement or aggregation improves the partition.
+\end{enumerate}
+
+\paragraph{Time Complexity.}
+Leiden has the same asymptotic complexity as Louvain:
+
+\begin{itemize}
+    \item \textbf{Phase 1:} $O(m)$ per level using queue-based optimization
+    \item \textbf{Phase 2:} $O(m)$ to check connectivity for all nodes
+    \item \textbf{Phase 3:} $O(n + m)$ for aggregation
+    \item \textbf{Number of levels:} $O(\log n)$ empirically
+\end{itemize}
+
+\textbf{Total complexity:} $O(m \log n)$ average case.
+
+The queue-based optimization in Phase 1 often provides practical speedups by avoiding redundant node evaluations after the initial pass.
+
+\paragraph{Comparison with Louvain.}
+
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Property} & \textbf{Louvain} & \textbf{Leiden} \\
+\hline
+Time complexity & $O(m \log n)$ & $O(m \log n)$ \\
+\hline
+Connected communities & Not guaranteed & Guaranteed \\
+\hline
+Refinement phase & No & Yes \\
+\hline
+Hierarchical output & Yes & Yes \\
+\hline
+Resolution parameter & Yes & Yes \\
+\hline
+Queue optimization & No & Yes \\
+\hline
+\end{tabular}
+\end{center}
+
+In practice, Leiden may be slightly slower due to the refinement phase but produces higher-quality partitions with better-connected communities. For applications where community coherence is critical (e.g., defining user groups for targeted communication), Leiden is preferred.
+
+\paragraph{Temperature Parameter.}
+The Leiden algorithm includes an optional temperature parameter $\theta$ that introduces controlled randomness during refinement:
+\begin{itemize}
+    \item $\theta = 0$: Deterministic refinement
+    \item $\theta > 0$: Probabilistic node reassignment based on connectivity scores
+\end{itemize}
+
+Higher temperature allows escaping local optima but may reduce reproducibility. Our implementation uses $\theta = 0.01$ by default.

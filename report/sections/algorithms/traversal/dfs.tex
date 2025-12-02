@@ -1,0 +1,183 @@
+\subsubsection{Depth-First Search (DFS)}
+
+\paragraph{Intuition.}
+Depth-First Search (DFS) is a fundamental graph traversal algorithm that explores as deeply as possible along each branch before backtracking.
+Unlike BFS which explores breadth-wise, DFS follows a path until it reaches a dead end (a vertex with no unvisited neighbors), then backtracks to explore alternative paths.
+This depth-first strategy makes DFS particularly well-suited for problems involving exhaustive search, cycle detection, and topological ordering.
+
+In a social network context, DFS can model exploring a chain of friendships: starting with a friend, then a friend-of-that-friend, continuing as far as possible before returning to explore other branches.
+
+\paragraph{Formal definition.}
+Let \(G = (V, E)\) be a simple undirected graph.
+DFS performs a systematic traversal starting from a source vertex \(s \in V\), visiting vertices and edges in a depth-first manner.
+
+During traversal, each vertex \(v\) is assigned two timestamps:
+\begin{itemize}
+    \item \emph{Discovery time} \(d[v]\): when \(v\) is first encountered.
+    \item \emph{Finish time} \(f[v]\): when all descendants of \(v\) have been explored (i.e., when we backtrack from \(v\)).
+\end{itemize}
+
+These timestamps satisfy the \emph{parenthesis theorem}:
+\[
+d[u] < d[v] < f[v] < f[u] \quad \text{if } v \text{ is a descendant of } u \text{ in the DFS tree}.
+\]
+
+DFS partitions edges into several categories:
+\begin{itemize}
+    \item \textbf{Tree edges:} edges that are part of the DFS traversal tree.
+    \item \textbf{Back edges:} edges from a vertex to one of its ancestors (indicate cycles in undirected graphs).
+    \item \textbf{Forward edges:} edges from a vertex to a non-child descendant (only in directed graphs).
+    \item \textbf{Cross edges:} all other edges (only in directed graphs).
+\end{itemize}
+
+\paragraph{Algorithm description.}
+DFS can be implemented recursively or iteratively using an explicit stack.
+The recursive implementation is more natural and commonly used:
+
+\textbf{Recursive DFS:}
+\begin{enumerate}
+    \item Initialize:
+    \begin{enumerate}
+        \item Create an empty visited set.
+        \item Set global time counter \(\texttt{time} = 0\).
+    \end{enumerate}
+    \item Define recursive procedure \(\texttt{DFS-Visit}(u)\):
+    \begin{enumerate}
+        \item Mark \(u\) as visited.
+        \item Set \(d[u] = \texttt{time}\), increment \(\texttt{time}\).
+        \item For each neighbor \(v\) of \(u\) in \(\texttt{graph}[u]\):
+        \begin{enumerate}
+            \item If \(v\) has not been visited:
+            \begin{enumerate}
+                \item Set \(\pi(v) = u\) (optional, for tree reconstruction).
+                \item Recursively call \(\texttt{DFS-Visit}(v)\).
+            \end{enumerate}
+        \end{enumerate}
+        \item Set \(f[u] = \texttt{time}\), increment \(\texttt{time}\).
+    \end{enumerate}
+    \item Call \(\texttt{DFS-Visit}(s)\) for the starting vertex \(s\).
+\end{enumerate}
+
+\textbf{Iterative DFS:}
+\begin{enumerate}
+    \item Initialize an empty stack and push \(s\).
+    \item While the stack is not empty:
+    \begin{enumerate}
+        \item Pop a vertex \(u\) from the stack.
+        \item If \(u\) has not been visited:
+        \begin{enumerate}
+            \item Mark \(u\) as visited.
+            \item For each neighbor \(v\) of \(u\) (in reverse order for consistency with recursive):
+            \begin{enumerate}
+                \item If \(v\) has not been visited, push \(v\) onto the stack.
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+
+The iterative version is useful for avoiding stack overflow on very deep graphs, but the recursive version is more elegant and easier to reason about.
+
+\paragraph{Proof of correctness.}
+We prove that DFS correctly visits all reachable vertices exactly once.
+
+\textbf{Claim 1:} Each reachable vertex is visited exactly once.
+
+\textbf{Proof:} 
+\begin{itemize}
+    \item \emph{Visited at most once:} The visited set ensures that once a vertex is marked, it is never processed again.
+    The recursive call only occurs for unvisited vertices.
+    
+    \item \emph{Visited at least once:} By induction on the structure of the graph.
+    \begin{itemize}
+        \item Base case: The starting vertex \(s\) is visited by the initial call.
+        \item Inductive step: Assume all vertices reachable via paths of length \(< k\) are visited.
+        Consider a vertex \(v\) reachable via a path of length \(k\): \(s \to \cdots \to u \to v\).
+        By the inductive hypothesis, \(u\) is visited.
+        When processing \(u\), DFS examines all neighbors including \(v\).
+        If \(v\) is unvisited, DFS recursively visits \(v\).
+        Thus all reachable vertices are visited.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Claim 2:} The parenthesis theorem holds.
+
+\textbf{Proof sketch:} When we discover \(v\) from \(u\) (making \(u\) the parent of \(v\)), we have \(d[u] < d[v]\).
+We then recursively explore \(v\)'s entire subtree before returning to \(u\).
+Thus all descendants of \(v\) finish before we finish \(u\), giving \(f[v] < f[u]\).
+This nesting property is analogous to properly nested parentheses: \((\) represents discovery, \()\) represents finishing.
+
+\paragraph{Time complexity.}
+Let \(n = |V|\) and \(m = |E|\).
+We analyze the cost of the recursive implementation:
+
+\begin{itemize}
+    \item \textbf{Vertex processing:} Each vertex is visited exactly once (ensured by the visited set).
+    The work done per vertex (excluding neighbor iteration) is \(\Theta(1)\).
+    Total: \(\Theta(n)\).
+    
+    \item \textbf{Edge exploration:} Each edge is examined exactly twice (once from each endpoint in an undirected graph).
+    For each vertex \(u\), we iterate through \(\texttt{graph}[u]\):
+    \[
+    \sum_{u \in V} |\texttt{graph}[u]| = 2m.
+    \]
+    Each neighbor check costs \(\Theta(1)\), total: \(\Theta(m)\).
+\end{itemize}
+
+Therefore, the time complexity is:
+\[
+T(n, m) = \Theta(n + m).
+\]
+
+This matches BFS's complexity, though the constants may differ slightly in practice.
+
+\paragraph{Space complexity.}
+The space usage consists of:
+\begin{itemize}
+    \item The adjacency list: \(\Theta(n + m)\).
+    \item The visited set: \(\Theta(n)\).
+    \item \textbf{Recursion stack:} In the worst case (e.g., a long chain), the recursion depth can reach \(n\), requiring \(\Theta(n)\) stack space.
+    In balanced graphs, the depth is \(O(\log n)\).
+\end{itemize}
+
+The additional space beyond the input graph is \(\Theta(n)\) in the worst case.
+
+For the iterative version, the explicit stack replaces the recursion stack, with similar space requirements.
+
+\paragraph{Recursive vs. Iterative DFS.}
+Our implementation includes both variants for comparison:
+
+\begin{itemize}
+    \item \textbf{Recursive DFS:}
+    \begin{itemize}
+        \item Simpler and more elegant code.
+        \item Natural representation of the depth-first exploration.
+        \item Risk of stack overflow for very deep graphs (Python's default recursion limit is \(\sim 1000\)).
+    \end{itemize}
+    
+    \item \textbf{Iterative DFS:}
+    \begin{itemize}
+        \item Avoids recursion limit issues.
+        \item Requires explicit stack management.
+        \item Traversal order may differ slightly (depends on order of pushing neighbors).
+        \item More suitable for very large or deep graphs.
+    \end{itemize}
+\end{itemize}
+
+In our experiments, we measure both implementations to compare their practical performance.
+Theoretically, both have the same asymptotic complexity, but iterative DFS may have lower overhead due to avoiding function call overhead.
+
+\paragraph{Applications and comparison with BFS.}
+DFS is particularly well-suited for:
+\begin{itemize}
+    \item \textbf{Cycle detection:} Back edges indicate cycles.
+    \item \textbf{Topological sorting:} Vertices ordered by decreasing finish times give a topological order (for DAGs).
+    \item \textbf{Connected components:} Like BFS, can identify components by running DFS from each unvisited vertex.
+    \item \textbf{Pathfinding:} Finds \emph{a} path (not necessarily shortest).
+\end{itemize}
+
+Key differences from BFS:
+\begin{itemize}
+    \item DFS does not guarantee shortest paths (unlike BFS).
+    \item DFS uses less memory on wide graphs but more on deep graphs.
+    \item DFS is preferred when we need to explore all possible paths or when path length is irrelevant.
+\end{itemize}

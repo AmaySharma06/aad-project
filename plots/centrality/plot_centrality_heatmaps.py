@@ -1,3 +1,16 @@
+"""
+Centrality Heatmap Visualizations.
+
+Generates heatmap plots showing centrality scores across a structured graph
+that highlights differences between Degree, Closeness, Betweenness, and PageRank.
+"""
+
+import os
+import sys
+
+# Add project root to path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 import matplotlib.pyplot as plt
 import networkx as nx
 import random
@@ -6,6 +19,7 @@ from centrality.degree_centrality import degree_centrality
 from centrality.harmonic_closeness import harmonic_closeness
 from centrality.betweenness_centrality import brandes_betweenness
 from centrality.pagerank import pagerank
+
 
 def generate_showcase_graph():
     """
@@ -53,6 +67,7 @@ def generate_showcase_graph():
 
     return G
 
+
 def normalize(scores):
     """Normalize centrality scores to [0,1] for color mapping."""
     vals = list(scores.values())
@@ -86,17 +101,20 @@ def plot_heatmap(G, pos, scores, title, outpath):
     # Labels
     nx.draw_networkx_labels(G, pos, font_size=7)
 
-    # Colorbar 
+    # Colorbar
     plt.colorbar(nodes, label="Normalized score")
 
     plt.title(title)
     plt.axis("off")
     plt.tight_layout()
+    
+    # Ensure output directory exists
+    os.makedirs(os.path.dirname(outpath), exist_ok=True)
     plt.savefig(outpath, dpi=300)
     plt.close()
 
 
-def generate_centrality_heatmaps():
+def generate_centrality_heatmaps(output_dir="plots/centrality/images"):
     """Generate heatmaps for all four centrality measures on the same graph."""
     random.seed(123)
 
@@ -106,30 +124,36 @@ def generate_centrality_heatmaps():
     # Fix layout for consistency
     pos = nx.spring_layout(G, seed=123)
 
+    # Ensure output directory exists
+    os.makedirs(output_dir, exist_ok=True)
+
     # Compute centralities
+    print("Computing centrality measures...")
     degree_scores = degree_centrality(adj_list)
     harmonic_scores = harmonic_closeness(adj_list)
     betweenness_scores = brandes_betweenness(adj_list)
     pagerank_scores = pagerank(adj_list)
 
     # Save four separate heatmaps
+    print("Generating individual heatmaps...")
     plot_heatmap(G, pos, degree_scores,
                  "Degree Centrality Heatmap",
-                 "plots/centrality/images/degree_heatmap.png")
+                 f"{output_dir}/degree_heatmap.png")
 
     plot_heatmap(G, pos, harmonic_scores,
                  "Harmonic Closeness Heatmap",
-                 "plots/centrality/images/harmonic_heatmap.png")
+                 f"{output_dir}/harmonic_heatmap.png")
 
     plot_heatmap(G, pos, betweenness_scores,
                  "Betweenness Centrality Heatmap",
-                 "plots/centrality/images/betweenness_heatmap.png")
+                 f"{output_dir}/betweenness_heatmap.png")
 
     plot_heatmap(G, pos, pagerank_scores,
                  "PageRank Heatmap",
-                 "plots/centrality/images/pagerank_heatmap.png")
+                 f"{output_dir}/pagerank_heatmap.png")
 
     # Combined 2x2 grid
+    print("Generating combined heatmap grid...")
     fig, axes = plt.subplots(2, 2, figsize=(12, 12))
 
     pairs = [
@@ -153,9 +177,11 @@ def generate_centrality_heatmaps():
         axis.set_axis_off()
 
     plt.tight_layout()
-    plt.savefig("plots/centrality/images/centrality_heatmap_grid.png",
+    plt.savefig(f"{output_dir}/centrality_heatmap_grid.png",
                 dpi=300, bbox_inches="tight")
     plt.close()
+
+    print(f"All heatmaps saved to {output_dir}/")
 
 
 if __name__ == "__main__":

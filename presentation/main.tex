@@ -1,0 +1,1458 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usecolortheme{default}
+
+% Packages
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% Custom colors
+\definecolor{iiitblue}{RGB}{0, 102, 204}
+\definecolor{darkgreen}{RGB}{0, 128, 0}
+\setbeamercolor{structure}{fg=iiitblue}
+\setbeamercolor{title}{fg=white,bg=iiitblue}
+\setbeamercolor{frametitle}{fg=white,bg=iiitblue}
+
+% Title page information
+\title[Social Network Analysis]{Analysis and Recommendation in Synthetic\\Friendship Networks Using Graph Theory}
+\subtitle{Algorithm Analysis \& Design --- Final Project}
+\author[Team: DROP TABLE Teams;]{
+    Sarthak Mishra (2024117007) \and
+    Amay Sharma (2024101095) \and
+    Yashav Bhatnagar (2024101030) \and
+    Lasya Katari (2024115004) \and
+    Kartik Thapa (2024115009)
+}
+\institute[IIIT-H]{International Institute of Information Technology, Hyderabad}
+\date{December 2025}
+
+\begin{document}
+
+% Title slide
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% Outline
+\begin{frame}{Outline}
+    \tableofcontents
+\end{frame}
+
+% ========================================
+% SECTION 1: INTRODUCTION
+% ========================================
+\section{Introduction}
+
+\begin{frame}{Project Overview}
+    \begin{block}{Objective}
+        Analyze synthetic social networks using graph theory algorithms to:
+        \begin{itemize}
+            \item Identify connected components and network structure
+            \item Measure node importance through centrality metrics
+            \item Recommend new friendships based on network topology and user attributes
+            \item Detect community structures within the network
+        \end{itemize}
+    \end{block}
+    
+    \vspace{0.3cm}
+    
+    \begin{block}{Key Features}
+        \begin{itemize}
+            \item Synthetic Facebook-like friendship graphs
+            \item Personality tags (interests: sports, music, tech, travel)
+            \item All algorithms implemented \textbf{from scratch}
+            \item Comprehensive empirical analysis and visualization
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Motivation}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{Why Social Networks?}
+        \begin{itemize}
+            \item Ubiquitous in modern life
+            \item Reveal human behavior patterns
+            \item Model information spread
+            \item Network resilience analysis
+        \end{itemize}
+        
+        \vspace{0.5cm}
+        
+        \textbf{Why Synthetic Data?}
+        \begin{itemize}
+            \item Controlled environment
+            \item Privacy-preserving
+            \item Scalability testing
+            \item Reproducible results
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Real-World Applications:}
+        \begin{itemize}
+            \item Social media optimization
+            \item Marketing and influence
+            \item Epidemiological modeling
+            \item Community detection
+            \item Friend recommendation systems
+        \end{itemize}
+        
+        \vspace{0.5cm}
+        
+        \textbf{Graph Properties:}
+        \begin{itemize}
+            \item Nodes = Users
+            \item Edges = Friendships
+            \item Tags = Interests/Attributes
+            \item Scalable: 10,000+ nodes
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+% ========================================
+% SECTION 2: TRAVERSAL ALGORITHMS
+% ========================================
+\section{Traversal Algorithms}
+
+\begin{frame}{Breadth-First Search (BFS)}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{Algorithm:}
+        \begin{itemize}
+            \item Level-by-level exploration
+            \item Queue-based implementation
+            \item Visits all neighbors before going deeper
+            \item Finds shortest paths in unweighted graphs
+        \end{itemize}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Use Cases:}
+        \begin{itemize}
+            \item Connected components detection
+            \item Shortest path finding
+            \item Distance computation
+            \item Level-order traversal
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Complexity Analysis:}
+        \begin{block}{Time Complexity}
+            $\Theta(n + m)$
+        \end{block}
+        
+        \begin{block}{Space Complexity}
+            $\Theta(n)$ for queue and visited set
+        \end{block}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Key Properties:}
+        \begin{itemize}
+            \item Complete: finds all reachable nodes
+            \item Optimal: shortest paths guaranteed
+            \item Cache-friendly: sequential access
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Depth-First Search (DFS)}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{Algorithm:}
+        \begin{itemize}
+            \item Explores as far as possible along each branch
+            \item Stack-based (iterative) or recursive
+            \item Backtracks when no unvisited neighbors
+            \item Memory-efficient for wide graphs
+        \end{itemize}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Use Cases:}
+        \begin{itemize}
+            \item Connected components
+            \item Cycle detection
+            \item Topological sorting
+            \item Path exploration
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Complexity Analysis:}
+        \begin{block}{Time Complexity}
+            $\Theta(n + m)$
+        \end{block}
+        
+        \begin{block}{Space Complexity}
+            $\Theta(n)$ (worst case: long chain)
+        \end{block}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Two Variants:}
+        \begin{itemize}
+            \item \textbf{Recursive:} Cleaner code, function call overhead
+            \item \textbf{Iterative:} Explicit stack, avoids stack overflow
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Union-Find (Disjoint Set Union)}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{Algorithm:}
+        \begin{itemize}
+            \item Tracks disjoint sets efficiently
+            \item Two main operations:
+            \begin{itemize}
+                \item \texttt{find}: Get set representative
+                \item \texttt{union}: Merge two sets
+            \end{itemize}
+            \item Path compression optimization
+            \item Union by rank/size
+        \end{itemize}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Use Cases:}
+        \begin{itemize}
+            \item Connected components
+            \item Kruskal's MST algorithm
+            \item Dynamic connectivity
+            \item Network connectivity queries
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Complexity Analysis:}
+        \begin{block}{Time Complexity}
+            $O(m \cdot \alpha(n))$ for $m$ operations
+            
+            where $\alpha(n)$ is inverse Ackermann function
+            
+            ($\alpha(n) \leq 4$ for practical $n$)
+        \end{block}
+        
+        \begin{block}{Space Complexity}
+            $\Theta(n)$ for parent and rank arrays
+        \end{block}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Key Insight:}
+        \begin{itemize}
+            \item Nearly constant time per operation
+            \item Excellent for dynamic graphs
+            \item Processes ALL edges (vs BFS/DFS)
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Traversal: Size vs Time}
+    \begin{columns}
+        \column{0.6\textwidth}
+        \includegraphics[width=\textwidth]{../report/plots/traversal/size_vs_time.png}
+        
+        \column{0.4\textwidth}
+        \textbf{Observations:}
+        \begin{itemize}
+            \item BFS: Fastest, cache-friendly
+            \item DFS variants: Nearly identical performance
+            \item Union-Find: Slower but processes all edges
+            \item Growth: $\sim O(n^2)$ for fixed $p = 0.1$
+        \end{itemize}
+        
+        \vspace{0.3cm}
+        
+        \textbf{At $n = 5000$:}
+        \begin{itemize}
+            \item BFS: 0.054s
+            \item DFS (rec): 0.068s
+            \item DFS (iter): 0.125s
+            \item Union-Find: 0.813s
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Traversal: Density vs Time}
+    \begin{columns}
+        \column{0.6\textwidth}
+        \includegraphics[width=\textwidth]{../report/plots/traversal/density_vs_time.png}
+        
+        \column{0.4\textwidth}
+        \small
+        \textbf{Observations:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item All: Runtime increases with density
+            \item BFS fastest across all densities
+            \item Union-Find: Steepest increase
+            \item Linear growth in $p$
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        
+        \textbf{Key Insight:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item BFS/DFS stop after spanning tree
+            \item Union-Find processes every edge
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Traversal: Algorithm Selection Guide}
+    \small
+    \begin{columns}[T]
+        \column{0.33\textwidth}
+        \begin{block}{Use BFS when:}
+            \begin{itemize}
+                \item Shortest paths needed
+                \item Wide graphs (large branching)
+                \item Fastest traversal critical
+            \end{itemize}
+        \end{block}
+        
+        \column{0.33\textwidth}
+        \begin{block}{Use DFS when:}
+            \begin{itemize}
+                \item Explore all paths/cycles
+                \item Memory constrained
+                \item Only connectivity matters
+                \item Deep graphs (iterative)
+            \end{itemize}
+        \end{block}
+        
+        \column{0.33\textwidth}
+        \begin{block}{Use Union-Find when:}
+            \begin{itemize}
+                \item Dynamic edge arrivals
+                \item Connectivity only (no paths)
+                \item Kruskal's MST
+                \item Repeated queries
+            \end{itemize}
+        \end{block}
+    \end{columns}
+\end{frame}
+
+% ========================================
+% SECTION 3: CENTRALITY ALGORITHMS
+% ========================================
+\section{Centrality Algorithms}
+
+\begin{frame}{Degree Centrality}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{Definition:}
+        \begin{itemize}
+            \item Local measure: counts node neighbors
+            \item Simplest centrality measure
+            \item Captures "immediate influence"
+            \item Works purely from adjacency list
+        \end{itemize}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Formula:}
+        \[
+        C_D(v) = \deg(v) = |N(v)|
+        \]
+        
+        \vspace{0.3cm}
+        
+        \textbf{Interpretation:}
+        \begin{itemize}
+            \item High degree = many connections
+            \item "Hub" or "popular" node
+            \item Local popularity metric
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Complexity Analysis:}
+        \begin{block}{Time Complexity}
+            $\Theta(n + m)$
+        \end{block}
+        
+        \begin{block}{Space Complexity}
+            $\Theta(n)$ extra
+            
+            (adjacency list is $\Theta(n + m)$)
+        \end{block}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Advantages:}
+        \begin{itemize}
+            \item Extremely fast
+            \item Simple to compute
+            \item No graph traversal needed
+            \item Suitable for very large graphs
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Harmonic Closeness Centrality}
+    \small
+    \begin{columns}[T]
+        \column{0.5\textwidth}
+        \textbf{Definition:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Global shortest-path measure
+            \item Closeness to all other nodes
+            \item Uses BFS from each node
+            \item Handles disconnected graphs
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        \textbf{Formula:}
+        $C_H(v) = \sum_{u \neq v} \frac{1}{d(v, u)}$ \quad ($d$ = shortest path)
+        
+        \vspace{0.2cm}
+        \textbf{Interpretation:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Higher score = better reachability
+            \item Central nodes in network
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Complexity:}
+        \begin{block}{Time: $\Theta(n(n + m))$}
+            Runs BFS from every node
+        \end{block}
+        \vspace{-0.1cm}
+        \begin{block}{Space: $\Theta(n + m)$}
+        \end{block}
+        
+        \vspace{0.1cm}
+        \textbf{Properties:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item More expensive than degree
+            \item Global information
+            \item Robust to disconnected components
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Betweenness Centrality (Brandes Algorithm)}
+    \small
+    \begin{columns}[T]
+        \column{0.5\textwidth}
+        \textbf{Definition:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item How often node lies on shortest paths
+            \item Highlights "bridge" nodes
+            \item Critical for information flow
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        \textbf{Formula:}
+        $C_B(v) = \sum_{s \neq v \neq t} \frac{\sigma_{st}(v)}{\sigma_{st}}$
+        
+        \vspace{0.1cm}
+        {\footnotesize $\sigma_{st}$ = \# paths $s \to t$; $\sigma_{st}(v)$ = paths through $v$}
+        
+        \column{0.5\textwidth}
+        \textbf{Complexity:}
+        \begin{block}{Time: $\Theta(nm)$ unweighted}
+        \end{block}
+        \vspace{-0.1cm}
+        \begin{block}{Space: $\Theta(n + m)$}
+        \end{block}
+        
+        \vspace{0.1cm}
+        \textbf{Brandes Optimization:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Avoids recomputing all paths
+            \item Dependency accumulation
+            \item Single BFS per source
+            \item Backward accumulation
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{PageRank}
+    \small
+    \begin{columns}[T]
+        \column{0.5\textwidth}
+        \textbf{Definition:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Influence via random walk
+            \item Important if important nodes link to it
+            \item Iterative power-method updates
+            \item Damping factor for convergence
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        \textbf{Formula:}
+        $PR(v) = \frac{1-d}{n} + d \sum_{u \in N^{-}(v)} \frac{PR(u)}{|N^{+}(u)|}$
+        
+        \vspace{0.1cm}
+        {\footnotesize where $d \approx 0.85$ is damping factor}
+        
+        \column{0.5\textwidth}
+        \textbf{Complexity:}
+        \begin{block}{Time: $\Theta(K(n + m))$}
+            $K$ = \# iterations (typically fixed)
+        \end{block}
+        \vspace{-0.1cm}
+        \begin{block}{Space: $\Theta(n + m)$}
+        \end{block}
+        
+        \vspace{0.1cm}
+        \textbf{Properties:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Global influence metric
+            \item Converges in few iterations
+            \item Near-linear runtime
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Centrality: Size vs Time}
+    \begin{columns}
+        \column{0.6\textwidth}
+        \includegraphics[width=\textwidth]{../report/plots/centrality/images/size_vs_time.png}
+        
+        \column{0.4\textwidth}
+        \small
+        \textbf{Observations:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item \textbf{Degree:} Almost linear \textrightarrow{} fastest
+            \item \textbf{PageRank:} Near-linear
+            \item \textbf{Harmonic/Betweenness:} Steep growth
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        
+        \textbf{Key Insight:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Local measures scale well
+            \item BFS-based: expensive
+            \item PageRank: best ratio
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Centrality: Density vs Time}
+    \begin{columns}
+        \column{0.6\textwidth}
+        \includegraphics[width=\textwidth]{../report/plots/centrality/images/density_vs_time.png}
+        
+        \column{0.4\textwidth}
+        \small
+        \textbf{Observations:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item \textbf{Degree:} Barely changes
+            \item \textbf{PageRank:} Stabilizes
+            \item \textbf{Harmonic/Betweenness:} Increase with $p$
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        
+        \textbf{Explanation:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Degree: neighbor count only
+            \item PageRank: linear in $m$
+            \item BFS-based: more edges to explore
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Centrality Heatmaps: Showcase Graph}
+    \begin{center}
+        \includegraphics[width=0.78\textwidth,height=0.65\textheight,keepaspectratio]{../report/plots/centrality/images/centrality_heatmap_grid.png}
+    \end{center}
+    \vspace{-0.2cm}
+    \footnotesize
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item \textbf{Degree:} Highlights hubs
+            \item \textbf{Harmonic:} Reachability
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item \textbf{Betweenness:} Bridge nodes
+            \item \textbf{PageRank:} Community centers
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+% ========================================
+% SECTION 4: RECOMMENDATION SYSTEM
+% ========================================
+\section{Friend Recommendation System}
+
+\begin{frame}{Recommendation: Jaccard Similarity}
+    \small
+    \begin{columns}[T]
+        \column{0.5\textwidth}
+        \textbf{Definition:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Overlap between neighbor sets
+            \item Common friends metric
+            \item Normalized by set sizes
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        \textbf{Formula:}
+        $J(u, v) = \frac{|N(u) \cap N(v)|}{|N(u) \cup N(v)|}$
+        
+        \vspace{0.2cm}
+        \textbf{Properties:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Range: $[0, 1]$
+            \item $J = 1$: identical neighborhoods
+            \item $J = 0$: no common neighbors
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Complexity:}
+        \begin{block}{Single Pair: $O(\deg(u) + \deg(v))$}
+        \end{block}
+        \vspace{-0.1cm}
+        \begin{block}{All Pairs: $O(n^2 \cdot \bar{d})$}
+        \end{block}
+        
+        \vspace{0.1cm}
+        \textbf{Hybrid System:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Jaccard (structural)
+            \item Adamic-Adar (weighted)
+            \item Tag-based (content)
+            \item Weighted combination
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Hybrid Friend Recommender}
+    \small
+    \begin{block}{Multi-Signal Architecture --- Combines three complementary signals:}
+    \end{block}
+    \vspace{-0.2cm}
+    \begin{columns}[T]
+        \column{0.33\textwidth}
+        \textbf{1. Jaccard Similarity}
+        \vspace{-0.2cm}
+        \[
+        J(u,v) = \frac{|N(u) \cap N(v)|}{|N(u) \cup N(v)|}
+        \]
+        \vspace{-0.3cm}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item Common friends
+            \item Normalized overlap
+        \end{itemize}
+        
+        \column{0.33\textwidth}
+        \textbf{2. Adamic-Adar}
+        \vspace{-0.2cm}
+        \[
+        AA = \sum_{w \in N(u) \cap N(v)} \frac{1}{\log |N(w)|}
+        \]
+        \vspace{-0.3cm}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item Weighted neighbors
+            \item Down-weights hubs
+        \end{itemize}
+        
+        \column{0.33\textwidth}
+        \textbf{3. Tag Similarity}
+        \vspace{-0.2cm}
+        \[
+        T(u,v) = \frac{|Tags_u \cap Tags_v|}{|Tags_u \cup Tags_v|}
+        \]
+        \vspace{-0.3cm}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item Shared interests
+            \item Content-based
+        \end{itemize}
+    \end{columns}
+    
+    \vspace{0.2cm}
+    
+    \begin{block}{Final Score}
+        $Score(u, v) = w_1 \cdot J(u,v) + w_2 \cdot AA(u,v) + w_3 \cdot T(u,v)$ \quad (Top-$k$ become recommendations)
+    \end{block}
+\end{frame}
+
+\begin{frame}{Recommendation: Size vs Time}
+    \begin{columns}
+        \column{0.6\textwidth}
+        \includegraphics[width=\textwidth]{../report/plots/recommender/size_vs_time.png}
+        
+        \column{0.4\textwidth}
+        \textbf{Three Operations:}
+        \begin{itemize}
+            \item \textbf{All-pairs Jaccard:} $O(n^2 \cdot \bar{d})$
+            \item \textbf{Single user:} Fast, $<$ 10ms even at $n=1000$
+            \item \textbf{All users:} $n \times$ single user
+        \end{itemize}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Key Insights:}
+        \begin{itemize}
+            \item All-pairs: quadratic growth
+            \item Single user: suitable for real-time
+            \item Friends-of-friends filtering helps
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Recommendation Quality vs $k$}
+    \begin{columns}
+        \column{0.6\textwidth}
+        \includegraphics[width=\textwidth]{../report/plots/recommender/quality_vs_k.png}
+        
+        \column{0.4\textwidth}
+        \textbf{Metrics:}
+        \begin{itemize}
+            \item \textbf{Precision@k:} Relevant items in top-$k$
+            \item \textbf{Recall@k:} Coverage of all relevant
+            \item \textbf{Hit Rate@k:} Users with $\geq 1$ relevant
+        \end{itemize}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Observations:}
+        \begin{itemize}
+            \item Precision decreases with $k$
+            \item Recall increases with $k$
+            \item Hit rate: 40\% at $k=10$
+            \item Classic precision-recall tradeoff
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Recommendation Robustness to Noise}
+    \begin{columns}
+        \column{0.6\textwidth}
+        \includegraphics[width=\textwidth]{../report/plots/recommender/noise_vs_quality.png}
+        
+        \column{0.4\textwidth}
+        \textbf{Noise Model:}
+        \begin{itemize}
+            \item Randomly perturb $\rho$ fraction of edges
+            \item 50\% delete existing edge
+            \item 50\% add random edge
+        \end{itemize}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Observations:}
+        \begin{itemize}
+            \item Stable up to 20\% noise
+            \item Only 15\% quality loss at $\rho=0.2$
+            \item Hybrid system advantage
+            \item Tag-based signal compensates
+            \item Graceful degradation
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Recommendation: Key Findings}
+    \small
+    \begin{block}{Performance Summary}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Single-user: $<$ 10ms at $n=1000$ → suitable for interactive use
+            \item 40\% hit rate @ $k=10$ → 4/10 users get useful recommendations
+            \item 10× better than random, 27\% better than common neighbors
+        \end{itemize}
+    \end{block}
+    \vspace{-0.1cm}
+    \begin{block}{Multi-Signal Benefits}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Jaccard: structural similarity via common friends
+            \item Adamic-Adar: weighted neighbors (downweight hubs)
+            \item Tags: content-based, helps with cold-start; provides noise robustness
+        \end{itemize}
+    \end{block}
+    \vspace{-0.1cm}
+    \begin{block}{Practical Insights}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Friends-of-friends filtering crucial for scalability
+            \item 20\% noise tolerance suitable for real-world systems
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% ========================================
+% SECTION 5: COMMUNITY DETECTION (BONUS)
+% ========================================
+\section{Community Detection (BONUS)}
+
+\begin{frame}[t]
+    \vspace{-0.3cm}
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.8cm,dp=0.3cm]{frametitle}
+        \hspace{0.3cm}\textbf{\large Louvain Algorithm}\hfill\textcolor{red}{\textbf{BONUS}}\hspace{0.3cm}
+    \end{beamercolorbox}
+    
+    \vspace{0.1cm}
+    \small
+    \begin{columns}[T]
+        \column{0.5\textwidth}
+        \textbf{Algorithm Overview:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Greedy modularity optimization
+            \item Two-phase iterative process:
+            \begin{enumerate}\setlength{\itemsep}{0pt}
+                \item Local moving: optimize node assignments
+                \item Aggregation: create super-nodes
+            \end{enumerate}
+            \item Hierarchical community detection
+        \end{itemize}
+        
+        \vspace{0.1cm}
+        \textbf{Modularity:}
+        $Q = \frac{1}{2m} \sum_{ij} \left[ A_{ij} - \frac{k_i k_j}{2m} \right] \delta(c_i, c_j)$
+        
+        \column{0.5\textwidth}
+        \textbf{Complexity:}
+        \begin{block}{Time: $O(n \log n)$ empirically}
+            Worst case: $O(n^2)$
+        \end{block}
+        \vspace{-0.1cm}
+        \begin{block}{Space: $\Theta(n + m)$}
+        \end{block}
+        
+        \vspace{0.1cm}
+        \textbf{Properties:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Deterministic (fixed order)
+            \item Produces hierarchical structure
+            \item Fast convergence
+            \item May get stuck in local optima
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[t]
+    \vspace{-0.3cm}
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.8cm,dp=0.3cm]{frametitle}
+        \hspace{0.3cm}\textbf{\large Leiden Algorithm}\hfill\textcolor{red}{\textbf{BONUS}}\hspace{0.3cm}
+    \end{beamercolorbox}
+    
+    \vspace{0.1cm}
+    \small
+    \begin{columns}[T]
+        \column{0.5\textwidth}
+        \textbf{Algorithm Overview:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Improved version of Louvain
+            \item Fixes disconnected communities issue
+            \item Three-phase process:
+            \begin{enumerate}\setlength{\itemsep}{0pt}
+                \item Local moving
+                \item Refinement (quality guarantee)
+                \item Aggregation
+            \end{enumerate}
+        \end{itemize}
+        
+        \vspace{0.1cm}
+        \textbf{Key Innovation:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Refinement ensures connectivity
+            \item Better quality than Louvain
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Complexity:}
+        \begin{block}{Time: $O(n \log n)$ empirically}
+            Slightly slower than Louvain
+        \end{block}
+        \vspace{-0.1cm}
+        \begin{block}{Space: $\Theta(n + m)$}
+        \end{block}
+        
+        \vspace{0.1cm}
+        \textbf{Advantages over Louvain:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item No disconnected communities
+            \item Better modularity optimization
+            \item Theoretical guarantees
+            \item State-of-the-art method
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[t]
+    \vspace{-0.3cm}
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.8cm,dp=0.3cm]{frametitle}
+        \hspace{0.3cm}\textbf{\large Modularity Metric}\hfill\textcolor{red}{\textbf{BONUS}}\hspace{0.3cm}
+    \end{beamercolorbox}
+    
+    \vspace{0.1cm}
+    \small
+    \begin{block}{Definition --- Measures quality of a community partition}
+        \vspace{-0.2cm}
+        \[
+        Q = \frac{1}{2m} \sum_{ij} \left[ A_{ij} - \frac{k_i k_j}{2m} \right] \delta(c_i, c_j)
+        \]
+        \vspace{-0.3cm}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item $A_{ij}$: adjacency matrix; $k_i, k_j$: degrees; $m$: total edges
+            \item $\delta(c_i, c_j) = 1$ if $i, j$ in same community, 0 otherwise
+        \end{itemize}
+    \end{block}
+    \vspace{-0.1cm}
+    \begin{columns}[T]
+        \column{0.5\textwidth}
+        \textbf{Interpretation:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item $Q \in [-0.5, 1]$
+            \item $Q > 0.3$: significant structure
+            \item Actual vs expected edges (null model)
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Complexity:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Time: $O(m)$ given partition
+            \item Objective in Louvain/Leiden
+            \item Local changes: $O(\deg(v))$
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[t]
+    \vspace{-0.3cm}
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.8cm,dp=0.3cm]{frametitle}
+        \hspace{0.3cm}\textbf{\large Community Detection: Experiments}\hfill\textcolor{red}{\textbf{BONUS}}\hspace{0.3cm}
+    \end{beamercolorbox}
+    
+    \vspace{0.1cm}
+    \footnotesize
+    \begin{block}{Five Comprehensive Experiments}
+    \end{block}
+    \vspace{-0.3cm}
+    \begin{columns}[T]
+        \column{0.5\textwidth}
+        \textbf{1. Size Scaling}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item Graphs: $n \in \{100, 200, 500, 1000, 2000, 5000\}$
+            \item Fixed $p=0.05$
+            \item Measures runtime and modularity
+        \end{itemize}
+        
+        \vspace{0.1cm}
+        \textbf{2. Density Scaling}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item Fixed $n=500$
+            \item Vary $p \in \{0.02, 0.05, 0.10, 0.20, 0.35, 0.50\}$
+            \item Shows density effect on quality
+        \end{itemize}
+        
+        \vspace{0.1cm}
+        \textbf{3. Quality Evaluation}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item Planted partition model
+            \item $k=4$ communities, $n=200$ per community
+            \item Vary $p_{\text{intra}} \in \{0.05, 0.10, 0.15, 0.20, 0.25, 0.30\}$
+            \item Metrics: NMI, ARI
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{4. Resolution Parameter $\gamma$}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item Fixed $n=800$, $k=4$, $p_{\text{intra}}=0.2$, $p_{\text{inter}}=0.01$
+            \item Vary $\gamma \in \{0.5, 0.75, 1.0, 1.25, 1.5, 2.0\}$
+            \item Tests robustness to resolution
+        \end{itemize}
+        
+        \vspace{0.1cm}
+        \textbf{5. Algorithm Comparison}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item Louvain vs Leiden
+            \item Ambiguous graphs ($p_{\text{intra}}=0.15$, $p_{\text{inter}}=0.05$)
+            \item Compare quality and speed
+        \end{itemize}
+        
+        \vspace{0.1cm}
+        \textbf{Graph Model:}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item Planted partition: $k$ communities
+            \item $p_{\text{intra}}$: within-community edge prob.
+            \item $p_{\text{inter}}$: between-community edge prob.
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[t]
+    \vspace{-0.3cm}
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.8cm,dp=0.3cm]{frametitle}
+        \hspace{0.3cm}\textbf{\large Results: Size Scaling}\hfill\textcolor{red}{\textbf{BONUS}}\hspace{0.3cm}
+    \end{beamercolorbox}
+    
+    \vspace{0.1cm}
+    \small
+    \begin{columns}
+        \column{0.55\textwidth}
+        \includegraphics[width=\textwidth]{../report/plots/community/size_scaling.png}
+        
+        \column{0.45\textwidth}
+        \textbf{Runtime Analysis:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Both algorithms: $O(m \log n)$ empirically
+            \item Louvain: 0.0032s at $n=100$ → 0.155s at $n=5000$
+            \item Leiden: 0.0051s → 0.245s
+            \item \textbf{Louvain 37\% faster}
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        
+        \textbf{Modularity Quality:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Both achieve $Q \approx 0.45$
+            \item Stable across all sizes
+            \item Comparable quality
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[t]
+    \vspace{-0.3cm}
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.8cm,dp=0.3cm]{frametitle}
+        \hspace{0.3cm}\textbf{\large Results: Density Effects}\hfill\textcolor{red}{\textbf{BONUS}}\hspace{0.3cm}
+    \end{beamercolorbox}
+    
+    \vspace{0.1cm}
+    \small
+    \begin{columns}
+        \column{0.55\textwidth}
+        \includegraphics[width=\textwidth]{../report/plots/community/density_scaling.png}
+        
+        \column{0.45\textwidth}
+        \textbf{Key Observations:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item \textbf{Modularity decreases} with density
+            \item $Q = 0.266$ at $p=0.02$
+            \item $Q = 0.035$ at $p=0.50$
+            \item Dense graphs have weaker community structure
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        
+        \textbf{Runtime:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Linear increase with $p$
+            \item More edges → longer runtime
+            \item Louvain still faster
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[t]
+    \vspace{-0.3cm}
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.8cm,dp=0.3cm]{frametitle}
+        \hspace{0.3cm}\textbf{\large Results: Quality Evaluation (NMI)}\hfill\textcolor{red}{\textbf{BONUS}}\hspace{0.3cm}
+    \end{beamercolorbox}
+    
+    \vspace{0.1cm}
+    \small
+    \begin{columns}
+        \column{0.55\textwidth}
+        \includegraphics[width=\textwidth]{../report/plots/community/quality_nmi.png}
+        
+        \column{0.45\textwidth}
+        \textbf{NMI (Normalized Mutual Information):}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Measures agreement with ground truth
+            \item Range: $[0, 1]$; NMI = 1 = perfect recovery
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        
+        \textbf{Key Findings:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item \textbf{Perfect recovery} at $p_{\text{intra}} \geq 0.20$
+            \item Below 0.20: communities ambiguous
+            \item Both algorithms perform equally
+            \item Sharp transition at threshold
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[t]
+    \vspace{-0.3cm}
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.8cm,dp=0.3cm]{frametitle}
+        \hspace{0.3cm}\textbf{\large Results: Quality Evaluation (ARI)}\hfill\textcolor{red}{\textbf{BONUS}}\hspace{0.3cm}
+    \end{beamercolorbox}
+    
+    \vspace{0.1cm}
+    \small
+    \begin{columns}
+        \column{0.55\textwidth}
+        \includegraphics[width=\textwidth]{../report/plots/community/quality_ari.png}
+        
+        \column{0.45\textwidth}
+        \textbf{ARI (Adjusted Rand Index):}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Alternative quality metric
+            \item Chance-corrected pairwise agreement
+            \item Range: $[-1, 1]$; ARI = 1 = perfect
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        
+        \textbf{Confirms NMI Findings:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Perfect recovery at $p_{\text{intra}} \geq 0.20$
+            \item Similar threshold behavior
+            \item Both metrics agree
+            \item Robust detection possible
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[t]
+    \vspace{-0.3cm}
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.8cm,dp=0.3cm]{frametitle}
+        \hspace{0.3cm}\textbf{\large Results: Resolution Parameter Study}\hfill\textcolor{red}{\textbf{BONUS}}\hspace{0.3cm}
+    \end{beamercolorbox}
+    
+    \vspace{0.1cm}
+    \small
+    \begin{columns}
+        \column{0.55\textwidth}
+        \includegraphics[width=\textwidth]{../report/plots/community/resolution_effect.png}
+        
+        \column{0.45\textwidth}
+        \textbf{Resolution Parameter $\gamma$:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Controls community granularity
+            \item Low $\gamma$: fewer, larger communities
+            \item High $\gamma$: many, smaller communities
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        
+        \textbf{Key Results:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item \textbf{Leiden more robust}
+            \item Leiden: perfect NMI for $\gamma \in [0.5, 2.0]$
+            \item Louvain: fragments at $\gamma \geq 1.25$
+            \item Leiden advantage on ambiguous graphs
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[t]
+    \vspace{-0.3cm}
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.8cm,dp=0.3cm]{frametitle}
+        \hspace{0.3cm}\textbf{\large Results: Algorithm Comparison}\hfill\textcolor{red}{\textbf{BONUS}}\hspace{0.3cm}
+    \end{beamercolorbox}
+    
+    \vspace{0.1cm}
+    \small
+    \begin{columns}
+        \column{0.55\textwidth}
+        \includegraphics[width=\textwidth]{../report/plots/community/algorithm_comparison.png}
+        
+        \column{0.45\textwidth}
+        \textbf{Direct Comparison:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Tested on ambiguous graphs
+            \item $p_{\text{intra}}=0.15$, $p_{\text{inter}}=0.05$
+            \item Challenging scenario
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        
+        \textbf{Findings:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item \textbf{Leiden:} Better quality (+12\% NMI)
+            \item \textbf{Louvain:} 37\% faster
+            \item Trade-off: Speed vs Quality
+            \item Leiden preferred for accuracy
+            \item Louvain for large-scale speed
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[t]
+    \vspace{-0.3cm}
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.8cm,dp=0.3cm]{frametitle}
+        \hspace{0.3cm}\textbf{\large Community Detection: Summary}\hfill\textcolor{red}{\textbf{BONUS}}\hspace{0.3cm}
+    \end{beamercolorbox}
+    
+    \vspace{0.1cm}
+    \footnotesize
+    \begin{block}{Performance Summary}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Both algorithms: $O(m \log n)$ empirically verified
+            \item Louvain 37\% faster; Leiden 12\% better quality
+            \item Perfect community recovery when $p_{\text{intra}} \geq 0.20$
+        \end{itemize}
+    \end{block}
+    \vspace{-0.15cm}
+    \begin{block}{Key Insights}
+        \begin{columns}[T]
+            \column{0.5\textwidth}
+            \begin{itemize}\setlength{\itemsep}{1pt}
+                \item Modularity decreases with density
+                \item Sharp detection threshold exists
+                \item Leiden more robust to $\gamma$
+            \end{itemize}
+            \column{0.5\textwidth}
+            \begin{itemize}\setlength{\itemsep}{1pt}
+                \item Resolution parameter critical
+                \item Quality-speed trade-off
+                \item Both suitable for real-world use
+            \end{itemize}
+        \end{columns}
+    \end{block}
+    \vspace{-0.15cm}
+    \begin{block}{Algorithm Selection}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item \textbf{Use Louvain:} Large-scale graphs, speed critical, clear community structure
+            \item \textbf{Use Leiden:} Quality critical, ambiguous communities, theoretical guarantees needed
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% ========================================
+% SECTION 6: EXPERIMENTAL SETUP
+% ========================================
+\section{Experimental Setup}
+
+\begin{frame}{Experimental Configuration}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{Hardware \& Software:}
+        \begin{itemize}
+            \item Python 3.12
+            \item All algorithms from scratch
+            \item \texttt{time.perf\_counter()} for timing
+            \item Standard libraries only (no NetworkX)
+            \item 5 runs per configuration, averaged
+        \end{itemize}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Graph Generation:}
+        \begin{itemize}
+            \item Erdős-Rényi model: $G(n, p)$
+            \item Personality tags randomly assigned
+            \item Controlled parameters:
+            \begin{itemize}
+                \item Size: $n \in \{50, 100, 200, 500, 1000, 5000\}$
+                \item Density: $p \in \{0.01, 0.05, 0.1, 0.2, 0.3, 0.5\}$
+            \end{itemize}
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Experiments Conducted:}
+        \begin{itemize}
+            \item \textbf{Size scaling:} Fixed $p$, vary $n$
+            \item \textbf{Density scaling:} Fixed $n$, vary $p$
+            \item \textbf{Quality evaluation:} Train/test splits
+            \item \textbf{Noise robustness:} Edge perturbation
+            \item \textbf{Showcase graphs:} Structured examples
+        \end{itemize}
+        
+        \vspace{0.3cm}
+        
+        \textbf{Metrics:}
+        \begin{itemize}
+            \item Runtime (wall-clock time)
+            \item Precision, Recall, Hit Rate
+            \item Modularity (community detection)
+            \item Visual heatmaps and plots
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+% ========================================
+% SECTION 7: CONCLUSION
+% ========================================
+\section{Conclusion}
+
+\begin{frame}{Key Findings: Algorithm Comparison}
+    \begin{table}
+        \centering
+        \footnotesize
+        \begin{tabular}{lccc}
+            \toprule
+            \textbf{Algorithm} & \textbf{Time} & \textbf{Space} & \textbf{Use Case} \\
+            \midrule
+            BFS & $\Theta(n + m)$ & $\Theta(n)$ & Shortest paths \\
+            DFS & $\Theta(n + m)$ & $\Theta(n)$ & Cycle detection \\
+            Union-Find & $O(m \alpha(n))$ & $\Theta(n)$ & Dynamic connectivity \\
+            \midrule
+            Degree & $\Theta(n + m)$ & $\Theta(n)$ & Local importance \\
+            Harmonic & $\Theta(n(n+m))$ & $\Theta(n+m)$ & Global reachability \\
+            Betweenness & $\Theta(nm)$ & $\Theta(n+m)$ & Bridge nodes \\
+            PageRank & $\Theta(K(n+m))$ & $\Theta(n+m)$ & Global influence \\
+            \midrule
+            Jaccard & $O(n^2 \bar{d})$ & $\Theta(n^2)$ & Friend rec. (all pairs) \\
+            Hybrid & $O(k \bar{d}^2)$ & $\Theta(n+m)$ & Per-user rec. \\
+            \midrule
+            Louvain & $O(n \log n)$ & $\Theta(n+m)$ & Fast communities \\
+            Leiden & $O(n \log n)$ & $\Theta(n+m)$ & Quality (BONUS) \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+\end{frame}
+
+\begin{frame}{Major Contributions}
+    \footnotesize
+    \begin{block}{1. Comprehensive Algorithm Suite}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item 4 traversal algorithms (BFS, DFS variants, Union-Find)
+            \item 4 centrality measures (Degree, Harmonic, Betweenness, PageRank)
+            \item Hybrid recommender (Jaccard + Adamic-Adar + Tags)
+            \item 2 community detection (Louvain, Leiden) --- \textbf{BONUS}
+        \end{itemize}
+    \end{block}
+    \vspace{-0.15cm}
+    \begin{block}{2. Rigorous Empirical Analysis}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item Size and density scaling experiments
+            \item Quality evaluation with train/test splits; noise robustness testing
+        \end{itemize}
+    \end{block}
+    \vspace{-0.15cm}
+    \begin{block}{3. Practical Insights}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item Algorithm selection guidelines based on use case
+            \item Real-world recommendation system design; scalability strategies
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Practical Implications}
+    \small
+    \begin{columns}[T]
+        \column{0.5\textwidth}
+        \textbf{For Large Graphs ($n > 10^4$):}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item BFS for shortest paths
+            \item Degree centrality for quick importance
+            \item PageRank for global influence
+            \item Avoid Betweenness/Harmonic
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        \textbf{For Dense Graphs ($p > 0.3$):}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item All algorithms slower
+            \item Consider approximations
+            \item Sampling-based methods
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{For Friend Recommendation:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Multi-signal approach crucial
+            \item Friends-of-friends filtering
+            \item Tag-based for cold-start
+            \item 20\% noise tolerance
+        \end{itemize}
+        
+        \vspace{0.2cm}
+        \textbf{Real-World Applications:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Social media platforms
+            \item Marketing campaigns
+            \item Information spread modeling
+            \item Network resilience
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Limitations and Future Work}
+    \small
+    \begin{block}{Current Limitations}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Synthetic Erdős-Rényi graphs (lack real-world properties)
+            \item Fixed weights in hybrid recommender; no temporal dynamics
+        \end{itemize}
+    \end{block}
+    \vspace{-0.1cm}
+    \begin{block}{Future Directions}
+        \begin{columns}[T]
+            \column{0.5\textwidth}
+            \begin{itemize}\setlength{\itemsep}{1pt}
+                \item Real-world datasets (Facebook, Twitter)
+                \item Temporal networks
+                \item ML for recommendation weights
+                \item LSH for large-scale Jaccard
+            \end{itemize}
+            \column{0.5\textwidth}
+            \begin{itemize}\setlength{\itemsep}{1pt}
+                \item Geographic/demographic features
+                \item Interactive Streamlit demo
+                \item Parallel implementations
+                \item Label propagation, spectral methods
+            \end{itemize}
+        \end{columns}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Bonus Disclosure}
+    \small
+    \begin{block}{Bonus Components --- The following should be evaluated for bonus marks:}
+        \begin{enumerate}\setlength{\itemsep}{2pt}
+            \item \textbf{Community Detection Algorithms:}
+            \begin{itemize}\setlength{\itemsep}{0pt}
+                \item Louvain algorithm (modularity optimization)
+                \item Leiden algorithm (improved Louvain with quality guarantees)
+                \item Modularity metric implementation
+            \end{itemize}
+            
+            \item \textbf{Advanced Centrality:}
+            \begin{itemize}\setlength{\itemsep}{0pt}
+                \item Betweenness Centrality (Brandes algorithm)
+                \item Harmonic Closeness Centrality
+            \end{itemize}
+            
+            \item \textbf{Recommendation System Enhancements:}
+            \begin{itemize}\setlength{\itemsep}{0pt}
+                \item Multi-signal hybrid architecture (Jaccard + Adamic-Adar + Tags)
+                \item Noise robustness evaluation
+                \item Quality metrics (Precision, Recall, Hit Rate)
+            \end{itemize}
+        \end{enumerate}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Summary}
+    \small
+    \begin{block}{Project Achievement}
+        Implemented and analyzed \textbf{10+ graph algorithms} from scratch with comprehensive empirical validation.
+    \end{block}
+    \vspace{-0.1cm}
+    \begin{columns}[T]
+        \column{0.5\textwidth}
+        \textbf{Empirical Findings:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item BFS fastest traversal
+            \item PageRank: best centrality trade-off
+            \item Hybrid recommender: 40\% hit rate
+            \item 20\% noise tolerance
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Deliverables:}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Documented code repository
+            \item Comprehensive report
+            \item Visual analysis and heatmaps
+            \item GitHub: \texttt{AmaySharma06/aad-project}
+        \end{itemize}
+    \end{columns}
+    
+    \vspace{0.3cm}
+    
+    \begin{center}
+        \large
+        \textbf{Thank you for your attention!}\\
+        \vspace{0.1cm}
+        Questions?
+    \end{center}
+\end{frame}
+
+\end{document}

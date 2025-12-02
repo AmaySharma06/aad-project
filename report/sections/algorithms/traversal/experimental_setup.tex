@@ -1,0 +1,120 @@
+\subsubsection{Experimental Setup}
+
+\paragraph{Synthetic Graph Generation.}
+All experiments were conducted on synthetic Erd\H{o}s--R\'enyi random graphs \(G(n, p)\), where:
+\begin{itemize}
+    \item \(n\) is the number of vertices.
+    \item \(p\) is the probability that any pair of vertices is connected by an edge.
+\end{itemize}
+
+This model is widely used for algorithm analysis because:
+\begin{itemize}
+    \item It provides controlled variability in graph structure.
+    \item The expected number of edges is \(E[|E|] = \binom{n}{2} \cdot p \approx \frac{n^2 p}{2}\).
+    \item It naturally models many real-world networks in the sparse regime (\(p \ll 1\)).
+\end{itemize}
+
+Random generation was performed using a fixed seed to ensure reproducibility across all experiments.
+
+\paragraph{Experimental Tasks.}
+We conducted two primary experiments to analyze the performance of traversal algorithms:
+
+\begin{enumerate}
+    \item \textbf{Size vs. Runtime Experiment:}
+    \begin{itemize}
+        \item Fixed edge probability: \(p = 0.1\).
+        \item Varied graph sizes: \(n \in \{50, 100, 200, 500, 1000, 2000, 5000\}\).
+        \item Measured execution time for each algorithm on each graph size.
+        \item Purpose: Analyze how runtime scales with the number of vertices.
+    \end{itemize}
+    
+    \item \textbf{Density vs. Runtime Experiment:}
+    \begin{itemize}
+        \item Fixed graph size: \(n = 500\).
+        \item Varied edge probabilities: \(p \in \{0.01, 0.02, 0.05, 0.1, 0.2, 0.3, 0.5\}\).
+        \item Measured execution time for each algorithm at each density level.
+        \item Purpose: Analyze how runtime scales with edge density (number of edges).
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Algorithms Tested.}
+For each graph, we measured the runtime of the following algorithms:
+
+\begin{itemize}
+    \item \textbf{BFS traversal:} Starting from vertex 0, traverse all reachable vertices.
+    \item \textbf{DFS recursive:} Starting from vertex 0, traverse using recursive implementation.
+    \item \textbf{DFS iterative:} Starting from vertex 0, traverse using iterative stack-based implementation.
+    \item \textbf{Union-Find:} Build the Union-Find structure from all edges and count connected components.
+\end{itemize}
+
+Additionally, the size experiment includes:
+\begin{itemize}
+    \item \textbf{BFS all paths:} Compute shortest path distances from vertex 0 to all reachable vertices.
+\end{itemize}
+
+\paragraph{Timing Methodology.}
+All timings were measured using Python's \texttt{time.perf\_counter()}, which provides high-resolution wall-clock time.
+For each graph:
+\begin{enumerate}
+    \item Generate the graph with a fixed seed based on the experiment parameters.
+    \item For each algorithm:
+    \begin{enumerate}
+        \item Record start time.
+        \item Execute the algorithm.
+        \item Record end time.
+        \item Compute elapsed time: \texttt{end\_time - start\_time}.
+    \end{enumerate}
+    \item Store all timings in a CSV file for later analysis.
+\end{enumerate}
+
+Each measurement represents a single run. While multiple runs and averaging would reduce noise, our focus is on relative performance and asymptotic trends, which remain clear even with single-run measurements.
+
+\paragraph{Reproducibility.}
+All experimental code is located in \texttt{experiments/traversal/}:
+\begin{itemize}
+    \item \texttt{run\_experiments.py}: Main script for executing both size and density experiments.
+    \item Results are saved to \texttt{experiments/traversal/results/}:
+    \begin{itemize}
+        \item \texttt{size\_results.csv}: Size vs. runtime data.
+        \item \texttt{density\_results.csv}: Density vs. runtime data.
+    \end{itemize}
+\end{itemize}
+
+The experiments can be reproduced by running:
+\begin{verbatim}
+python experiments/traversal/run_experiments.py
+\end{verbatim}
+
+\paragraph{Hardware and Software Environment.}
+All experiments were conducted on the same machine to ensure consistent timing:
+\begin{itemize}
+    \item \textbf{Hardware:} Standard laptop/desktop (specific specs may vary).
+    \item \textbf{Operating System:} Windows (as indicated by file paths).
+    \item \textbf{Python Version:} Python 3.x (exact version documented in repository).
+    \item \textbf{Libraries:} Standard library only (no external dependencies for core algorithms).
+\end{itemize}
+
+\paragraph{Plotting and Visualization.}
+All visualizations are generated using:
+\begin{itemize}
+    \item \textbf{matplotlib:} For creating line plots, bar charts, and other figures.
+    \item \textbf{NetworkX:} For generating example graph visualizations (not used in algorithm implementations).
+\end{itemize}
+
+Plotting scripts are located in \texttt{plots/traversal/plot\_experiments.py} and generate figures from the CSV result files.
+This separation ensures that visualization tools do not influence the algorithmic measurements.
+
+\paragraph{Expected Theoretical Behavior.}
+Based on the theoretical analysis:
+\begin{itemize}
+    \item \textbf{BFS and DFS:} Both have \(O(V + E)\) complexity.
+    In the size experiment (fixed \(p\)), expected edges grow as \(E \propto n^2 p\), so runtime should grow roughly quadratically.
+    In the density experiment (fixed \(n\)), runtime should grow linearly with the number of edges.
+    
+    \item \textbf{Union-Find:} With path compression and union by rank, operations are \(O(\alpha(n))\) amortized per edge.
+    For \(m\) edges, total time is \(O(m \alpha(n))\), nearly linear in \(m\).
+    
+    \item \textbf{Recursive vs. Iterative DFS:} Both should have similar asymptotic performance, but iterative may have lower constant factors due to reduced function call overhead.
+\end{itemize}
+
+The experimental results section will compare these theoretical predictions with empirical measurements.

@@ -1,0 +1,247 @@
+\contentsline {section}{\numberline {1}Traversal Algorithms}{3}{section.1}%
+\contentsline {subsubsection}{\numberline {1.0.1}Breadth-First Search (BFS)}{3}{subsubsection.1.0.1}%
+\contentsline {paragraph}{Intuition.}{3}{section*.2}%
+\contentsline {paragraph}{Formal definition.}{3}{section*.3}%
+\contentsline {paragraph}{Algorithm description.}{3}{section*.4}%
+\contentsline {paragraph}{Proof of correctness.}{4}{section*.5}%
+\contentsline {paragraph}{Time complexity.}{4}{section*.6}%
+\contentsline {paragraph}{Space complexity.}{5}{section*.7}%
+\contentsline {paragraph}{Comparison with DFS.}{5}{section*.8}%
+\contentsline {subsubsection}{\numberline {1.0.2}Depth-First Search (DFS)}{5}{subsubsection.1.0.2}%
+\contentsline {paragraph}{Intuition.}{5}{section*.9}%
+\contentsline {paragraph}{Formal definition.}{6}{section*.10}%
+\contentsline {paragraph}{Algorithm description.}{6}{section*.11}%
+\contentsline {paragraph}{Proof of correctness.}{7}{section*.12}%
+\contentsline {paragraph}{Time complexity.}{7}{section*.13}%
+\contentsline {paragraph}{Space complexity.}{8}{section*.14}%
+\contentsline {paragraph}{Recursive vs. Iterative DFS.}{8}{section*.15}%
+\contentsline {paragraph}{Applications and comparison with BFS.}{9}{section*.16}%
+\contentsline {subsubsection}{\numberline {1.0.3}Union-Find (Disjoint Set Union)}{9}{subsubsection.1.0.3}%
+\contentsline {paragraph}{Intuition.}{9}{section*.17}%
+\contentsline {paragraph}{Formal definition.}{9}{section*.18}%
+\contentsline {paragraph}{Data structure representation.}{10}{section*.19}%
+\contentsline {paragraph}{Algorithm description.}{10}{section*.20}%
+\contentsline {paragraph}{Proof of correctness.}{11}{section*.21}%
+\contentsline {paragraph}{Time complexity (amortized analysis).}{11}{section*.22}%
+\contentsline {paragraph}{Space complexity.}{12}{section*.23}%
+\contentsline {paragraph}{Application to connected components.}{12}{section*.24}%
+\contentsline {paragraph}{Comparison with BFS and DFS.}{12}{section*.25}%
+\contentsline {subsubsection}{\numberline {1.0.4}Implementation Details}{13}{subsubsection.1.0.4}%
+\contentsline {paragraph}{Data Structures.}{13}{section*.26}%
+\contentsline {paragraph}{Implementation Choices.}{13}{section*.27}%
+\contentsline {paragraph}{Code Organization.}{14}{section*.28}%
+\contentsline {paragraph}{Testing and Validation.}{14}{section*.29}%
+\contentsline {paragraph}{Optimization Considerations.}{15}{section*.30}%
+\contentsline {subsubsection}{\numberline {1.0.5}Experimental Setup}{15}{subsubsection.1.0.5}%
+\contentsline {paragraph}{Synthetic Graph Generation.}{15}{section*.31}%
+\contentsline {paragraph}{Experimental Tasks.}{15}{section*.32}%
+\contentsline {paragraph}{Algorithms Tested.}{16}{section*.33}%
+\contentsline {paragraph}{Timing Methodology.}{16}{section*.34}%
+\contentsline {paragraph}{Reproducibility.}{17}{section*.35}%
+\contentsline {paragraph}{Hardware and Software Environment.}{17}{section*.36}%
+\contentsline {paragraph}{Plotting and Visualization.}{17}{section*.37}%
+\contentsline {paragraph}{Expected Theoretical Behavior.}{17}{section*.38}%
+\contentsline {subsubsection}{\numberline {1.0.6}Results and Analysis}{18}{subsubsection.1.0.6}%
+\contentsline {paragraph}{Metrics.}{18}{section*.39}%
+\contentsline {paragraph}{Scaling with graph size.}{18}{section*.40}%
+\contentsline {paragraph}{Absolute timing comparison.}{19}{section*.41}%
+\contentsline {paragraph}{Scaling with graph density.}{19}{section*.42}%
+\contentsline {paragraph}{Practical insights.}{20}{section*.43}%
+\contentsline {paragraph}{Comparison with theoretical complexity.}{20}{section*.44}%
+\contentsline {paragraph}{When to use each algorithm.}{21}{section*.45}%
+\contentsline {paragraph}{Summary of findings.}{21}{section*.46}%
+\contentsline {section}{\numberline {2}Centrality Algorithms}{22}{section.2}%
+\contentsline {subsubsection}{\numberline {2.0.1}Degree Centrality}{22}{subsubsection.2.0.1}%
+\contentsline {paragraph}{Intuition.}{22}{section*.47}%
+\contentsline {paragraph}{Formal definition.}{22}{section*.48}%
+\contentsline {paragraph}{Algorithm description.}{23}{section*.49}%
+\contentsline {paragraph}{Proof of correctness.}{23}{section*.50}%
+\contentsline {paragraph}{Time complexity.}{24}{section*.51}%
+\contentsline {paragraph}{Space complexity.}{24}{section*.52}%
+\contentsline {subsubsection}{\numberline {2.0.2}Harmonic Closeness Centrality}{24}{subsubsection.2.0.2}%
+\contentsline {paragraph}{Intuition.}{24}{section*.53}%
+\contentsline {paragraph}{Theoretical Background.}{24}{section*.54}%
+\contentsline {paragraph}{Algorithm Description.}{25}{section*.55}%
+\contentsline {paragraph}{Proof of Correctness.}{25}{section*.56}%
+\contentsline {paragraph}{Time Complexity.}{26}{section*.57}%
+\contentsline {paragraph}{Space Complexity.}{26}{section*.58}%
+\contentsline {subsubsection}{\numberline {2.0.3}Betweenness Centrality}{27}{subsubsection.2.0.3}%
+\contentsline {paragraph}{Intuition.}{27}{section*.59}%
+\contentsline {paragraph}{Theoretical Background.}{27}{section*.60}%
+\contentsline {paragraph}{Intuition for Brandes' Algorithm.}{28}{section*.61}%
+\contentsline {paragraph}{Algorithm Description (Brandes' Algorithm for Unweighted Graphs).}{28}{section*.62}%
+\contentsline {paragraph}{Proof of Correctness.}{29}{section*.63}%
+\contentsline {paragraph}{(1) Correctness of the BFS Phase.}{29}{section*.64}%
+\contentsline {paragraph}{(2) Correctness of the Dependency Accumulation Step.}{29}{section*.65}%
+\contentsline {paragraph}{(3) Correctness of Reverse-Order Processing.}{31}{section*.66}%
+\contentsline {paragraph}{Time Complexity.}{31}{section*.67}%
+\contentsline {paragraph}{Space Complexity.}{31}{section*.68}%
+\contentsline {subsubsection}{\numberline {2.0.4}PageRank Centrality}{32}{subsubsection.2.0.4}%
+\contentsline {paragraph}{Intuition.}{32}{section*.69}%
+\contentsline {paragraph}{Theoretical Background.}{32}{section*.70}%
+\contentsline {paragraph}{Algorithm Description.}{32}{section*.71}%
+\contentsline {paragraph}{Proof of Correctness.}{33}{section*.72}%
+\contentsline {subparagraph}{(1) Existence and Uniqueness of the PageRank vector.}{33}{section*.73}%
+\contentsline {subparagraph}{(2) Convergence of the power iteration.}{33}{section*.74}%
+\contentsline {subparagraph}{(3) Correctness of the iterative PageRank formula.}{34}{section*.75}%
+\contentsline {paragraph}{Time Complexity.}{34}{section*.76}%
+\contentsline {paragraph}{Space Complexity.}{34}{section*.77}%
+\contentsline {subsubsection}{\numberline {2.0.5}Implementation Details}{34}{subsubsection.2.0.5}%
+\contentsline {paragraph}{Data Structures.}{35}{section*.78}%
+\contentsline {subsubsection}{\numberline {2.0.6}Experimental Setup}{35}{subsubsection.2.0.6}%
+\contentsline {paragraph}{Synthetic Graph Generation.}{35}{section*.79}%
+\contentsline {paragraph}{Experimental Tasks.}{35}{section*.80}%
+\contentsline {paragraph}{Reproducibility.}{35}{section*.81}%
+\contentsline {paragraph}{Plotting and Visualisation.}{35}{section*.82}%
+\contentsline {subsubsection}{\numberline {2.0.7}Results and Analysis}{36}{subsubsection.2.0.7}%
+\contentsline {paragraph}{Metrics.}{36}{section*.83}%
+\contentsline {paragraph}{Scaling with graph size.}{36}{section*.84}%
+\contentsline {paragraph}{Scaling with graph density.}{37}{section*.85}%
+\contentsline {paragraph}{Qualitative comparison using a showcase graph.}{37}{section*.86}%
+\contentsline {paragraph}{Summary of findings.}{38}{section*.87}%
+\contentsline {section}{\numberline {3}Recommendation Algorithms}{39}{section.3}%
+\contentsline {subsubsection}{\numberline {3.0.1}Jaccard Similarity for Link Prediction}{39}{subsubsection.3.0.1}%
+\contentsline {paragraph}{Intuition.}{39}{section*.88}%
+\contentsline {paragraph}{Formal definition.}{39}{section*.89}%
+\contentsline {paragraph}{Link prediction interpretation.}{39}{section*.90}%
+\contentsline {paragraph}{Algorithm description.}{40}{section*.91}%
+\contentsline {paragraph}{Proof of correctness.}{40}{section*.92}%
+\contentsline {paragraph}{Time complexity.}{41}{section*.93}%
+\contentsline {paragraph}{Space complexity.}{41}{section*.94}%
+\contentsline {paragraph}{Related link prediction metrics.}{42}{section*.95}%
+\contentsline {paragraph}{Advantages and limitations.}{42}{section*.96}%
+\contentsline {subsubsection}{\numberline {3.0.2}Hybrid Friend Recommendation System}{43}{subsubsection.3.0.2}%
+\contentsline {paragraph}{Intuition.}{43}{section*.97}%
+\contentsline {paragraph}{Formal definition.}{43}{section*.98}%
+\contentsline {paragraph}{Algorithm description.}{44}{section*.99}%
+\contentsline {paragraph}{Proof of correctness.}{44}{section*.100}%
+\contentsline {paragraph}{Time complexity.}{45}{section*.101}%
+\contentsline {paragraph}{Optimization strategies.}{45}{section*.102}%
+\contentsline {paragraph}{Space complexity.}{46}{section*.103}%
+\contentsline {paragraph}{Evaluation metrics.}{46}{section*.104}%
+\contentsline {paragraph}{Advantages of the hybrid approach.}{47}{section*.105}%
+\contentsline {subsubsection}{\numberline {3.0.3}Implementation Details}{47}{subsubsection.3.0.3}%
+\contentsline {paragraph}{Data Structures.}{47}{section*.106}%
+\contentsline {paragraph}{Implementation Choices.}{48}{section*.107}%
+\contentsline {paragraph}{Code Organization.}{49}{section*.108}%
+\contentsline {paragraph}{Evaluation Framework.}{49}{section*.109}%
+\contentsline {paragraph}{Noise Injection.}{50}{section*.110}%
+\contentsline {paragraph}{Optimization Benchmarking.}{50}{section*.111}%
+\contentsline {paragraph}{Testing and Validation.}{50}{section*.112}%
+\contentsline {paragraph}{Extensibility.}{50}{section*.113}%
+\contentsline {subsubsection}{\numberline {3.0.4}Experimental Setup}{51}{subsubsection.3.0.4}%
+\contentsline {paragraph}{Synthetic Social Network Generation.}{51}{section*.114}%
+\contentsline {paragraph}{Experimental Tasks.}{51}{section*.115}%
+\contentsline {paragraph}{Timing Methodology.}{52}{section*.116}%
+\contentsline {paragraph}{Evaluation Methodology.}{53}{section*.117}%
+\contentsline {paragraph}{Reproducibility.}{53}{section*.118}%
+\contentsline {paragraph}{Hardware and Software Environment.}{54}{section*.119}%
+\contentsline {paragraph}{Parameter Choices.}{54}{section*.120}%
+\contentsline {paragraph}{Expected Theoretical Behavior.}{54}{section*.121}%
+\contentsline {paragraph}{Plotting and Visualization.}{55}{section*.122}%
+\contentsline {subsubsection}{\numberline {3.0.5}Experimental Results and Analysis}{55}{subsubsection.3.0.5}%
+\contentsline {paragraph}{Runtime Scalability Analysis}{55}{section*.123}%
+\contentsline {paragraph}{Single User Efficiency.}{56}{section*.124}%
+\contentsline {paragraph}{Batch Recommendation Overhead.}{56}{section*.125}%
+\contentsline {paragraph}{Practical Implications.}{56}{section*.126}%
+\contentsline {paragraph}{Recommendation Quality Analysis}{57}{section*.127}%
+\contentsline {subsubsection}{\numberline {3.0.6}Empirical Results}{57}{subsubsection.3.0.6}%
+\contentsline {paragraph}{Test Fraction Sensitivity.}{58}{section*.128}%
+\contentsline {paragraph}{Precision-Recall Trade-off.}{58}{section*.129}%
+\contentsline {paragraph}{Hit Rate as Primary Metric.}{58}{section*.130}%
+\contentsline {paragraph}{Contextual Interpretation.}{58}{section*.131}%
+\contentsline {paragraph}{Robustness to Noisy Data}{58}{section*.132}%
+\contentsline {paragraph}{Graceful Degradation.}{60}{section*.133}%
+\contentsline {paragraph}{20\% Threshold.}{60}{section*.134}%
+\contentsline {paragraph}{Hybrid System Advantage.}{60}{section*.135}%
+\contentsline {paragraph}{Practical Recommendations.}{60}{section*.136}%
+\contentsline {paragraph}{Comparative Analysis with Baseline Methods}{60}{section*.137}%
+\contentsline {paragraph}{Algorithmic Insights and Future Directions}{61}{section*.138}%
+\contentsline {paragraph}{Scalability Bottlenecks.}{61}{section*.139}%
+\contentsline {paragraph}{Quality-Efficiency Trade-offs.}{61}{section*.140}%
+\contentsline {paragraph}{Noise Resilience Strategies.}{61}{section*.141}%
+\contentsline {paragraph}{Personalization Opportunities.}{61}{section*.142}%
+\contentsline {paragraph}{Cold Start Problem.}{61}{section*.143}%
+\contentsline {paragraph}{Evaluation Limitations.}{61}{section*.144}%
+\contentsline {section}{\numberline {4}Community Detection Algorithms \textit {(Bonus Content)}}{62}{section.4}%
+\contentsline {subsubsection}{\numberline {4.0.1}Louvain Method for Community Detection}{62}{subsubsection.4.0.1}%
+\contentsline {paragraph}{Intuition.}{62}{section*.145}%
+\contentsline {paragraph}{Formal Definition.}{62}{section*.146}%
+\contentsline {paragraph}{Algorithm Description.}{63}{section*.147}%
+\contentsline {paragraph}{Pseudocode.}{63}{section*.148}%
+\contentsline {paragraph}{Correctness.}{64}{section*.149}%
+\contentsline {paragraph}{Time Complexity.}{64}{section*.150}%
+\contentsline {paragraph}{Resolution Parameter.}{64}{section*.151}%
+\contentsline {paragraph}{Limitations.}{65}{section*.152}%
+\contentsline {subsubsection}{\numberline {4.0.2}Leiden Algorithm for Community Detection}{65}{subsubsection.4.0.2}%
+\contentsline {paragraph}{Intuition.}{65}{section*.153}%
+\contentsline {paragraph}{Motivation: The Louvain Problem.}{65}{section*.154}%
+\contentsline {paragraph}{Formal Definition.}{66}{section*.155}%
+\contentsline {paragraph}{Algorithm Description.}{66}{section*.156}%
+\contentsline {paragraph}{Pseudocode.}{67}{section*.157}%
+\contentsline {paragraph}{Correctness and Guarantees.}{67}{section*.158}%
+\contentsline {paragraph}{Time Complexity.}{67}{section*.159}%
+\contentsline {paragraph}{Comparison with Louvain.}{68}{section*.160}%
+\contentsline {paragraph}{Temperature Parameter.}{68}{section*.161}%
+\contentsline {subsubsection}{\numberline {4.0.3}Modularity: Quality Metric for Community Detection}{68}{subsubsection.4.0.3}%
+\contentsline {paragraph}{Intuition.}{68}{section*.162}%
+\contentsline {paragraph}{Formal Definition.}{68}{section*.163}%
+\contentsline {paragraph}{Efficient Computation.}{69}{section*.164}%
+\contentsline {paragraph}{Resolution-Parameterized Modularity.}{69}{section*.165}%
+\contentsline {paragraph}{Modularity Gain Formula.}{69}{section*.166}%
+\contentsline {paragraph}{Interpretation of Modularity Values.}{70}{section*.167}%
+\contentsline {paragraph}{Evaluation Metrics for Comparison.}{70}{section*.168}%
+\contentsline {paragraph}{Limitations of Modularity.}{70}{section*.169}%
+\contentsline {paragraph}{Implementation Notes.}{70}{section*.170}%
+\contentsline {subsubsection}{\numberline {4.0.4}Implementation Details}{71}{subsubsection.4.0.4}%
+\contentsline {paragraph}{Object-Oriented Design.}{71}{section*.171}%
+\contentsline {paragraph}{Data Structures.}{71}{section*.172}%
+\contentsline {paragraph}{Key Implementation Techniques.}{71}{section*.173}%
+\contentsline {paragraph}{Graph Aggregation.}{72}{section*.174}%
+\contentsline {paragraph}{Modularity Computation.}{73}{section*.175}%
+\contentsline {paragraph}{Evaluation Metrics Implementation.}{74}{section*.176}%
+\contentsline {paragraph}{Code Organization.}{74}{section*.177}%
+\contentsline {paragraph}{Convenience Functions.}{74}{section*.178}%
+\contentsline {subsubsection}{\numberline {4.0.5}Experimental Setup}{75}{subsubsection.4.0.5}%
+\contentsline {paragraph}{Experiment 1: Size Scaling.}{75}{section*.179}%
+\contentsline {paragraph}{Experiment 2: Density Scaling.}{75}{section*.180}%
+\contentsline {paragraph}{Experiment 3: Quality Evaluation.}{76}{section*.181}%
+\contentsline {paragraph}{Experiment 4: Resolution Parameter Study.}{76}{section*.182}%
+\contentsline {paragraph}{Experiment 5: Algorithm Comparison.}{77}{section*.183}%
+\contentsline {paragraph}{Timing Methodology.}{77}{section*.184}%
+\contentsline {paragraph}{Hardware and Software.}{77}{section*.185}%
+\contentsline {paragraph}{Graph Generation.}{77}{section*.186}%
+\contentsline {paragraph}{Reproducibility.}{78}{section*.187}%
+\contentsline {paragraph}{Visualization.}{78}{section*.188}%
+\contentsline {subsubsection}{\numberline {4.0.6}Experimental Results and Analysis}{78}{subsubsection.4.0.6}%
+\contentsline {paragraph}{Runtime Scalability Analysis}{78}{section*.189}%
+\contentsline {paragraph}{Comparable Performance.}{78}{section*.190}%
+\contentsline {paragraph}{Sublinear Scaling.}{79}{section*.191}%
+\contentsline {paragraph}{Density Scaling Analysis}{79}{section*.192}%
+\contentsline {paragraph}{Modularity vs. Density.}{80}{section*.193}%
+\contentsline {paragraph}{Algorithm Parity.}{80}{section*.194}%
+\contentsline {paragraph}{Detection Quality Analysis}{81}{section*.195}%
+\contentsline {paragraph}{Detection Threshold.}{82}{section*.196}%
+\contentsline {paragraph}{Leiden's Edge at Low Signal.}{82}{section*.197}%
+\contentsline {paragraph}{Robust High-Signal Detection.}{82}{section*.198}%
+\contentsline {paragraph}{Resolution Parameter Sensitivity}{82}{section*.199}%
+\contentsline {paragraph}{Louvain's Over-Fragmentation.}{83}{section*.200}%
+\contentsline {paragraph}{Leiden's Robustness.}{83}{section*.201}%
+\contentsline {paragraph}{Modularity Behavior.}{83}{section*.202}%
+\contentsline {paragraph}{Practical Recommendation.}{83}{section*.203}%
+\contentsline {paragraph}{Direct Algorithm Comparison}{84}{section*.204}%
+\contentsline {paragraph}{Identical Quality.}{85}{section*.205}%
+\contentsline {paragraph}{Runtime Difference.}{85}{section*.206}%
+\contentsline {paragraph}{Low Variance.}{85}{section*.207}%
+\contentsline {paragraph}{Algorithmic Insights and Future Directions}{85}{section*.208}%
+\contentsline {paragraph}{Algorithm Selection Guidelines.}{85}{section*.209}%
+\contentsline {paragraph}{Scalability Observations.}{85}{section*.210}%
+\contentsline {paragraph}{Modularity Interpretation.}{85}{section*.211}%
+\contentsline {paragraph}{Future Extensions.}{86}{section*.212}%
+\contentsline {section}{\numberline {5}Bonus Disclosure}{87}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Bonus Algorithms Implemented}{87}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Bonus Experimental Analysis}{87}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Bonus Visualizations and Results}{87}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Bonus Implementation Details}{88}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Conclusion}{89}{section.6}%
+\contentsline {section}{\numberline {7}References}{91}{section.7}%

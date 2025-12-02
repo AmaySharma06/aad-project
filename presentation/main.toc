@@ -1,0 +1,7 @@
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@sectionintoc {2}{Traversal Algorithms}{5}{0}{2}
+\beamer@sectionintoc {3}{Centrality Algorithms}{11}{0}{3}
+\beamer@sectionintoc {4}{Friend Recommendation System}{18}{0}{4}
+\beamer@sectionintoc {5}{Community Detection (BONUS)}{24}{0}{5}
+\beamer@sectionintoc {6}{Experimental Setup}{35}{0}{6}
+\beamer@sectionintoc {7}{Conclusion}{36}{0}{7}

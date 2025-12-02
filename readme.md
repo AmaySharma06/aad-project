@@ -1,74 +1,98 @@
-## Centrality
+# Social Network Analysis - AAD Project
 
-This module implements four classical centrality measures:
+Graph theory algorithms for synthetic friendship networks.
 
-- Degree Centrality
-- Harmonic Closeness Centrality
-- Betweenness Centrality (Brandes’ Algorithm)
-- PageRank
+## Repository Link
+https://github.com/AmaySharma06/aad-project
 
-We also provide scripts to run experiments (size and density) and to generate visual heatmap plots on a custom showcase graph.  
-All random experiments are seeded for reproducibility.
+## Structure
 
----
+```
+├── algorithms/          # Core implementations
+│   ├── traversal/      # BFS, DFS, Union-Find
+│   ├── centrality/     # Degree, Harmonic, Betweenness, PageRank
+│   ├── community/      # Louvain, Leiden (BONUS)
+│   └── recommender/    # Jaccard, Adamic-Adar, hybrid system
+├── graph/              # Graph generation and utilities
+├── experiments/        # Experiment runners
+├── plots/              # Plotting scripts
+├── report/             # LaTeX report
+└── presentation/       # LaTeX slides
+```
 
-### How to Run Centrality Experiments and Plots
+## Setup
 
-All commands must be run from the project root directory (aad-project/).
+```bash
+# Clone repository
+git clone https://github.com/AmaySharma06/aad-project.git
+cd aad-project
 
-Required external libraries:
-pip install matplotlib networkx
+# Install Python dependencies
+pip install matplotlib numpy pandas scikit-learn networkx
 
----
+# Verify installation
+python -c "import matplotlib, numpy, pandas, sklearn, networkx; print('Setup complete!')"
+```
 
-### 1. Size Experiment (Scaling with graph size)
+## Quick Start
 
-This experiment varies the number of vertices n while keeping p = 0.1.
+```bash
+# Run traversal experiments
+python experiments/traversal/run_experiments.py
 
-Run:
-python -m experiments.centrality.run_size_experiment
+# Run centrality experiments
+python experiments/centrality/run_experiments.py
 
-This generates:
-experiments/centrality/results/size_experiment.csv
+# Run recommender experiments
+python experiments/recommender/run_experiments.py
 
-Then generate the plot:
-python -m plots.centrality.plotSizeVsTime
+# Run community detection (BONUS)
+python experiments/community/run_experiments.py --experiment size
+python experiments/community/run_experiments.py --experiment density
+python experiments/community/run_experiments.py --experiment quality
+python experiments/community/run_experiments.py --experiment resolution
+python experiments/community/run_experiments.py --experiment comparison
+```
 
-This produces:
-plots/centrality/images/size_vs_time.png
+## Generate Plots
 
----
+```bash
+# Generate plots for each module
+python plots/traversal/plot_experiments.py
+python plots/centrality/plot_experiments.py
+python plots/centrality/plot_centrality_heatmaps.py  # Centrality heatmap visualizations
+python plots/recommender/plot_experiments.py
+python plots/community/plot_experiments.py
+```
 
-### 2. Density Experiment (Scaling with edge probability p)
+## Build Report
 
-This experiment fixes n = 100 and varies density p across chosen values.
+```bash
+cd report
+pdflatex main.tex
+pdflatex main.tex  # Run twice for references
+```
 
-Run:
-python -m experiments.centrality.run_density_experiment
+## Build Presentation
 
-This generates:
-experiments/centrality/results/density_experiment.csv
+```bash
+cd presentation
+pdflatex main.tex
+```
 
-Then generate the plot:
-python -m plots.centrality.plotDensityVsTime
+## Requirements
 
-This produces:
-plots/centrality/images/density_vs_time.png
+- Python 3.12+
+- Matplotlib, NumPy, Pandas, NetworkX
+- LaTeX distribution (MiKTeX/TeX Live)
 
----
+## Team
 
-### 3. Centrality Heatmaps (Showcase Graph)
+**DROP TABLE Teams;**
+- Sarthak Mishra (2024117007)
+- Amay Sharma (2024101095)
+- Yashav Bhatnagar (2024101030)
+- Lasya Katari (2024115004)
+- Kartik Thapa (2024115009)
 
-This generates a structured graph designed to highlight differences between centrality algorithms.
-
-Run:
-python -m plots.centrality.plot_centrality_heatmaps
-
-This produces four heatmaps:
-plots/centrality/images/degree_heatmap.png
-plots/centrality/images/harmonic_heatmap.png
-plots/centrality/images/betweenness_heatmap.png
-plots/centrality/images/pagerank_heatmap.png
-
-And a 2×2 comparison grid:
-plots/centrality/images/centrality_heatmap_grid.png
+IIIT Hyderabad • CS1.301 • December 2025

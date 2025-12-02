@@ -1,0 +1,57 @@
+\subsubsection{Results and Analysis}
+\paragraph{Metrics.}
+For the centrality algorithms, we focus on \emph{wall-clock time} as the primary empirical metric. All timings were measured in seconds using Python's \texttt{time.perf\_counter} on the same machine and environment. All four implementations compute exact values (not approximations).
+
+\paragraph{Scaling with graph size.}
+To study how each centrality algorithm scales with the number of vertices, we generated Erd\H{o}s--R\'enyi random graphs $G(n,p)$ for increasing $n$ while keeping the edge probability fixed at $p = 0.1$. For each $n$, we generated a fresh graph, ran all four centrality algorithms, and recorded their running times. The resulting size vs. time plot is shown in Figure~\ref{fig:size-time-centrality}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{./plots/centrality/images/size_vs_time.png}
+    \caption{Running time of degree, harmonic closeness, betweenness (Brandes), and PageRank as a function of graph size $n$ for Erd\H{o}s--R\'enyi graphs $G(n,0.1)$.}
+    \label{fig:size-time-centrality}
+\end{figure}
+
+Empirically, we observe the following patterns:
+\begin{itemize}
+    \item \textbf{Degree centrality} is consistently the fastest algorithm. The measured running time grows roughly linearly with $n$, in line with the theoretical complexity $\Theta(n + m)$ for adjacency-list graphs.
+    \item \textbf{Harmonic closeness} and \textbf{betweenness (Brandes)} both exhibit a much steeper increase in running time as $n$ grows. This matches the theoretical cost of performing a breadth-first search (BFS) from every node, $\Theta(n(n + m))$.
+    \item \textbf{PageRank} lies between degree centrality and the BFS-based algorithms. It is implemented via power iteration with a fixed maximum number of iterations and a convergence tolerance, so its running time scales roughly linearly with $m$ per iteration.
+\end{itemize}
+
+Overall, the size-vs-time experiment matches the theoretical expectations: simple local measures (degree) are essentially linear, global shortest-path based measures (harmonic closeness, betweenness) are the most expensive, and PageRank occupies a middle ground.
+
+\paragraph{Scaling with graph density.}
+To study how each centrality algorithm behaves as the graph becomes denser, we fixed the number of vertices at $n = 100$ and varied the edge probability $p$ in the Erd\H{o}s--R\'enyi model $G(n,p)$. For each value of $p$, a fresh random graph was generated and the running times of all four centrality algorithms were recorded. The resulting density--runtime plot is shown in Figure~\ref{fig:density-time-centrality}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{./plots/centrality/images/density_vs_time.png}
+    \caption{Running time of degree, harmonic closeness, betweenness (Brandes), and PageRank as a function of edge probability $p$ for Erd\H{o}s--R\'enyi graphs $G(100,p)$.}
+    \label{fig:density-time-centrality}
+\end{figure}
+
+Empirically, the following patterns are observed:
+\begin{itemize}
+    \item \textbf{Degree centrality} remains almost constant across all values of $p$, matching the theoretical complexity $\Theta(n + m)$ when $n$ is fixed.
+    \item \textbf{Harmonic closeness} and \textbf{betweenness (Brandes)} both show a steep increase as $p$ grows because both algorithms run BFS from every vertex, yielding $\Theta(n(n+m))$ and $\Theta(nm)$ time respectively.
+    \item \textbf{PageRank} displays a non-monotonic trend: sparse graphs with many dangling nodes run slower, mid-density graphs converge faster, and very dense graphs become slower again as the per-iteration cost approaches $\Theta(n+m)$.
+\end{itemize}
+
+\paragraph{Qualitative comparison using a showcase graph.}
+We also constructed a small, intentionally structured showcase graph to illustrate the differing behaviours of the four measures. Two dense communities, a single bridge, a hub with leaf attachments, and a peripheral chain allow each algorithm to highlight distinct structures. Figure~\ref{fig:showcase-heatmaps} overlays the four heatmaps using a fixed layout so colour intensity directly reflects the normalised centrality score of each node.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{./plots/centrality/images/centrality_heatmap_grid.png}
+    \caption{Heatmaps of degree, harmonic closeness, betweenness, and PageRank on the manually constructed showcase graph.}
+    \label{fig:showcase-heatmaps}
+\end{figure}
+
+\paragraph{Summary of findings.}
+\begin{itemize}
+    \item Degree centrality is extremely fast and captures local connectivity, making it suitable for very large graphs when only local importance is needed.
+    \item Harmonic closeness and betweenness centrality provide richer global information but are computationally expensive, scaling roughly like $\Theta(nm)$ on unweighted graphs.
+    \item PageRank provides a more global perspective than degree centrality while remaining cheaper than BFS-from-every-node approaches.
+\end{itemize}
+These empirical results align with the theoretical analyses and clarify the practical trade-offs between different notions of centrality in networks.

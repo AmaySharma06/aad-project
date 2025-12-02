@@ -1,0 +1,216 @@
+\subsubsection{Hybrid Friend Recommendation System}
+
+\paragraph{Intuition.}
+While Jaccard similarity provides a strong baseline for friend recommendation based purely on graph structure, real-world social networks exhibit richer patterns that cannot be captured by connectivity alone.
+Users with similar interests, personality traits, or demographic attributes are more likely to form friendships, even without common friends.
+
+Our hybrid friend recommendation system combines multiple signals to produce more accurate and personalized recommendations:
+\begin{enumerate}
+    \item \textbf{Structural similarity:} Jaccard similarity and common neighbors (graph-based).
+    \item \textbf{Attribute similarity:} Overlap in personality tags or interests (content-based).
+    \item \textbf{Weighted common friends:} Adamic-Adar index to prioritize meaningful connections.
+\end{enumerate}
+
+This multi-signal approach addresses the limitations of pure structural methods and performs better in scenarios like cold starts (new users with few connections) or sparse networks.
+
+\paragraph{Formal definition.}
+Let \(G = (V, E)\) be a social network graph and \(T : V \to 2^{\Sigma}\) be a function mapping each user to a set of personality tags from an alphabet \(\Sigma\) (e.g., \texttt{\{sports, music, tech, travel\}}).
+
+For two users \(u, v \in V\), we define the following similarity components:
+
+\begin{itemize}
+    \item \textbf{Structural similarity (Jaccard):}
+    \[
+    S_{\text{struct}}(u, v) = \frac{|N(u) \cap N(v)|}{|N(u) \cup N(v)|}.
+    \]
+    
+    \item \textbf{Tag similarity:}
+    \[
+    S_{\text{tag}}(u, v) = \frac{|T(u) \cap T(v)|}{|T(u) \cup T(v)|}.
+    \]
+    This applies Jaccard similarity to the tag sets rather than friend sets.
+    
+    \item \textbf{Adamic-Adar index (normalized):}
+    \[
+    S_{\text{AA}}(u, v) = \frac{AA(u, v)}{1 + AA(u, v)}, \quad \text{where} \quad AA(u, v) = \sum_{w \in N(u) \cap N(v)} \frac{1}{\log |N(w)|}.
+    \]
+    We normalize using a sigmoid-like function to map the unbounded Adamic-Adar score to \([0, 1]\).
+\end{itemize}
+
+The \emph{combined recommendation score} is a weighted sum:
+\[
+\text{Score}(u, v) = w_1 \cdot S_{\text{struct}}(u, v) + w_2 \cdot S_{\text{tag}}(u, v) + w_3 \cdot S_{\text{AA}}(u, v),
+\]
+where \(w_1, w_2, w_3 \geq 0\) are configurable weights with \(w_1 + w_2 + w_3 = 1\) (typically).
+
+In our default configuration, we use \(w_1 = 0.4\), \(w_2 = 0.3\), \(w_3 = 0.3\), balancing structural and content-based signals.
+
+\paragraph{Algorithm description.}
+The friend recommendation algorithm for a single user \(u\) proceeds as follows:
+
+\begin{enumerate}
+    \item \textbf{Initialization:}
+    \begin{enumerate}
+        \item Precompute neighbor sets \(N(v)\) for all \(v \in V\) (one-time cost).
+        \item Identify current friends of \(u\): \(F_u = N(u)\).
+    \end{enumerate}
+    
+    \item \textbf{Candidate generation:}
+    \begin{enumerate}
+        \item Initialize empty candidate list \(C = []\).
+        \item For each user \(v \in V \setminus (\{u\} \cup F_u)\):
+        \begin{enumerate}
+            \item Compute \(S_{\text{struct}}(u, v)\), \(S_{\text{tag}}(u, v)\), \(S_{\text{AA}}(u, v)\).
+            \item Compute combined score: \(s = \text{Score}(u, v)\).
+            \item If \(s > 0\), add \((v, s)\) to \(C\).
+        \end{enumerate}
+    \end{enumerate}
+    
+    \item \textbf{Ranking and selection:}
+    \begin{enumerate}
+        \item Sort \(C\) by score in descending order.
+        \item Return the top-\(k\) candidates: \(C[0:k]\).
+    \end{enumerate}
+\end{enumerate}
+
+For generating recommendations for all users, we repeat this process for each \(u \in V\).
+
+\paragraph{Proof of correctness.}
+We prove that the algorithm correctly computes the combined score and returns the top-\(k\) candidates.
+
+\textbf{Claim 1:} Each component \(S_{\text{struct}}\), \(S_{\text{tag}}\), \(S_{\text{AA}}\) is correctly computed.
+
+\textbf{Proof:}
+\begin{itemize}
+    \item \(S_{\text{struct}}(u, v)\) uses the Jaccard similarity algorithm proven correct in the previous section.
+    \item \(S_{\text{tag}}(u, v)\) applies the same Jaccard formula to tag sets, which are retrieved directly from the input mapping \(T\).
+    \item \(S_{\text{AA}}(u, v)\) computes the Adamic-Adar index by iterating through \(N(u) \cap N(v)\) and summing \(1 / \log |N(w)|\) for each \(w\).
+    This matches the formal definition, and the normalization preserves correctness while mapping to \([0, 1]\).
+\end{itemize}
+
+\textbf{Claim 2:} The combined score is a correct weighted sum.
+
+\textbf{Proof:}
+The algorithm computes:
+\[
+s = w_1 \cdot S_{\text{struct}}(u, v) + w_2 \cdot S_{\text{tag}}(u, v) + w_3 \cdot S_{\text{AA}}(u, v),
+\]
+which is exactly the definition of \(\text{Score}(u, v)\).
+Since each component is in \([0, 1]\) and weights are non-negative, \(s \in [0, \max(w_1, w_2, w_3)] \subseteq [0, 1]\) (assuming normalized weights).
+
+\textbf{Claim 3:} The top-\(k\) recommendations are correctly identified.
+
+\textbf{Proof:}
+After computing scores for all candidates, the algorithm sorts the list by score in descending order.
+Python's \texttt{sort} function is guaranteed to produce a stable, correct ordering.
+Taking the first \(k\) elements yields the \(k\) candidates with highest scores, as required.
+
+\paragraph{Time complexity.}
+Let \(n = |V|\), \(m = |E|\), \(\bar{d}\) = average degree, and \(\bar{t}\) = average number of tags per user.
+
+\textbf{Precomputation (one-time):}
+\begin{itemize}
+    \item Building neighbor sets: \(O(n + m)\) to convert adjacency list to set representation.
+\end{itemize}
+
+\textbf{Single user recommendation:}
+\begin{itemize}
+    \item Iterating through candidates: \(O(n)\) users to consider.
+    \item For each candidate \(v\):
+    \begin{itemize}
+        \item \(S_{\text{struct}}\): \(O(d_u + d_v)\) for set operations on neighbors.
+        \item \(S_{\text{tag}}\): \(O(t_u + t_v)\) for set operations on tags.
+        \item \(S_{\text{AA}}\): \(O(|N(u) \cap N(v)|)\) to iterate common neighbors and lookup degrees.
+        Combined: \(O(d_u + d_v + t_u + t_v)\) per candidate.
+    \end{itemize}
+    \item Total for all candidates: \(O(n \cdot (\bar{d} + \bar{t}))\).
+    \item Sorting: \(O(n \log n)\).
+\end{itemize}
+
+Overall time for single user: \(O(n \cdot (\bar{d} + \bar{t}) + n \log n) = O(n \cdot \bar{d})\) for sparse graphs where \(\bar{d} \gg \log n\).
+
+\textbf{All users recommendation:}
+Repeating for all \(n\) users gives:
+\[
+T_{\text{all}} = O(n^2 \cdot \bar{d}) + O(n^2 \log n) = O(n^2 \cdot \bar{d}).
+\]
+
+For sparse social networks where \(\bar{d} = O(1)\), this is \(O(n^2)\).
+For dense networks where \(\bar{d} = O(n)\), this is \(O(n^3)\).
+
+\paragraph{Optimization strategies.}
+The naive \(O(n^2)\) all-pairs approach becomes expensive for large networks (\(n > 1000\)).
+We implement two optimizations:
+
+\begin{enumerate}
+    \item \textbf{Inverted index approach:}
+    \begin{itemize}
+        \item Build tag index: \texttt{tag} \(\to\) \texttt{list of users}.
+        \item For each user \(u\), generate candidates by:
+        \begin{enumerate}
+            \item Friends-of-friends: iterate \(w \in N(u)\), then add \(N(w)\).
+            \item Tag matches: for each tag \(t \in T(u)\), add all users from \texttt{tag\_index[t]}.
+        \end{enumerate}
+        \item Only compute scores for identified candidates (typically \(O(\bar{d}^2 + \bar{t} \cdot k_t)\) per user, where \(k_t\) is users per tag).
+        \item Complexity: \(O(n \cdot \bar{d}^2)\), much better than \(O(n^2 \cdot \bar{d})\) when \(\bar{d} \ll n\).
+    \end{itemize}
+    
+    \item \textbf{Sparse matrix multiplication:}
+    \begin{itemize}
+        \item Represent the adjacency matrix \(A\) and tag matrix \(T\) as sparse structures.
+        \item Compute \(A \times A^T\) to find all pairs with common neighbors.
+        \item Compute \(T \times T^T\) to find all pairs with shared tags.
+        \item Merge results and compute full scores only for non-zero entries.
+        \item Complexity: \(O(n \cdot \bar{d}^2)\) for sparse matrix multiplication.
+    \end{itemize}
+\end{enumerate}
+
+Both optimizations reduce complexity from \(O(n^2)\) to \(O(n \cdot \bar{d}^2)\), achieving significant speedups on sparse networks where \(\bar{d} \ll n\).
+
+\paragraph{Space complexity.}
+The space requirements are:
+\begin{itemize}
+    \item Input graph and tags: \(O(n + m + n \cdot \bar{t})\).
+    \item Precomputed neighbor sets: \(O(n + m)\).
+    \item Tag inverted index: \(O(n \cdot \bar{t})\).
+    \item Candidate list per user: \(O(n)\) worst case, but typically much smaller.
+    \item Results for all users: \(O(n \cdot k)\) for top-\(k\) per user.
+\end{itemize}
+
+Total space: \(O(n + m + n \cdot \bar{t})\), linear in the input size.
+
+\paragraph{Evaluation metrics.}
+To assess recommendation quality, we use standard information retrieval metrics:
+
+\begin{itemize}
+    \item \textbf{Precision@k:} Fraction of recommended users who become actual friends:
+    \[
+    \text{Precision@k} = \frac{|\text{recommendations} \cap \text{test\_edges}|}{k}.
+    \]
+    
+    \item \textbf{Recall@k:} Fraction of future friendships that were recommended:
+    \[
+    \text{Recall@k} = \frac{|\text{recommendations} \cap \text{test\_edges}|}{|\text{test\_edges}|}.
+    \]
+    
+    \item \textbf{Hit Rate@k:} Fraction of users for whom at least one recommendation is correct:
+    \[
+    \text{Hit Rate@k} = \frac{|\{u : |R_u \cap \text{test\_edges} \geq 1\}|}{|U|},
+    \]
+    where \(R_u\) is the recommendation set for user \(u\) and \(U\) is the set of users evaluated.
+\end{itemize}
+
+These metrics require a train/test split: we hold out a fraction of edges (e.g., 20\%), train the recommender on the remaining graph, and evaluate how well it predicts the held-out edges.
+
+\paragraph{Advantages of the hybrid approach.}
+Compared to pure Jaccard similarity, the hybrid system offers:
+
+\begin{itemize}
+    \item \textbf{Better cold start handling:} New users with few friends can still receive recommendations based on tags.
+    \item \textbf{Richer signal:} Combines structural and content-based information.
+    \item \textbf{Configurable trade-offs:} Weights can be tuned for different applications.
+    \item \textbf{Weighted common friends:} Adamic-Adar prioritizes rare connections over popular hubs.
+    \item \textbf{Explainability:} Can show users \emph{why} a recommendation was made (e.g., "You both like sports and have 3 common friends").
+\end{itemize}
+
+The modular design allows easy extension with additional signals (geographic proximity, age similarity, etc.) by adding new similarity components to the weighted sum.

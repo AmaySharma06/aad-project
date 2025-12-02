@@ -1,0 +1,179 @@
+\subsubsection{Jaccard Similarity for Link Prediction}
+
+\paragraph{Intuition.}
+Jaccard similarity is a fundamental metric for measuring overlap between two sets, widely used in social network analysis for link prediction and friend recommendation.
+The key insight behind Jaccard similarity is the \emph{triadic closure principle}: if two users share many common friends, they are likely to become friends themselves.
+
+In a social network, Jaccard similarity between two users \(u\) and \(v\) quantifies what fraction of their combined friend sets they have in common.
+A high Jaccard score suggests strong structural similarity in the network, making these users good candidates for friend recommendations.
+
+\paragraph{Formal definition.}
+Let \(G = (V, E)\) be an undirected social network graph where vertices represent users and edges represent friendships.
+For a user \(u \in V\), let \(N(u)\) denote the set of neighbors (friends) of \(u\):
+\[
+N(u) = \{\, v \in V \mid \{u, v\} \in E \,\}.
+\]
+
+The \emph{Jaccard similarity coefficient} between two users \(u\) and \(v\) is defined as:
+\[
+J(u, v) = \frac{|N(u) \cap N(v)|}{|N(u) \cup N(v)|} = \frac{\text{number of common friends}}{\text{total unique friends}}.
+\]
+
+Properties of Jaccard similarity:
+\begin{itemize}
+    \item \(J(u, v) \in [0, 1]\): The coefficient is always between 0 and 1.
+    \item \(J(u, v) = 1\) if and only if \(N(u) = N(v)\) (identical friend sets).
+    \item \(J(u, v) = 0\) if \(N(u) \cap N(v) = \emptyset\) (no common friends).
+    \item \(J(u, v) = J(v, u)\): Jaccard similarity is symmetric.
+    \item If both \(u\) and \(v\) have no friends, we define \(J(u, v) = 0\) by convention.
+\end{itemize}
+
+\paragraph{Link prediction interpretation.}
+In the context of friend recommendation, we compute Jaccard similarity for pairs of users who are \emph{not currently connected}.
+High Jaccard scores among non-adjacent pairs indicate potential new friendships based on the triadic closure principle.
+
+For example, if users \(u\) and \(v\) have 8 friends each and share 6 common friends, then:
+\[
+J(u, v) = \frac{6}{8 + 8 - 6} = \frac{6}{10} = 0.6.
+\]
+This high score suggests they should be recommended to each other.
+
+\paragraph{Algorithm description.}
+Computing Jaccard similarity between two users \(u\) and \(v\) involves set operations on their neighbor sets:
+
+\begin{enumerate}
+    \item Retrieve neighbor sets: \(N(u)\) and \(N(v)\) from the adjacency list.
+    \item Compute intersection: \(I = N(u) \cap N(v)\) (common friends).
+    \item Compute union: \(U = N(u) \cup N(v)\) (all unique friends).
+    \item Calculate Jaccard: \(J(u, v) = |I| / |U|\) (if \(|U| > 0\), else 0).
+\end{enumerate}
+
+For recommending friends to all users, we compute Jaccard similarity for all pairs of non-adjacent vertices:
+
+\begin{enumerate}
+    \item For each pair of users \((u, v)\) where \(u \neq v\) and \(\{u, v\} \notin E\):
+    \begin{enumerate}
+        \item Compute \(J(u, v)\).
+        \item If \(J(u, v) > 0\), add \((u, v, J(u, v))\) to the candidate list.
+    \end{enumerate}
+    \item Sort candidates by Jaccard score in descending order.
+    \item Return top-\(k\) recommendations for each user.
+\end{enumerate}
+
+\paragraph{Proof of correctness.}
+We prove that the algorithm correctly computes the Jaccard coefficient as defined.
+
+\textbf{Claim:} For any two users \(u, v \in V\), the computed value \(J(u, v)\) equals \(|N(u) \cap N(v)| / |N(u) \cup N(v)|\).
+
+\textbf{Proof:}
+\begin{itemize}
+    \item Let \(A = N(u)\) and \(B = N(v)\) be the neighbor sets retrieved from the adjacency list representation.
+    By construction of the adjacency list, these sets contain exactly the friends of \(u\) and \(v\) respectively.
+    
+    \item The intersection operation computes \(I = A \cap B\), which by set theory contains exactly those elements present in both \(A\) and \(B\).
+    Thus \(I = N(u) \cap N(v)\), the set of common friends.
+    
+    \item The union operation computes \(U = A \cup B\), which contains all elements in either \(A\) or \(B\) (or both).
+    Thus \(U = N(u) \cup N(v)\), the set of all unique friends.
+    
+    \item The computed ratio \(|I| / |U|\) is therefore:
+    \[
+    \frac{|I|}{|U|} = \frac{|N(u) \cap N(v)|}{|N(u) \cup N(v)|} = J(u, v),
+    \]
+    which matches the formal definition.
+    
+    \item If \(|U| = 0\) (both users have no friends), the algorithm returns 0, consistent with our convention.
+\end{itemize}
+
+Therefore, the algorithm correctly computes Jaccard similarity for all pairs.
+
+\paragraph{Time complexity.}
+Let \(n = |V|\) be the number of users and \(d_u = |N(u)|\) be the degree of user \(u\).
+
+\textbf{Single pair computation:}
+\begin{itemize}
+    \item Retrieving neighbor sets: \(O(1)\) dictionary lookups.
+    \item Computing intersection and union using hash sets: \(O(d_u + d_v)\) where we iterate through both neighbor lists.
+    \item In Python, set operations on sets of size \(d_u\) and \(d_v\) take \(O(d_u + d_v)\) expected time.
+\end{itemize}
+
+Thus, computing \(J(u, v)\) for a single pair takes:
+\[
+T_{\text{pair}}(d_u, d_v) = O(d_u + d_v).
+\]
+
+\textbf{All pairs computation:}
+For recommending to all users, we compute Jaccard for all \(\binom{n}{2} = O(n^2)\) pairs.
+The total time is:
+\[
+T_{\text{all}} = \sum_{u < v} O(d_u + d_v) = O(n^2 \cdot \bar{d}),
+\]
+where \(\bar{d}\) is the average degree.
+
+In sparse social networks where \(\bar{d} = O(1)\), this becomes \(O(n^2)\).
+In dense networks where \(\bar{d} = O(n)\), this becomes \(O(n^3)\).
+
+\textbf{Optimization:} For practical applications, we can avoid computing Jaccard for all pairs by using an inverted index:
+\begin{enumerate}
+    \item For each user \(w\), iterate through pairs of \(w\)'s friends.
+    \item These pairs are candidates with at least one common friend (\(w\)).
+    \item This reduces the candidate set from \(O(n^2)\) to \(O(n \cdot \bar{d}^2)\), which is much smaller for sparse graphs.
+\end{enumerate}
+
+This optimization is particularly effective when \(\bar{d} \ll n\), as is typical in real-world social networks.
+
+\paragraph{Space complexity.}
+The space requirements are:
+\begin{itemize}
+    \item Input adjacency list: \(\Theta(n + m)\) where \(m = |E|\).
+    \item Neighbor sets for two users: \(O(d_u + d_v)\) during computation.
+    \item Intersection and union sets: \(O(d_u + d_v)\).
+    \item Results list for all pairs: \(O(n^2)\) in the worst case (if all pairs have non-zero similarity).
+\end{itemize}
+
+Total space: \(O(n + m + n^2)\) = \(O(n^2)\) for dense output, or \(O(n + m)\) if we only keep top-\(k\) recommendations per user.
+
+\paragraph{Related link prediction metrics.}
+Jaccard similarity is one of several structural similarity metrics used for link prediction.
+Our implementation also includes:
+
+\begin{itemize}
+    \item \textbf{Common Neighbors:} Simply count \(|N(u) \cap N(v)|\) without normalization.
+    Faster to compute but doesn't account for different neighborhood sizes.
+    
+    \item \textbf{Adamic-Adar Index:} Weights common neighbors by the inverse log of their degree:
+    \[
+    AA(u, v) = \sum_{w \in N(u) \cap N(v)} \frac{1}{\log |N(w)|}.
+    \]
+    Gives more weight to rare common friends (those with fewer connections).
+    
+    \item \textbf{Resource Allocation Index:} Similar to Adamic-Adar but without the logarithm:
+    \[
+    RA(u, v) = \sum_{w \in N(u) \cap N(v)} \frac{1}{|N(w)|}.
+    \]
+    
+    \item \textbf{Preferential Attachment:} Product of degrees \(|N(u)| \cdot |N(v)|\).
+    Based on the "rich-get-richer" phenomenon in networks.
+\end{itemize}
+
+Each metric captures different aspects of network structure and can be used alone or combined for improved recommendations.
+
+\paragraph{Advantages and limitations.}
+\textbf{Advantages:}
+\begin{itemize}
+    \item Simple and intuitive: easy to explain to users.
+    \item Bounded in \([0, 1]\): normalized, facilitates comparison.
+    \item Effective for triadic closure: captures local structural similarity.
+    \item Fast to compute for individual pairs.
+\end{itemize}
+
+\textbf{Limitations:}
+\begin{itemize}
+    \item Ignores user attributes: only considers graph structure.
+    \item Biased toward high-degree nodes: users with many friends dominate the union.
+    \item Zero similarity for distant pairs: requires at least one common friend.
+    \item Expensive for all-pairs: \(O(n^2)\) computations needed.
+    \item Cold start problem: new users with few friends get poor recommendations.
+\end{itemize}
+
+These limitations motivate the development of hybrid recommenders that combine Jaccard similarity with other signals (user attributes, community membership, etc.), as described in the following section.

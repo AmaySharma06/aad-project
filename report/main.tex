@@ -1,0 +1,268 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref} % Enable hyperlinks and clickable references
+\usepackage{makeidx} % Required for index generation
+
+\makeindex % Enable index generation
+
+% Configure hyperref for better appearance
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue,
+    pdfborderstyle={/S/U/W 1}
+}
+
+\title{Social Network Analysis}
+\date{December 2025}
+
+\begin{document}
+
+% Custom title page
+\begin{titlepage}
+    \centering
+    
+    % Top spacing
+    \vspace*{0.5cm}
+    
+    
+    \vspace{1cm}
+    
+    % Project Report - MAIN TITLE
+    {\Huge\textbf{PROJECT REPORT}\par}
+    
+    \vspace{0.4cm}
+    
+    % Course code and name
+    {\Large CS1.301 --- Algorithm Analysis and Design\par}
+    
+    \vspace{1.2cm}
+    
+    % University name
+    {\textsc{International Institute of Information Technology, Hyderabad}\par}
+    
+    % Project title with rule
+    \rule{\textwidth}{1.5pt}\\[0.3cm]
+    {\LARGE\bfseries Analysis and Recommendation in Synthetic\par}
+    \vspace{0.1cm}
+    {\LARGE\bfseries Friendship Networks Using Graph Theory\par}
+    \\[0.2cm]\rule{\textwidth}{1.5pt}
+    
+    \vspace{1.2cm}
+    
+    % Team name
+    {\large\textbf{Team: DROP TABLE Teams;}\par}
+    
+    \vspace{0.8cm}
+    
+    % Team members
+    {\large\textbf{Team Members}\par}
+    \vspace{0.4cm}
+    \begin{tabular}{l}
+        Sarthak Mishra \textit{(2024117007)}\\[0.15cm]
+        Amay Sharma \textit{(2024101095)}\\[0.15cm]
+        Yashav Bhatnagar \textit{(2024101030)}\\[0.15cm]
+        Lasya Katari \textit{(2024115004)}\\[0.15cm]
+        Kartik Thapa \textit{(2024115009)}
+    \end{tabular}
+    
+    \vspace{1cm}
+    
+    % Bottom date
+    {\large December 2025\par}
+    
+    \vspace{0.5cm}
+    
+    % Repository link
+    {\large\textbf{GitHub Repository:}\par}
+    \vspace{0.2cm}
+    {\large\url{https://github.com/AmaySharma06/aad-project}\par}
+    
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\begin{abstract}
+This project explores the application of graph theory algorithms to analyze and understand social network dynamics through synthetic friendship networks. We implement and evaluate four categories of algorithms: graph traversal (BFS, DFS, and Union-Find), centrality measures (Degree, Harmonic Closeness, Betweenness, and PageRank), friend recommendation systems (Jaccard similarity-based), and community detection (Louvain and Leiden methods). Through comprehensive experimental analysis, we examine how network properties such as size and density affect algorithm performance and quality metrics. Our implementations are compared against NetworkX benchmarks, demonstrating competitive performance while providing insights into the computational complexity and practical applications of these algorithms in social network analysis. The results highlight trade-offs between accuracy and efficiency, with particular focus on scalability for large-scale networks.
+\end{abstract}
+
+\newpage
+
+\section{Traversal Algorithms}
+\input{sections/algorithms/traversal/bfs}
+\input{sections/algorithms/traversal/dfs}
+\input{sections/algorithms/traversal/union\_find}
+\input{sections/algorithms/traversal/implementation}
+\input{sections/algorithms/traversal/experimental\_setup}
+\input{sections/algorithms/traversal/results}
+
+\section{Centrality Algorithms}
+\input{sections/algorithms/centrality/degree}
+\input{sections/algorithms/centrality/harmonic\_closeness}
+\input{sections/algorithms/centrality/betweenness}
+\input{sections/algorithms/centrality/pagerank}
+\input{sections/algorithms/centrality/implementation}
+\input{sections/algorithms/centrality/experimental\_setup}
+\input{sections/algorithms/centrality/results}
+
+\section{Recommendation Algorithms}
+\input{sections/algorithms/recommender/jaccard}
+\input{sections/algorithms/recommender/friend\_recommender}
+\input{sections/algorithms/recommender/implementation}
+\input{sections/algorithms/recommender/experimental\_setup}
+\input{sections/algorithms/recommender/results}
+
+\section{Community Detection Algorithms \textit{(Bonus Content)}}
+\input{sections/algorithms/community/louvain}
+\input{sections/algorithms/community/leiden}
+\input{sections/algorithms/community/modularity}
+\input{sections/algorithms/community/implementation}
+\input{sections/algorithms/community/experimental\_setup}
+\input{sections/algorithms/community/results}
+
+\newpage
+
+\section{Bonus Disclosure}
+
+This section explicitly identifies the components of our project that should be considered for bonus evaluation, as they extend beyond the core requirements of the assignment.
+
+\subsection{Bonus Algorithms Implemented}
+
+The following algorithms and implementations are submitted as bonus content:
+
+\begin{itemize}
+    \item \textbf{Louvain Algorithm} - A greedy optimization method for community detection that maximizes modularity through iterative local moves and network aggregation.
+    
+    \item \textbf{Leiden Algorithm} - An improved community detection algorithm that addresses the resolution limit and disconnected communities issues present in Louvain, guaranteeing well-connected communities.
+    
+    \item \textbf{Modularity Calculation} - Implementation of the modularity metric for evaluating the quality of network partitions, comparing the density of edges inside communities to edges between communities.
+\end{itemize}
+
+\subsection{Bonus Experimental Analysis}
+
+The experimental framework for community detection includes:
+
+\begin{itemize}
+    \item \textbf{Quality Experiments} - Comparing modularity scores and community structures between Louvain, Leiden, and NetworkX implementations across various network configurations.
+    
+    \item \textbf{Size Scalability Analysis} - Evaluating how community detection algorithms perform as network size increases from small (50 nodes) to large (2000+ nodes) networks.
+    
+    \item \textbf{Density Analysis} - Investigating the impact of network density on community detection quality and the ability to identify meaningful community structures.
+\end{itemize}
+
+\subsection{Bonus Visualizations and Results}
+
+All plots and analysis generated from the community detection experiments, located in:
+\begin{itemize}
+    \item \texttt{experiments/community/results/} - CSV files containing experimental data
+    \item \texttt{plots/community/output/} - Generated visualization plots
+    \item Report sections detailing community detection results and interpretations
+\end{itemize}
+
+\subsection{Bonus Implementation Details}
+
+The complete implementation includes:
+\begin{itemize}
+    \item Source code in \texttt{algorithms/community/louvain.py} and \texttt{algorithms/community/leiden.py}
+    \item Modularity computation in \texttt{algorithms/community/modularity.py}
+    \item Comprehensive experiment scripts in \texttt{experiments/community/run\_experiments.py}
+    \item Plotting utilities in \texttt{plots/community/plot\_experiments.py}
+\end{itemize}
+
+All community detection work represents additional effort beyond the core assignment requirements and demonstrates advanced understanding of graph partitioning and network analysis techniques.
+
+\newpage
+
+\section{Conclusion}
+
+This project successfully implemented and analyzed a comprehensive suite of graph algorithms for social network analysis, spanning four key domains: traversal, centrality measurement, friend recommendation, and community detection. Through rigorous experimental evaluation on synthetic friendship networks, we have gained valuable insights into both the theoretical complexity and practical performance of these algorithms.
+
+Our traversal algorithms (BFS, DFS, and Union-Find) demonstrated the fundamental building blocks for graph exploration, with performance closely matching theoretical expectations. The experimental results confirmed $O(V + E)$ complexity for BFS and DFS, while Union-Find showed near-constant amortized time for connectivity queries through path compression and union by rank optimizations.
+
+The centrality measures revealed different aspects of node importance in social networks. Degree centrality provided a simple yet effective metric for identifying highly connected individuals, while Harmonic Closeness and Betweenness centrality offered more nuanced perspectives on network influence and information flow. Our PageRank implementation, inspired by Google's original web ranking algorithm, successfully identified influential nodes through iterative probability distribution, with convergence typically achieved within 20-30 iterations.
+
+The friend recommendation system, based on Jaccard similarity coefficients, demonstrated practical applicability in suggesting meaningful connections. Our experiments showed that the algorithm maintains good recommendation quality even in noisy environments, with performance degrading gracefully as network density and noise levels increase. The results validate the effectiveness of common-neighbor approaches for link prediction in social networks.
+
+As bonus content, we implemented community detection algorithms (Louvain and Leiden methods) that successfully identified densely connected groups within networks. These algorithms showed strong performance in optimizing modularity scores, with the Leiden method providing improvements over Louvain in terms of community quality and well-connectedness guarantees.
+
+Across all implementations, our custom algorithms achieved competitive performance compared to NetworkX benchmarks, often within 1.5-3x of the highly optimized library implementations. This demonstrates that well-designed Python implementations can achieve reasonable efficiency while maintaining code clarity and educational value.
+
+The experimental framework developed for this project provides a solid foundation for future extensions, including analysis of real-world social network datasets, implementation of additional algorithms (such as label propagation or spectral clustering), and exploration of dynamic network evolution. The modular architecture and comprehensive visualization tools facilitate further research and experimentation in graph theory and social network analysis.
+
+This work underscores the power and versatility of graph algorithms in understanding complex network structures, with applications extending beyond social networks to areas such as biological networks, transportation systems, and recommendation engines. The insights gained from this project contribute to both theoretical understanding and practical implementation of graph algorithms in modern computational contexts.
+
+\newpage
+
+\section{References}
+\begin{thebibliography}{99}
+
+\bibitem{brandes2001}
+Brandes, U. (2001). 
+\textit{A Faster Algorithm for Betweenness Centrality.}
+Journal of Mathematical Sociology, 25(2), 163-177.
+
+\bibitem{brin1998}
+Brin, S., \& Page, L. (1998). 
+\textit{The Anatomy of a Large-Scale Hypertextual Web Search Engine.}
+Computer Networks and ISDN Systems, 30(1-7), 107-117.
+
+\bibitem{freeman1979}
+Freeman, L. C. (1979). 
+\textit{Centrality in Social Networks: Conceptual Clarification.}
+Social Networks, 1(3), 215-239.
+
+\bibitem{cormen2009}
+Cormen, T. H., Leiserson, C. E., Rivest, R. L., \& Stein, C. (2009).
+\textit{Introduction to Algorithms} (3rd ed.).
+MIT Press.
+
+\bibitem{tarjan1972}
+Tarjan, R. E. (1972).
+\textit{Depth-First Search and Linear Graph Algorithms.}
+SIAM Journal on Computing, 1(2), 146-160.
+
+\bibitem{jaccard1912}
+Jaccard, P. (1912).
+\textit{The Distribution of the Flora in the Alpine Zone.}
+New Phytologist, 11(2), 37-50.
+
+\bibitem{liben2007}
+Liben-Nowell, D., \& Kleinberg, J. (2007).
+\textit{The Link-Prediction Problem for Social Networks.}
+Journal of the American Society for Information Science and Technology, 58(7), 1019-1031.
+
+\bibitem{blondel2008}
+Blondel, V. D., Guillaume, J.-L., Lambiotte, R., \& Lefebvre, E. (2008).
+\textit{Fast Unfolding of Communities in Large Networks.}
+Journal of Statistical Mechanics: Theory and Experiment, 2008(10), P10008.
+
+\bibitem{traag2019}
+Traag, V. A., Waltman, L., \& van Eck, N. J. (2019).
+\textit{From Louvain to Leiden: Guaranteeing Well-Connected Communities.}
+Scientific Reports, 9, 5233.
+
+\bibitem{newman2004}
+Newman, M. E. J., \& Girvan, M. (2004).
+\textit{Finding and Evaluating Community Structure in Networks.}
+Physical Review E, 69(2), 026113.
+
+\bibitem{boldi2011}
+Boldi, P., \& Vigna, S. (2011).
+\textit{In-Core Computation of Geometric Centralities with HyperBall: A Hundred Billion Nodes and Beyond.}
+IEEE International Conference on Data Mining Workshops, 621-628.
+
+\bibitem{networkx}
+Hagberg, A., Swart, P., \& S Chult, D. (2008).
+\textit{Exploring Network Structure, Dynamics, and Function using NetworkX.}
+Proceedings of the 7th Python in Science Conference (SciPy2008), 11-15.
+
+\end{thebibliography}
+
+\newpage
+\printindex
+
+\end{document}

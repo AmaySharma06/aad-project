@@ -1,0 +1,108 @@
+\subsubsection{Modularity: Quality Metric for Community Detection}
+
+\paragraph{Intuition.}
+Modularity quantifies the quality of a network partition into communities. A high modularity score indicates that the partition captures genuine community structure: nodes within communities are more densely connected than would be expected in a random network with the same degree distribution.
+
+\paragraph{Formal Definition.}
+Given an undirected graph $G = (V, E)$ with adjacency matrix $A$ and a partition $\mathcal{C}$, the \textbf{modularity} $Q$ is defined as:
+\[
+Q = \frac{1}{2m} \sum_{i,j \in V} \left[ A_{ij} - \frac{k_i k_j}{2m} \right] \delta(c_i, c_j)
+\]
+
+where:
+\begin{itemize}
+    \item $m = |E|$ is the total number of edges
+    \item $k_i = \sum_j A_{ij}$ is the degree of node $i$
+    \item $c_i$ is the community assignment of node $i$
+    \item $\delta(c_i, c_j) = 1$ if $c_i = c_j$, else 0
+\end{itemize}
+
+The term $\frac{k_i k_j}{2m}$ represents the \emph{expected} number of edges between nodes $i$ and $j$ under the configuration model (random graph preserving degree sequence).
+
+\paragraph{Efficient Computation.}
+The naive $O(n^2)$ computation can be reduced to $O(n + m)$ by rewriting modularity in terms of community-level statistics:
+\[
+Q = \sum_{c \in \mathcal{C}} \left[ e_c - \gamma \cdot a_c^2 \right]
+\]
+
+where:
+\begin{itemize}
+    \item $e_c = \frac{1}{2m} \sum_{i,j \in c} A_{ij}$ = fraction of edges within community $c$
+    \item $a_c = \frac{1}{2m} \sum_{i \in c} k_i$ = fraction of edge endpoints in community $c$
+    \item $\gamma$ = resolution parameter
+\end{itemize}
+
+This formulation requires only one pass through the edges and nodes.
+
+\paragraph{Resolution-Parameterized Modularity.}
+The generalized modularity with resolution parameter $\gamma$ is:
+\[
+Q_\gamma = \frac{1}{2m} \sum_{i,j} \left[ A_{ij} - \gamma \cdot \frac{k_i k_j}{2m} \right] \delta(c_i, c_j)
+\]
+
+\begin{itemize}
+    \item $\gamma = 1$: Standard modularity
+    \item $\gamma < 1$: Penalizes expected edges less, favoring larger communities
+    \item $\gamma > 1$: Penalizes expected edges more, favoring smaller communities
+\end{itemize}
+
+\paragraph{Modularity Gain Formula.}
+When optimizing modularity (as in Louvain/Leiden), we need the gain from moving node $i$ from community $C_{\text{old}}$ to $C_{\text{new}}$:
+\[
+\Delta Q = \frac{k_{i,\text{new}} - k_{i,\text{old}}}{m} - \gamma \cdot \frac{k_i \cdot (\Sigma_{\text{new}} - \Sigma_{\text{old}})}{2m^2}
+\]
+
+where:
+\begin{itemize}
+    \item $k_{i,C}$ = edges from node $i$ to community $C$
+    \item $\Sigma_C$ = sum of degrees in community $C$ (excluding node $i$ for $C_{\text{old}}$)
+\end{itemize}
+
+This incremental formula enables $O(d_i)$ computation per node move, where $d_i$ is the degree of node $i$.
+
+\paragraph{Interpretation of Modularity Values.}
+\begin{center}
+\begin{tabular}{|c|l|}
+\hline
+\textbf{Q Range} & \textbf{Interpretation} \\
+\hline
+$Q > 0.7$ & Strong community structure \\
+$0.3 < Q \leq 0.7$ & Moderate community structure \\
+$0 < Q \leq 0.3$ & Weak community structure \\
+$Q \leq 0$ & No better than random (or anti-structure) \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Evaluation Metrics for Comparison.}
+When ground truth communities are known, we evaluate detection quality using:
+
+\textbf{Normalized Mutual Information (NMI):}
+\[
+\text{NMI}(\mathcal{C}_1, \mathcal{C}_2) = \frac{2 \cdot I(\mathcal{C}_1; \mathcal{C}_2)}{H(\mathcal{C}_1) + H(\mathcal{C}_2)}
+\]
+where $I$ is mutual information and $H$ is entropy. NMI ranges from 0 (independent partitions) to 1 (identical partitions).
+
+\textbf{Adjusted Rand Index (ARI):}
+\[
+\text{ARI} = \frac{\text{RI} - \mathbb{E}[\text{RI}]}{\max(\text{RI}) - \mathbb{E}[\text{RI}]}
+\]
+where RI is the Rand Index (fraction of node pairs correctly classified as same/different community). ARI adjusts for chance agreement, ranging from -1 to 1.
+
+\paragraph{Limitations of Modularity.}
+
+\textbf{Resolution Limit.} Modularity optimization cannot detect communities smaller than a characteristic scale $\sqrt{2m}$. In networks with millions of edges, communities with fewer than ~1000 nodes may be merged.
+
+\textbf{Degeneracy.} Many structurally different partitions can have nearly identical modularity scores, making the optimization landscape rugged with many local optima.
+
+\textbf{Null Model Assumptions.} The configuration model null model assumes edges are placed randomly given degrees. This may not capture all relevant structure (e.g., spatial networks, hierarchical organization).
+
+\paragraph{Implementation Notes.}
+Our implementation in \texttt{algorithms/community/modularity.py} provides:
+\begin{itemize}
+    \item \texttt{compute\_modularity(graph, partition, resolution)}: $O(n+m)$ modularity calculation
+    \item \texttt{compute\_modularity\_gain(...)}: $O(d_i)$ incremental gain computation
+    \item \texttt{normalized\_mutual\_information(part1, part2)}: NMI between partitions
+    \item \texttt{adjusted\_rand\_index(part1, part2)}: ARI between partitions
+    \item \texttt{get\_communities\_list(partition)}: Convert partition dict to list of sets
+\end{itemize}

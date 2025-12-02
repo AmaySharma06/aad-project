@@ -8,3 +8,4 @@ experiments/*/results/*.csv
 
 # --- Generated plots ---
 plots/*/images/*.png
+*.md

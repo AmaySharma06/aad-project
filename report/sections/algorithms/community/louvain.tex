@@ -1,0 +1,135 @@
+\subsubsection{Louvain Method for Community Detection}
+
+\paragraph{Intuition.}
+The Louvain algorithm is a greedy optimization method that detects communities by maximizing \emph{modularity}, a measure of community structure quality. Named after the University of Louvain where it was developed, this algorithm is renowned for its speed and ability to discover hierarchical community structure in large networks.
+
+In social networks, the Louvain method can identify groups of densely connected users---such as friend circles, professional networks, or interest-based communities---by finding partitions where intra-community edges significantly outnumber what would be expected by chance.
+
+\paragraph{Formal Definition.}
+Let $G = (V, E)$ be an undirected graph with $n = |V|$ nodes and $m = |E|$ edges. A \emph{partition} $\mathcal{C} = \{C_1, C_2, \ldots, C_k\}$ assigns each node $v \in V$ to exactly one community $C_i$.
+
+The \textbf{modularity} $Q$ of a partition measures the fraction of edges within communities minus the expected fraction under a null model:
+\[
+Q = \frac{1}{2m} \sum_{i,j} \left[ A_{ij} - \frac{k_i k_j}{2m} \right] \delta(c_i, c_j)
+\]
+where:
+\begin{itemize}
+    \item $A_{ij}$ is the adjacency matrix entry (1 if edge exists, 0 otherwise)
+    \item $k_i = \deg(v_i)$ is the degree of node $i$
+    \item $c_i$ denotes the community of node $i$
+    \item $\delta(c_i, c_j) = 1$ if $c_i = c_j$, else 0 (Kronecker delta)
+\end{itemize}
+
+Modularity ranges from $-0.5$ to $1$:
+\begin{itemize}
+    \item $Q > 0.3$: Significant community structure
+    \item $Q \approx 0$: Partition no better than random
+    \item $Q < 0$: Worse than random (anti-community structure)
+\end{itemize}
+
+\paragraph{Algorithm Description.}
+The Louvain algorithm operates in two alternating phases:
+
+\textbf{Phase 1: Local Moving.}
+Initialize each node in its own singleton community. For each node $i$, compute the modularity gain from moving $i$ to each neighboring community $C$:
+\[
+\Delta Q = \frac{k_{i,C}}{m} - \gamma \cdot \frac{k_i \cdot \Sigma_C}{2m^2}
+\]
+where:
+\begin{itemize}
+    \item $k_{i,C}$ = number of edges from node $i$ to community $C$
+    \item $\Sigma_C$ = sum of degrees of all nodes in $C$
+    \item $\gamma$ = resolution parameter (default 1.0)
+\end{itemize}
+
+Move node $i$ to the community yielding the maximum positive gain. Repeat over all nodes until no moves improve modularity.
+
+\textbf{Phase 2: Aggregation.}
+Collapse each community into a single \emph{super-node}. Create a new graph where:
+\begin{itemize}
+    \item Each super-node represents one community from Phase 1
+    \item Edge weight between super-nodes equals the total edges between their constituent nodes
+    \item Self-loops capture intra-community edges
+\end{itemize}
+
+Return to Phase 1 on the aggregated graph. Repeat until no further improvement is possible.
+
+\paragraph{Pseudocode.}
+\begin{verbatim}
+Algorithm: Louvain Community Detection
+Input: Graph G = (V, E), resolution gamma
+Output: Partition C, modularity Q
+
+1. Initialize: each node in its own community
+2. repeat
+3.     repeat  // Phase 1: Local Moving
+4.         improved <- false
+5.         for each node i in random order:
+6.             best_gain <- 0, best_comm <- current_community(i)
+7.             for each neighboring community C:
+8.                 gain <- compute_modularity_gain(i, C)
+9.                 if gain > best_gain:
+10.                    best_gain <- gain, best_comm <- C
+11.            if best_comm != current_community(i):
+12.                move i to best_comm
+13.                improved <- true
+14.    until not improved
+15.    
+16.    if no change in partition: break
+17.    
+18.    // Phase 2: Aggregation
+19.    G <- aggregate_graph(G, partition)
+20. until convergence
+21. return partition, compute_modularity(G, partition)
+\end{verbatim}
+
+\paragraph{Correctness.}
+The Louvain algorithm is a \emph{greedy heuristic} that does not guarantee finding the global modularity maximum (which is NP-hard). However, it provides several guarantees:
+
+\begin{enumerate}
+    \item \textbf{Monotonic improvement:} Each accepted move increases modularity, ensuring the algorithm never worsens the solution.
+    
+    \item \textbf{Termination:} Since modularity is bounded above by 1 and each iteration requires positive improvement, the algorithm must terminate.
+    
+    \item \textbf{Local optimality:} Upon termination, no single-node move can improve modularity (first-order local optimum).
+\end{enumerate}
+
+The hierarchical aggregation enables the algorithm to escape shallow local optima by considering collective movements of entire communities.
+
+\paragraph{Time Complexity.}
+The Louvain algorithm exhibits excellent average-case performance:
+
+\begin{itemize}
+    \item \textbf{Phase 1 (per iteration):} Each node examines its neighbors' communities. For a node with degree $d_i$, this takes $O(d_i)$ time. Summing over all nodes: $O(m)$ per pass.
+    
+    \item \textbf{Number of passes:} Empirically, the number of passes is $O(\log n)$ for most real-world graphs.
+    
+    \item \textbf{Phase 2:} Aggregation requires $O(n + m)$ to build the super-graph.
+    
+    \item \textbf{Hierarchical levels:} The number of aggregation levels is typically $O(\log n)$.
+\end{itemize}
+
+\textbf{Total complexity:} $O(m \log n)$ average case for sparse graphs.
+
+\textbf{Space complexity:} $O(n + m)$ to store the graph and partition.
+
+\paragraph{Resolution Parameter.}
+The resolution parameter $\gamma$ controls the granularity of detected communities:
+\begin{itemize}
+    \item $\gamma < 1$: Favors larger communities (may merge distinct groups)
+    \item $\gamma = 1$: Standard modularity
+    \item $\gamma > 1$: Favors smaller communities (may split cohesive groups)
+\end{itemize}
+
+This parameter helps address the \emph{resolution limit} of modularity---the inability to detect communities smaller than a scale determined by the total network size.
+
+\paragraph{Limitations.}
+Despite its effectiveness, the Louvain algorithm has known issues:
+
+\begin{enumerate}
+    \item \textbf{Resolution limit:} Standard modularity ($\gamma = 1$) may merge small but distinct communities in large networks.
+    
+    \item \textbf{Poorly connected communities:} The greedy local moves can create communities that are internally disconnected---a problem addressed by the Leiden algorithm.
+    
+    \item \textbf{Order dependence:} Results may vary based on the order of node processing, though randomization reduces this effect.
+\end{enumerate}
