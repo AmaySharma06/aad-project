@@ -9,24 +9,467 @@ The algorithm has two phases that repeat until convergence:
 1. Local optimization: Move nodes to neighboring communities if it improves modularity
 2. Community aggregation: Collapse communities into super-nodes and repeat
 
+Time Complexity: O(n log n) average case for sparse graphs
+
 Reference:
     Blondel, V. D., Guillaume, J. L., Lambiotte, R., & Lefebvre, E. (2008).
     Fast unfolding of communities in large networks.
+    Journal of Statistical Mechanics: Theory and Experiment, 2008(10), P10008.
 """
 
-from typing import Dict, List, Set, Tuple
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+from typing import Dict, List, Set, Tuple, Optional
 from algorithms.community.modularity import compute_modularity, get_communities_list
 import random
+
+
+class LouvainCommunityDetection:
+    """
+    Louvain algorithm implementation for community detection.
+    
+    This class provides a complete implementation of the Louvain method,
+    including hierarchical community detection.
+    
+    Attributes
+    ----------
+    resolution : float
+        Resolution parameter for modularity optimization.
+    
+    seed : int or None
+        Random seed for reproducibility.
+    
+    max_iterations : int
+        Maximum iterations for local optimization phase.
+    
+    min_modularity_gain : float
+        Minimum modularity improvement to continue optimization.
+    """
+    
+    def __init__(
+        self,
+        resolution: float = 1.0,
+        seed: Optional[int] = None,
+        max_iterations: int = 100,
+        min_modularity_gain: float = 1e-7
+    ):
+        """
+        Initialize the Louvain algorithm.
+        
+        Parameters
+        ----------
+        resolution : float, optional (default=1.0)
+            Resolution parameter. Higher values produce more communities.
+            
+        seed : int, optional
+            Random seed for reproducibility.
+            
+        max_iterations : int, optional (default=100)
+            Maximum iterations for local optimization.
+            
+        min_modularity_gain : float, optional (default=1e-7)
+            Minimum modularity improvement to continue.
+        """
+        self.resolution = resolution
+        self.seed = seed
+        self.max_iterations = max_iterations
+        self.min_modularity_gain = min_modularity_gain
+        
+        if seed is not None:
+            random.seed(seed)
+    
+    def _initialize_partition(self, graph: Dict[int, List[int]]) -> Dict[int, int]:
+        """Initialize each node in its own community."""
+        return {node: node for node in graph}
+    
+    def _compute_community_data(
+        self,
+        graph: Dict[int, List[int]],
+        partition: Dict[int, int],
+        degree: Dict[int, int]
+    ) -> Tuple[Dict[int, int], Dict[int, int]]:
+        """
+        Compute community statistics for efficient modularity gain calculation.
+        
+        Returns
+        -------
+        tuple
+            (community_total_degree, community_internal_edges)
+        """
+        community_total_degree: Dict[int, int] = {}
+        community_internal_edges: Dict[int, int] = {}
+        
+        for node, comm in partition.items():
+            # Add node degree to community total
+            community_total_degree[comm] = community_total_degree.get(comm, 0) + degree[node]
+            
+            # Count internal edges (edges to same community)
+            internal = 0
+            for neighbor in graph.get(node, []):
+                if partition.get(neighbor) == comm:
+                    internal += 1
+            community_internal_edges[comm] = community_internal_edges.get(comm, 0) + internal
+        
+        return community_total_degree, community_internal_edges
+    
+    def _local_moving_phase(
+        self,
+        graph: Dict[int, List[int]],
+        partition: Dict[int, int],
+        degree: Dict[int, int],
+        m: float
+    ) -> Tuple[Dict[int, int], bool]:
+        """
+        Phase 1: Local node moving to maximize modularity.
+        
+        For each node, try moving it to neighboring communities and
+        keep the move that maximizes modularity gain.
+        
+        Parameters
+        ----------
+        graph : dict
+            Adjacency list.
+        partition : dict
+            Current partition.
+        degree : dict
+            Node degrees.
+        m : float
+            Total edges.
+            
+        Returns
+        -------
+        tuple
+            (updated_partition, improved)
+        """
+        # Compute initial community data
+        community_total_degree, _ = self._compute_community_data(graph, partition, degree)
+        
+        improved = True
+        iteration = 0
+        
+        while improved and iteration < self.max_iterations:
+            improved = False
+            iteration += 1
+            
+            # Randomize node order
+            nodes = list(graph.keys())
+            random.shuffle(nodes)
+            
+            for node in nodes:
+                current_comm = partition[node]
+                k_i = degree[node]
+                
+                # Find neighboring communities and edge counts
+                neighbor_comms: Dict[int, int] = {}
+                for neighbor in graph.get(node, []):
+                    n_comm = partition[neighbor]
+                    neighbor_comms[n_comm] = neighbor_comms.get(n_comm, 0) + 1
+                
+                # Include current community
+                if current_comm not in neighbor_comms:
+                    neighbor_comms[current_comm] = 0
+                
+                # Remove node from current community for calculation
+                community_total_degree[current_comm] -= k_i
+                
+                # Find edges to current community (after removal)
+                k_i_current = neighbor_comms.get(current_comm, 0)
+                
+                # Find best community
+                best_comm = current_comm
+                best_gain = 0.0
+                
+                for target_comm, k_i_target in neighbor_comms.items():
+                    if target_comm == current_comm:
+                        continue
+                    
+                    sigma_target = community_total_degree.get(target_comm, 0)
+                    sigma_current = community_total_degree.get(current_comm, 0)
+                    
+                    # Modularity gain formula
+                    # ΔQ = [k_{i,target} - k_{i,current}] / m 
+                    #    - resolution * k_i * (sigma_target - sigma_current) / (2m²)
+                    gain = (k_i_target - k_i_current) / m
+                    gain -= self.resolution * k_i * (sigma_target - sigma_current) / (2 * m * m)
+                    
+                    if gain > best_gain + self.min_modularity_gain:
+                        best_gain = gain
+                        best_comm = target_comm
+                
+                # Move node to best community
+                community_total_degree[best_comm] += k_i
+                
+                if best_comm != current_comm:
+                    partition[node] = best_comm
+                    improved = True
+        
+        return partition, iteration > 1
+    
+    def _aggregate_graph(
+        self,
+        graph: Dict[int, List[int]],
+        partition: Dict[int, int]
+    ) -> Tuple[Dict[int, List[int]], Dict[int, int]]:
+        """
+        Phase 2: Aggregate communities into super-nodes.
+        
+        Create a new graph where each community becomes a node,
+        with weighted edges representing inter-community connections.
+        
+        Parameters
+        ----------
+        graph : dict
+            Original graph.
+        partition : dict
+            Current partition.
+            
+        Returns
+        -------
+        tuple
+            (aggregated_graph, node_to_original_mapping)
+        """
+        # Get unique communities
+        communities = sorted(set(partition.values()))
+        
+        # Create community -> new node ID mapping
+        comm_to_node = {comm: i for i, comm in enumerate(communities)}
+        
+        # Build new graph
+        new_graph: Dict[int, List[int]] = {i: [] for i in range(len(communities))}
+        
+        # Count edges between communities
+        edge_counts: Dict[Tuple[int, int], int] = {}
+        
+        for node, neighbors in graph.items():
+            comm_node = partition[node]
+            new_node = comm_to_node[comm_node]
+            
+            for neighbor in neighbors:
+                comm_neighbor = partition[neighbor]
+                new_neighbor = comm_to_node[comm_neighbor]
+                
+                # Count this edge
+                edge = (min(new_node, new_neighbor), max(new_node, new_neighbor))
+                edge_counts[edge] = edge_counts.get(edge, 0) + 1
+        
+        # Add edges to new graph
+        for (u, v), count in edge_counts.items():
+            if u == v:
+                # Self-loops: add count//2 entries (each edge was counted twice)
+                new_graph[u].extend([u] * (count // 2))
+            else:
+                # Inter-community edges: add count//2 entries to each side
+                weight = count // 2
+                new_graph[u].extend([v] * weight)
+                new_graph[v].extend([u] * weight)
+        
+        # Create mapping from new nodes to original nodes
+        original_mapping: Dict[int, List[int]] = {i: [] for i in range(len(communities))}
+        for node, comm in partition.items():
+            new_node = comm_to_node[comm]
+            original_mapping[new_node].append(node)
+        
+        return new_graph, comm_to_node
+    
+    def _renumber_communities(self, partition: Dict[int, int]) -> Dict[int, int]:
+        """Renumber communities to be consecutive integers starting from 0."""
+        unique_comms = sorted(set(partition.values()))
+        mapping = {old: new for new, old in enumerate(unique_comms)}
+        return {node: mapping[comm] for node, comm in partition.items()}
+    
+    def fit(
+        self,
+        graph: Dict[int, List[int]]
+    ) -> Tuple[Dict[int, int], float]:
+        """
+        Run the Louvain algorithm on the graph.
+        
+        Parameters
+        ----------
+        graph : dict[int, list[int]]
+            Adjacency list representation.
+            
+        Returns
+        -------
+        tuple
+            (partition, modularity)
+            - partition: dict mapping node -> community_id
+            - modularity: final modularity score
+            
+        Examples
+        --------
+        >>> louvain = LouvainCommunityDetection(seed=42)
+        >>> graph = {0: [1, 2], 1: [0, 2], 2: [0, 1], 3: [4, 5], 4: [3, 5], 5: [3, 4]}
+        >>> partition, Q = louvain.fit(graph)
+        >>> len(set(partition.values()))  # Number of communities
+        2
+        """
+        if not graph:
+            return {}, 0.0
+        
+        # Calculate total edges
+        m = sum(len(neighbors) for neighbors in graph.values()) / 2
+        if m == 0:
+            return {node: 0 for node in graph}, 0.0
+        
+        # Initialize
+        current_graph = {k: list(v) for k, v in graph.items()}
+        original_nodes = list(graph.keys())
+        
+        # Track mapping from current nodes to original nodes
+        node_to_original: Dict[int, List[int]] = {node: [node] for node in graph}
+        
+        # Track best partition (to avoid over-aggregation)
+        best_partition: Optional[Dict[int, int]] = None
+        best_modularity: float = -1.0
+        
+        while True:
+            # Compute degrees
+            degree = {node: len(neighbors) for node, neighbors in current_graph.items()}
+            current_m = sum(degree.values()) / 2
+            
+            if current_m == 0:
+                break
+            
+            # Initialize partition (each node in own community)
+            partition = self._initialize_partition(current_graph)
+            
+            # Phase 1: Local moving
+            partition, improved = self._local_moving_phase(
+                current_graph, partition, degree, current_m
+            )
+            
+            # Build partition for original graph to compute modularity
+            original_partition: Dict[int, int] = {}
+            for node, comm in partition.items():
+                for orig_node in node_to_original[node]:
+                    original_partition[orig_node] = comm
+            original_partition = self._renumber_communities(original_partition)
+            
+            # Compute modularity for this level
+            current_modularity = compute_modularity(graph, original_partition, self.resolution)
+            
+            # Track best partition
+            if current_modularity > best_modularity:
+                best_modularity = current_modularity
+                best_partition = original_partition.copy()
+            elif current_modularity < best_modularity - self.min_modularity_gain:
+                # Modularity is decreasing, stop aggregating
+                break
+            
+            # Check if we made any progress
+            num_communities = len(set(partition.values()))
+            if num_communities >= len(current_graph):
+                # No improvement, we're done
+                break
+            
+            # Phase 2: Aggregate
+            current_graph, comm_to_node = self._aggregate_graph(current_graph, partition)
+            
+            # Update original node mapping
+            new_node_to_original: Dict[int, List[int]] = {}
+            for node, comm in partition.items():
+                new_node = comm_to_node[comm]
+                if new_node not in new_node_to_original:
+                    new_node_to_original[new_node] = []
+                new_node_to_original[new_node].extend(node_to_original[node])
+            node_to_original = new_node_to_original
+        
+        # Return best partition found
+        if best_partition is not None:
+            return best_partition, best_modularity
+        
+        # Fallback: Build final partition from current state
+        final_partition: Dict[int, int] = {}
+        for super_node, original_nodes_list in node_to_original.items():
+            for orig_node in original_nodes_list:
+                final_partition[orig_node] = super_node
+        
+        final_partition = self._renumber_communities(final_partition)
+        modularity = compute_modularity(graph, final_partition, self.resolution)
+        
+        return final_partition, modularity
+    
+    def fit_hierarchical(
+        self,
+        graph: Dict[int, List[int]]
+    ) -> List[Dict[int, int]]:
+        """
+        Run Louvain and return hierarchical community structure.
+        
+        Returns partitions at each level of the hierarchy.
+        
+        Parameters
+        ----------
+        graph : dict[int, list[int]]
+            Adjacency list.
+            
+        Returns
+        -------
+        list[dict[int, int]]
+            List of partitions at each hierarchical level.
+            Level 0 is finest (most communities), higher levels are coarser.
+        """
+        if not graph:
+            return []
+        
+        hierarchy = []
+        current_graph = {k: list(v) for k, v in graph.items()}
+        
+        # Track mapping from current nodes to original nodes
+        node_to_original: Dict[int, List[int]] = {node: [node] for node in graph}
+        
+        while True:
+            degree = {node: len(neighbors) for node, neighbors in current_graph.items()}
+            current_m = sum(degree.values()) / 2
+            
+            if current_m == 0:
+                break
+            
+            partition = self._initialize_partition(current_graph)
+            partition, _ = self._local_moving_phase(current_graph, partition, degree, current_m)
+            
+            # Build partition for original nodes
+            original_partition: Dict[int, int] = {}
+            for node, comm in partition.items():
+                for orig_node in node_to_original[node]:
+                    original_partition[orig_node] = comm
+            
+            hierarchy.append(self._renumber_communities(original_partition))
+            
+            # Check if we can aggregate further
+            num_communities = len(set(partition.values()))
+            if num_communities >= len(current_graph):
+                break
+            
+            # Aggregate
+            current_graph, comm_to_node = self._aggregate_graph(current_graph, partition)
+            
+            # Update mapping
+            new_node_to_original: Dict[int, List[int]] = {}
+            for node, comm in partition.items():
+                new_node = comm_to_node[comm]
+                if new_node not in new_node_to_original:
+                    new_node_to_original[new_node] = []
+                new_node_to_original[new_node].extend(node_to_original[node])
+            node_to_original = new_node_to_original
+        
+        return hierarchy
 
 
 def louvain_communities(
     graph: Dict[int, List[int]],
     resolution: float = 1.0,
-    seed: int = None,
+    seed: Optional[int] = None,
     max_iterations: int = 100
 ) -> Tuple[Dict[int, int], float]:
     """
     Detect communities using the Louvain algorithm.
+
+    This is the main entry point for Louvain community detection.
 
     Parameters
     ----------
@@ -52,7 +495,7 @@ def louvain_communities(
 
     Time Complexity
     ---------------
-    O(n * log(n)) average case for sparse graphs
+    O(n log n) average case for sparse graphs
 
     Examples
     --------
@@ -60,6 +503,8 @@ def louvain_communities(
     >>> partition, Q = louvain_communities(graph)
     >>> Q > 0.3  # Good community structure detected
     True
+    >>> len(set(partition.values()))  # Should detect 2 communities
+    2
 
     Notes
     -----
@@ -76,231 +521,12 @@ def louvain_communities(
 
     The algorithm naturally discovers hierarchical community structure.
     """
-    if seed is not None:
-        random.seed(seed)
-
-    # Handle empty graph
-    if not graph:
-        return {}, 0.0
-
-    # Initialize: each node in its own community
-    partition = {node: node for node in graph}
-
-    # Precompute useful values
-    m = sum(len(neighbors) for neighbors in graph.values()) / 2
-    if m == 0:
-        return partition, 0.0
-
-    degree = {node: len(neighbors) for node, neighbors in graph.items()}
-
-    # Main loop
-    improved = True
-    iteration = 0
-
-    while improved and iteration < max_iterations:
-        improved = False
-        iteration += 1
-
-        # Randomize node order to avoid deterministic bias
-        nodes = list(graph.keys())
-        random.shuffle(nodes)
-
-        for node in nodes:
-            current_community = partition[node]
-
-            # Find neighboring communities
-            neighbor_communities = set()
-            for neighbor in graph[node]:
-                neighbor_communities.add(partition[neighbor])
-
-            # Also consider staying in current community
-            neighbor_communities.add(current_community)
-
-            # Calculate modularity gain for each possible move
-            best_community = current_community
-            best_gain = 0.0
-
-            for target_community in neighbor_communities:
-                if target_community == current_community:
-                    continue
-
-                gain = _modularity_gain(
-                    graph, partition, node, target_community,
-                    m, degree, resolution
-                )
-
-                if gain > best_gain:
-                    best_gain = gain
-                    best_community = target_community
-
-            # Make the move if it improves modularity
-            if best_community != current_community:
-                partition[node] = best_community
-                improved = True
-
-    # Renumber communities to be consecutive
-    partition = _renumber_communities(partition)
-
-    # Compute final modularity
-    modularity = compute_modularity(graph, partition)
-
-    return partition, modularity
-
-
-def _modularity_gain(
-    graph: Dict[int, List[int]],
-    partition: Dict[int, int],
-    node: int,
-    target_community: int,
-    m: float,
-    degree: Dict[int, int],
-    resolution: float = 1.0
-) -> float:
-    """
-    Calculate the modularity gain from moving a node to a target community.
-
-    Uses the efficient formula:
-        ΔQ = [k_{i,in} / m - resolution * (Σ_tot * k_i) / (2m²)]
-
-    where:
-        k_{i,in} = edges from node i to nodes in target community
-        Σ_tot = sum of degrees of nodes in target community
-        k_i = degree of node i
-    """
-    current_community = partition[node]
-
-    # Edges from node to current community (excluding self)
-    k_i_current = sum(1 for neighbor in graph[node] 
-                      if partition[neighbor] == current_community and neighbor != node)
-
-    # Edges from node to target community
-    k_i_target = sum(1 for neighbor in graph[node] 
-                     if partition[neighbor] == target_community)
-
-    # Sum of degrees in current community (excluding node)
-    sigma_current = sum(degree[n] for n, c in partition.items() 
-                       if c == current_community and n != node)
-
-    # Sum of degrees in target community
-    sigma_target = sum(degree[n] for n, c in partition.items() 
-                      if c == target_community)
-
-    k_i = degree[node]
-
-    # Gain from removing from current community
-    remove_gain = -k_i_current / m + resolution * (sigma_current * k_i) / (2 * m * m)
-
-    # Gain from adding to target community
-    add_gain = k_i_target / m - resolution * (sigma_target * k_i) / (2 * m * m)
-
-    return remove_gain + add_gain
-
-
-def _renumber_communities(partition: Dict[int, int]) -> Dict[int, int]:
-    """
-    Renumber communities to be consecutive integers starting from 0.
-    """
-    unique_communities = sorted(set(partition.values()))
-    mapping = {old: new for new, old in enumerate(unique_communities)}
-    return {node: mapping[comm] for node, comm in partition.items()}
-
-
-def louvain_hierarchical(
-    graph: Dict[int, List[int]],
-    resolution: float = 1.0,
-    seed: int = None
-) -> List[Dict[int, int]]:
-    """
-    Run Louvain algorithm and return hierarchical community structure.
-
-    This runs the full Louvain algorithm with community aggregation,
-    returning the partition at each level of the hierarchy.
-
-    Parameters
-    ----------
-    graph : dict[int, list[int]]
-        Adjacency list.
-
-    resolution : float, optional (default=1.0)
-        Resolution parameter.
-
-    seed : int, optional
-        Random seed.
-
-    Returns
-    -------
-    list[dict[int, int]]
-        List of partitions at each hierarchical level.
-        Level 0 is the finest (most communities), higher levels are coarser.
-    """
-    if seed is not None:
-        random.seed(seed)
-
-    hierarchy = []
-    current_graph = graph.copy()
-    node_mapping = {node: node for node in graph}  # Original node -> super-node
-
-    while True:
-        # Run local optimization phase
-        partition, Q = louvain_communities(current_graph, resolution, seed)
-
-        # Map back to original nodes
-        original_partition = {}
-        for original_node, super_node in node_mapping.items():
-            original_partition[original_node] = partition[super_node]
-
-        hierarchy.append(original_partition)
-
-        # Check if we can aggregate further
-        communities = get_communities_list(partition)
-        if len(communities) >= len(current_graph):
-            # No aggregation happened, we're done
-            break
-
-        # Phase 2: Aggregate communities into super-nodes
-        current_graph, node_mapping = _aggregate_communities(
-            current_graph, partition, node_mapping
-        )
-
-    return hierarchy
-
-
-def _aggregate_communities(
-    graph: Dict[int, List[int]],
-    partition: Dict[int, int],
-    prev_mapping: Dict[int, int]
-) -> Tuple[Dict[int, List[int]], Dict[int, int]]:
-    """
-    Aggregate communities into super-nodes for the next Louvain iteration.
-    """
-    # Build new graph where each community is a node
-    community_ids = set(partition.values())
-    new_graph = {c: [] for c in community_ids}
-
-    # Count edges between communities
-    edge_count: Dict[Tuple[int, int], int] = {}
-
-    for node, neighbors in graph.items():
-        comm_node = partition[node]
-        for neighbor in neighbors:
-            comm_neighbor = partition[neighbor]
-            if comm_node != comm_neighbor:
-                edge = (min(comm_node, comm_neighbor), max(comm_node, comm_neighbor))
-                edge_count[edge] = edge_count.get(edge, 0) + 1
-
-    # Add edges to new graph (we lose multiplicity in simple adjacency list)
-    for (c1, c2), count in edge_count.items():
-        if c2 not in new_graph[c1]:
-            new_graph[c1].append(c2)
-        if c1 not in new_graph[c2]:
-            new_graph[c2].append(c1)
-
-    # Update node mapping: original node -> new super-node
-    new_mapping = {}
-    for original_node, super_node in prev_mapping.items():
-        new_mapping[original_node] = partition[super_node]
-
-    return new_graph, new_mapping
+    louvain = LouvainCommunityDetection(
+        resolution=resolution,
+        seed=seed,
+        max_iterations=max_iterations
+    )
+    return louvain.fit(graph)
 
 
 if __name__ == "__main__":
@@ -342,11 +568,6 @@ if __name__ == "__main__":
     # Create a graph with 4 clear communities
     large_graph = {i: [] for i in range(20)}
 
-    # Community 0: nodes 0-4
-    # Community 1: nodes 5-9
-    # Community 2: nodes 10-14
-    # Community 3: nodes 15-19
-
     random.seed(42)
     for c in range(4):
         # Dense intra-community edges
@@ -370,3 +591,14 @@ if __name__ == "__main__":
     print(f"Modularity: {Q_large:.4f}")
     for i, comm in enumerate(communities_large):
         print(f"  Community {i}: {sorted(comm)}")
+
+    # Test hierarchical detection
+    print("\n--- Hierarchical Community Detection ---")
+    louvain_detector = LouvainCommunityDetection(seed=42)
+    hierarchy = louvain_detector.fit_hierarchical(large_graph)
+    
+    print(f"Found {len(hierarchy)} levels in hierarchy")
+    for level, part in enumerate(hierarchy):
+        num_comm = len(set(part.values()))
+        Q_level = compute_modularity(large_graph, part)
+        print(f"  Level {level}: {num_comm} communities, Q={Q_level:.4f}")

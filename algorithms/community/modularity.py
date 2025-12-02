@@ -19,15 +19,20 @@ Modularity ranges from -0.5 to 1:
     - Q > 0.3 typically indicates significant community structure
     - Q ≈ 0 means random partition
     - Q < 0 means worse than random
+
+Reference:
+    Newman, M. E. J., & Girvan, M. (2004). Finding and evaluating community
+    structure in networks. Physical Review E, 69(2), 026113.
 """
 
-from typing import Dict, List, Set
+from typing import Dict, List, Set, Tuple
 import math
 
 
 def compute_modularity(
     graph: Dict[int, List[int]],
-    partition: Dict[int, int]
+    partition: Dict[int, int],
+    resolution: float = 1.0
 ) -> float:
     """
     Compute the modularity score of a graph partition.
@@ -39,6 +44,9 @@ def compute_modularity(
 
     partition : dict[int, int]
         Mapping from node -> community_id.
+
+    resolution : float, optional (default=1.0)
+        Resolution parameter. Higher values favor smaller communities.
 
     Returns
     -------
@@ -60,14 +68,15 @@ def compute_modularity(
     Notes
     -----
     The formula is:
-        Q = (1/2m) * Σ_ij [A_ij - k_i*k_j/(2m)] * δ(c_i, c_j)
+        Q = (1/2m) * Σ_ij [A_ij - γ * k_i*k_j/(2m)] * δ(c_i, c_j)
 
     This can be rewritten for efficiency as:
-        Q = Σ_c [ e_c - a_c² ]
+        Q = Σ_c [ e_c - γ * a_c² ]
 
     where:
         e_c = fraction of edges within community c
         a_c = fraction of edge endpoints in community c
+        γ = resolution parameter
     """
     # Calculate total edges (each edge counted once)
     m = sum(len(neighbors) for neighbors in graph.values()) / 2
@@ -91,7 +100,7 @@ def compute_modularity(
         # e_c: edges within community (as fraction of total)
         edges_within = 0
         for node in members:
-            for neighbor in graph[node]:
+            for neighbor in graph.get(node, []):
                 if neighbor in members:
                     edges_within += 1
         # Each edge counted twice in undirected graph
@@ -99,97 +108,108 @@ def compute_modularity(
         e_c = edges_within / m
 
         # a_c: sum of degrees in community (as fraction of 2m)
-        degree_sum = sum(degree[node] for node in members)
+        degree_sum = sum(degree.get(node, 0) for node in members)
         a_c = degree_sum / (2 * m)
 
-        Q += e_c - a_c * a_c
+        Q += e_c - resolution * a_c * a_c
 
     return Q
 
 
-def compute_modularity_delta(
+def compute_modularity_gain(
+    node: int,
+    target_community: int,
     graph: Dict[int, List[int]],
     partition: Dict[int, int],
-    node: int,
-    new_community: int,
-    m: float = None,
-    degree: Dict[int, int] = None
+    degree: Dict[int, int],
+    community_internal_edges: Dict[int, int],
+    community_total_degree: Dict[int, int],
+    m: float,
+    resolution: float = 1.0
 ) -> float:
     """
-    Compute the change in modularity from moving a node to a new community.
+    Compute the modularity gain from moving a node to a target community.
 
-    This is more efficient than recomputing full modularity.
+    Uses the efficient formula that avoids recomputing full modularity.
 
     Parameters
     ----------
+    node : int
+        The node to move.
+
+    target_community : int
+        The community to move the node to.
+
     graph : dict[int, list[int]]
         Adjacency list.
 
     partition : dict[int, int]
         Current partition.
 
-    node : int
-        Node to move.
+    degree : dict[int, int]
+        Node degrees.
 
-    new_community : int
-        Target community.
+    community_internal_edges : dict[int, int]
+        Sum of internal edges * 2 for each community.
 
-    m : float, optional
-        Total edges (precomputed for efficiency).
+    community_total_degree : dict[int, int]
+        Sum of degrees for each community.
 
-    degree : dict[int, int], optional
-        Node degrees (precomputed for efficiency).
+    m : float
+        Total number of edges.
+
+    resolution : float, optional (default=1.0)
+        Resolution parameter.
 
     Returns
     -------
     float
-        Change in modularity (positive = improvement).
+        The change in modularity if node is moved to target_community.
 
     Notes
     -----
-    The modularity change formula for moving node i from community C to D:
-        ΔQ = [k_{i,D} - k_{i,C}] / m - degree[i] * [Σ_D - Σ_C + degree[i]] / (2m²)
+    The modularity gain formula for moving node i to community C is:
+        ΔQ = [k_{i,C} / m - resolution * Σ_C * k_i / (2m²)]
 
     where:
-        k_{i,C} = edges from i to nodes in C
+        k_{i,C} = number of edges from i to nodes in C
         Σ_C = sum of degrees in C
+        k_i = degree of node i
     """
-    old_community = partition[node]
-
-    if old_community == new_community:
-        return 0.0
-
-    # Precompute if not provided
-    if m is None:
-        m = sum(len(neighbors) for neighbors in graph.values()) / 2
-
-    if degree is None:
-        degree = {n: len(neighbors) for n, neighbors in graph.items()}
-
     if m == 0:
         return 0.0
 
-    # Count edges from node to old and new community
-    edges_to_old = 0
-    edges_to_new = 0
-
-    for neighbor in graph[node]:
-        if partition[neighbor] == old_community and neighbor != node:
-            edges_to_old += 1
-        elif partition[neighbor] == new_community:
-            edges_to_new += 1
-
-    # Sum of degrees in each community (excluding the moving node)
-    sigma_old = sum(degree[n] for n, c in partition.items() if c == old_community and n != node)
-    sigma_new = sum(degree[n] for n, c in partition.items() if c == new_community)
+    current_community = partition[node]
+    
+    if current_community == target_community:
+        return 0.0
 
     k_i = degree[node]
+    
+    # Count edges from node to target community
+    k_i_target = 0
+    for neighbor in graph.get(node, []):
+        if partition.get(neighbor) == target_community:
+            k_i_target += 1
 
-    # Modularity change formula
-    delta_Q = (edges_to_new - edges_to_old) / m
-    delta_Q -= k_i * (sigma_new - sigma_old) / (2 * m * m)
+    # Count edges from node to current community (excluding self)
+    k_i_current = 0
+    for neighbor in graph.get(node, []):
+        if partition.get(neighbor) == current_community and neighbor != node:
+            k_i_current += 1
 
-    return delta_Q
+    # Get community totals
+    sigma_target = community_total_degree.get(target_community, 0)
+    sigma_current = community_total_degree.get(current_community, 0) - k_i
+
+    # Compute gain
+    # Moving out of current community: lose k_i_current, gain back resolution * sigma_current * k_i / (2m²)
+    # Moving into target community: gain k_i_target, lose resolution * sigma_target * k_i / (2m²)
+    
+    gain = (k_i_target - k_i_current) / m
+    gain -= resolution * k_i * (sigma_target - sigma_current) / (2 * m * m)
+    
+    return gain
 
 
 def get_communities_list(partition: Dict[int, int]) -> List[Set[int]]:
@@ -308,6 +328,87 @@ def normalized_mutual_information(
     return 2 * MI / (H1 + H2)
 
 
+def adjusted_rand_index(
+    partition1: Dict[int, int],
+    partition2: Dict[int, int]
+) -> float:
+    """
+    Compute Adjusted Rand Index (ARI) between two partitions.
+
+    ARI is a measure of the similarity between two clusterings, adjusted
+    for chance. It ranges from -1 to 1, with 1 meaning perfect agreement.
+
+    Parameters
+    ----------
+    partition1 : dict[int, int]
+        First partition.
+
+    partition2 : dict[int, int]
+        Second partition.
+
+    Returns
+    -------
+    float
+        ARI score in [-1, 1].
+        1 = identical partitions
+        0 = random agreement
+        < 0 = less than random agreement
+    """
+    nodes = set(partition1.keys()) & set(partition2.keys())
+    n = len(nodes)
+    
+    if n < 2:
+        return 1.0 if n == 1 else 0.0
+
+    # Build contingency table
+    comms1: Dict[int, Set[int]] = {}
+    comms2: Dict[int, Set[int]] = {}
+    
+    for node in nodes:
+        c1 = partition1[node]
+        c2 = partition2[node]
+        
+        if c1 not in comms1:
+            comms1[c1] = set()
+        comms1[c1].add(node)
+        
+        if c2 not in comms2:
+            comms2[c2] = set()
+        comms2[c2].add(node)
+
+    # Compute the contingency table n_ij
+    contingency = {}
+    for c1_id, c1_nodes in comms1.items():
+        for c2_id, c2_nodes in comms2.items():
+            n_ij = len(c1_nodes & c2_nodes)
+            if n_ij > 0:
+                contingency[(c1_id, c2_id)] = n_ij
+
+    # Compute a_i (row sums) and b_j (column sums)
+    a = {c1: len(nodes) for c1, nodes in comms1.items()}
+    b = {c2: len(nodes) for c2, nodes in comms2.items()}
+
+    # Compute the index
+    def comb2(x):
+        return x * (x - 1) // 2
+
+    sum_nij_comb = sum(comb2(n_ij) for n_ij in contingency.values())
+    sum_a_comb = sum(comb2(a_i) for a_i in a.values())
+    sum_b_comb = sum(comb2(b_j) for b_j in b.values())
+    n_comb = comb2(n)
+
+    if n_comb == 0:
+        return 1.0
+
+    expected = sum_a_comb * sum_b_comb / n_comb
+    max_index = (sum_a_comb + sum_b_comb) / 2
+    
+    if max_index == expected:
+        return 1.0
+
+    return (sum_nij_comb - expected) / (max_index - expected)
+
+
 if __name__ == "__main__":
     # Demo
     print("=== Modularity Demo ===\n")
@@ -360,3 +461,11 @@ if __name__ == "__main__":
     nmi_off = normalized_mutual_information(ground_truth, detected_off)
     print(f"\nDetected off: {detected_off}")
     print(f"NMI = {nmi_off:.4f} (one node wrong)")
+
+    # ARI comparison
+    print("\n--- ARI Demo ---")
+    ari = adjusted_rand_index(ground_truth, detected)
+    print(f"ARI (perfect match) = {ari:.4f}")
+    
+    ari_off = adjusted_rand_index(ground_truth, detected_off)
+    print(f"ARI (one node wrong) = {ari_off:.4f}")

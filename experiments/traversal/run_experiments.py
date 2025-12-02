@@ -11,6 +11,9 @@ import os
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
+# Increase recursion limit for deep DFS
+sys.setrecursionlimit(10000)
+
 from graph.graph_generator import generate_random_graph
 from algorithms.traversal.bfs import bfs_traversal, bfs_all_paths
 from algorithms.traversal.dfs import dfs_traversal, dfs_iterative

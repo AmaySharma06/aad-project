@@ -239,6 +239,146 @@ class FriendRecommender:
             for user in self.graph
         }
 
+    def recommend_all_inverted_index(
+        self,
+        k: int = 10,
+        exclude_friends: bool = True
+    ) -> Dict[int, List[Tuple[int, float]]]:
+        """
+        Generate recommendations using an inverted index optimization.
+        
+        Instead of iterating all pairs (O(V^2)), we iterate neighbors to find
+        common neighbors efficiently.
+        
+        Complexity: O(V * average_degree^2) which is usually << O(V^2) for sparse graphs.
+        """
+        recommendations = {}
+        nodes = list(self.graph.keys())
+        
+        # Precompute Tag Inverted Index: tag -> [users]
+        tag_index = {}
+        for u, user_tags in self.tags.items():
+            for tag in user_tags:
+                if tag not in tag_index:
+                    tag_index[tag] = []
+                tag_index[tag].append(u)
+        
+        for user in nodes:
+            # Set of all candidates (users who share a friend OR a tag)
+            candidates = set()
+            
+            user_friends = self._neighbor_sets.get(user, set())
+            
+            # 1. Candidates from Graph (Friends of Friends)
+            for friend in user_friends:
+                for friend_of_friend in self.graph.get(friend, []):
+                    if friend_of_friend == user: continue
+                    if exclude_friends and friend_of_friend in user_friends: continue
+                    candidates.add(friend_of_friend)
+            
+            # 2. Candidates from Tags (Share a tag)
+            user_tags = self.tags.get(user, [])
+            for tag in user_tags:
+                for u_tag in tag_index.get(tag, []):
+                    if u_tag == user: continue
+                    if exclude_friends and u_tag in user_friends: continue
+                    candidates.add(u_tag)
+            
+            # Calculate full scores for identified candidates
+            user_recs = []
+            
+            for candidate in candidates:
+                score = self.combined_score(user, candidate)
+                user_recs.append((candidate, score))
+            
+            user_recs.sort(key=lambda x: x[1], reverse=True)
+            recommendations[user] = user_recs[:k]
+            
+        return recommendations
+
+    def recommend_all_sparse_matrix(
+        self,
+        k: int = 10,
+        exclude_friends: bool = True
+    ) -> Dict[int, List[Tuple[int, float]]]:
+        """
+        Generate recommendations using sparse matrix multiplication logic.
+        
+        Simulates:
+        1. C_graph = A * A (Common neighbors)
+        2. C_tags = T * T^T (Shared tags)
+        
+        Then merges the non-zero entries to find candidates.
+        """
+        recommendations = {}
+        nodes = list(self.graph.keys())
+        n = len(nodes)
+        
+        # Map node IDs to 0..n-1 indices
+        node_to_idx = {node: i for i, node in enumerate(nodes)}
+        idx_to_node = {i: node for node, i in node_to_idx.items()}
+        
+        # 1. Graph Matrix Multiplication (A * A)
+        # A[i] = list of neighbor indices
+        A = [[] for _ in range(n)]
+        for u, neighbors in self.graph.items():
+            u_idx = node_to_idx[u]
+            for v in neighbors:
+                if v in node_to_idx:
+                    A[u_idx].append(node_to_idx[v])
+        
+        # Candidates set for each user (using a set of indices)
+        candidates_matrix = [set() for _ in range(n)]
+        
+        # A * A
+        for i in range(n):
+            for neighbor in A[i]: # neighbor is neighbor of i
+                for j in A[neighbor]: # j is neighbor of neighbor
+                    if i == j: continue
+                    candidates_matrix[i].add(j)
+                    
+        # 2. Tag Matrix Multiplication (T * T^T)
+        # T[i] = list of tags for user i
+        # But we need T^T (Tag -> Users) to iterate efficiently
+        # tag_to_users[tag] = [user_indices]
+        tag_to_users = {}
+        for u, user_tags in self.tags.items():
+            if u not in node_to_idx: continue
+            u_idx = node_to_idx[u]
+            for tag in user_tags:
+                if tag not in tag_to_users:
+                    tag_to_users[tag] = []
+                tag_to_users[tag].append(u_idx)
+                
+        # Multiply T * T^T
+        # For each user i, iterate their tags, then find other users with those tags
+        for i in range(n):
+            user = idx_to_node[i]
+            for tag in self.tags.get(user, []):
+                for j in tag_to_users.get(tag, []):
+                    if i == j: continue
+                    candidates_matrix[i].add(j)
+        
+        # Convert back to recommendations
+        for i in range(n):
+            user = idx_to_node[i]
+            user_recs = []
+            user_friends = self._neighbor_sets.get(user, set())
+            
+            for j in candidates_matrix[i]:
+                candidate = idx_to_node[j]
+                
+                if exclude_friends and candidate in user_friends:
+                    continue
+                
+                score = self.combined_score(user, candidate)
+                user_recs.append((candidate, score))
+                
+            user_recs.sort(key=lambda x: x[1], reverse=True)
+            recommendations[user] = user_recs[:k]
+            
+        return recommendations
+
     def explain_recommendation(
         self,
         user: int,
@@ -484,3 +624,58 @@ if __name__ == "__main__":
     print(f"Precision@5: {metrics['precision']:.3f}")
     print(f"Recall@5: {metrics['recall']:.3f}")
     print(f"Hit Rate: {metrics['hit_rate']:.3f}")
+
+    # Optimization Benchmark
+    print("\n--- Optimization Benchmark ---")
+    import time
+    from graph.graph_generator import generate_random_graph
+    import random
+    
+    # Generate graph
+    print("Generating graph with 500 nodes...")
+    bench_graph = generate_random_graph(500, p=0.05, seed=42)
+    # Add random tags
+    bench_tags = {}
+    available_tags = ["sports", "music", "tech", "travel", "food", "art", "gaming"]
+    for i in range(500):
+        bench_tags[i] = random.sample(available_tags, random.randint(1, 3))
+        
+    bench_rec = FriendRecommender(bench_graph, bench_tags)
+    
+    print("Running Baseline (O(N^2))...")
+    start = time.time()
+    res_base = bench_rec.recommend_all(k=5)
+    t_base = time.time() - start
+    print(f"Baseline time: {t_base:.4f}s")
+    
+    print("Running Inverted Index...")
+    start = time.time()
+    res_inv = bench_rec.recommend_all_inverted_index(k=5)
+    t_inv = time.time() - start
+    print(f"Inverted Index time: {t_inv:.4f}s (Speedup: {t_base/t_inv:.2f}x)")
+    
+    print("Running Sparse Matrix...")
+    start = time.time()
+    res_sparse = bench_rec.recommend_all_sparse_matrix(k=5)
+    t_sparse = time.time() - start
+    print(f"Sparse Matrix time: {t_sparse:.4f}s (Speedup: {t_base/t_sparse:.2f}x)")
+    
+    # Verify results match
+    match = True
+    for u in bench_graph:
+        base_ids = [x[0] for x in res_base[u]]
+        inv_ids = [x[0] for x in res_inv[u]]
+        sparse_ids = [x[0] for x in res_sparse[u]]
+        
+        # Check set equality of top K (order might differ for ties)
+        # But scores should be identical.
+        # Let's check if lists are identical for now.
+        if base_ids != inv_ids or base_ids != sparse_ids:
+            match = False
+            print(f"Mismatch for User {u}:")
+            print(f"  Base:   {base_ids}")
+            print(f"  Inv:    {inv_ids}")
+            print(f"  Sparse: {sparse_ids}")
+            break
+            
+    print(f"Results match: {match}")
