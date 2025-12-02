@@ -402,24 +402,20 @@
             \item Global shortest-path measure
             \item Closeness to all other nodes
             \item Uses BFS from each node
-            \item Handles disconnected graphs
         \end{itemize}
         
         \vspace{0.2cm}
         \textbf{Formula:}
-        $C_H(v) = \sum_{u \neq v} \frac{1}{d(v, u)}$ \quad ($d$ = shortest path)
+        \vspace{-0.1cm}
+        \[C_H(v) = \sum_{u \neq v} \frac{1}{d(v, u)}\]
+        \vspace{-0.3cm}
         
-        \vspace{0.2cm}
-        \textbf{Interpretation:}
-        \begin{itemize}\setlength{\itemsep}{1pt}
-            \item Higher score = better reachability
-            \item Central nodes in network
-        \end{itemize}
+        {\footnotesize where $d(v,u)$ = shortest path distance}
         
         \column{0.5\textwidth}
         \textbf{Complexity:}
         \begin{block}{Time: $\Theta(n(n + m))$}
-            Runs BFS from every node
+            {\footnotesize Runs BFS from every node}
         \end{block}
         \vspace{-0.1cm}
         \begin{block}{Space: $\Theta(n + m)$}
@@ -428,9 +424,9 @@
         \vspace{0.1cm}
         \textbf{Properties:}
         \begin{itemize}\setlength{\itemsep}{1pt}
+            \item Higher score = better reachability
+            \item Handles disconnected graphs
             \item More expensive than degree
-            \item Global information
-            \item Robust to disconnected components
         \end{itemize}
     \end{columns}
 \end{frame}
@@ -442,20 +438,21 @@
         \textbf{Definition:}
         \begin{itemize}\setlength{\itemsep}{1pt}
             \item How often node lies on shortest paths
-            \item Highlights "bridge" nodes
+            \item Highlights ``bridge'' nodes
             \item Critical for information flow
         \end{itemize}
         
-        \vspace{0.2cm}
+        \vspace{0.15cm}
         \textbf{Formula:}
-        $C_B(v) = \sum_{s \neq v \neq t} \frac{\sigma_{st}(v)}{\sigma_{st}}$
+        \vspace{-0.1cm}
+        \[C_B(v) = \sum_{s \neq v \neq t} \frac{\sigma_{st}(v)}{\sigma_{st}}\]
+        \vspace{-0.4cm}
         
-        \vspace{0.1cm}
-        {\footnotesize $\sigma_{st}$ = \# paths $s \to t$; $\sigma_{st}(v)$ = paths through $v$}
+        {\footnotesize $\sigma_{st}$: \# paths; $\sigma_{st}(v)$: paths via $v$}
         
         \column{0.5\textwidth}
         \textbf{Complexity:}
-        \begin{block}{Time: $\Theta(nm)$ unweighted}
+        \begin{block}{Time: $\Theta(nm)$}
         \end{block}
         \vspace{-0.1cm}
         \begin{block}{Space: $\Theta(n + m)$}
@@ -464,10 +461,9 @@
         \vspace{0.1cm}
         \textbf{Brandes Optimization:}
         \begin{itemize}\setlength{\itemsep}{1pt}
-            \item Avoids recomputing all paths
-            \item Dependency accumulation
             \item Single BFS per source
-            \item Backward accumulation
+            \item Dependency accumulation
+            \item Backward pass for scores
         \end{itemize}
     \end{columns}
 \end{frame}
@@ -479,22 +475,24 @@
         \textbf{Definition:}
         \begin{itemize}\setlength{\itemsep}{1pt}
             \item Influence via random walk
-            \item Important if important nodes link to it
+            \item Important if linked by important nodes
             \item Iterative power-method updates
-            \item Damping factor for convergence
         \end{itemize}
         
-        \vspace{0.2cm}
+        \vspace{0.15cm}
         \textbf{Formula:}
-        $PR(v) = \frac{1-d}{n} + d \sum_{u \in N^{-}(v)} \frac{PR(u)}{|N^{+}(u)|}$
+        \vspace{-0.1cm}
+        {\footnotesize
+        \[PR(v) = \frac{1-d}{n} + d \!\!\sum_{u \to v} \frac{PR(u)}{\text{deg}(u)}\]
+        }
+        \vspace{-0.4cm}
         
-        \vspace{0.1cm}
-        {\footnotesize where $d \approx 0.85$ is damping factor}
+        {\footnotesize $d \approx 0.85$ = damping factor}
         
         \column{0.5\textwidth}
         \textbf{Complexity:}
         \begin{block}{Time: $\Theta(K(n + m))$}
-            $K$ = \# iterations (typically fixed)
+            {\footnotesize $K$ = iterations (typically 20--50)}
         \end{block}
         \vspace{-0.1cm}
         \begin{block}{Space: $\Theta(n + m)$}
@@ -504,7 +502,7 @@
         \textbf{Properties:}
         \begin{itemize}\setlength{\itemsep}{1pt}
             \item Global influence metric
-            \item Converges in few iterations
+            \item Fast convergence
             \item Near-linear runtime
         \end{itemize}
     \end{columns}
@@ -629,18 +627,18 @@
 \end{frame}
 
 \begin{frame}{Hybrid Friend Recommender}
-    \small
+    \footnotesize
     \begin{block}{Multi-Signal Architecture --- Combines three complementary signals:}
     \end{block}
     \vspace{-0.2cm}
     \begin{columns}[T]
         \column{0.33\textwidth}
-        \textbf{1. Jaccard Similarity}
-        \vspace{-0.2cm}
-        \[
-        J(u,v) = \frac{|N(u) \cap N(v)|}{|N(u) \cup N(v)|}
-        \]
-        \vspace{-0.3cm}
+        \textbf{1. Jaccard}
+        \vspace{-0.15cm}
+        {\scriptsize
+        \[J = \frac{|N(u) \cap N(v)|}{|N(u) \cup N(v)|}\]
+        }
+        \vspace{-0.4cm}
         \begin{itemize}\setlength{\itemsep}{0pt}
             \item Common friends
             \item Normalized overlap
@@ -648,11 +646,11 @@
         
         \column{0.33\textwidth}
         \textbf{2. Adamic-Adar}
-        \vspace{-0.2cm}
-        \[
-        AA = \sum_{w \in N(u) \cap N(v)} \frac{1}{\log |N(w)|}
-        \]
-        \vspace{-0.3cm}
+        \vspace{-0.15cm}
+        {\scriptsize
+        \[AA = \!\sum_{w \in N(u) \cap N(v)}\! \frac{1}{\log |N(w)|}\]
+        }
+        \vspace{-0.4cm}
         \begin{itemize}\setlength{\itemsep}{0pt}
             \item Weighted neighbors
             \item Down-weights hubs
@@ -660,21 +658,21 @@
         
         \column{0.33\textwidth}
         \textbf{3. Tag Similarity}
-        \vspace{-0.2cm}
-        \[
-        T(u,v) = \frac{|Tags_u \cap Tags_v|}{|Tags_u \cup Tags_v|}
-        \]
-        \vspace{-0.3cm}
+        \vspace{-0.15cm}
+        {\scriptsize
+        \[T = \frac{|Tags_u \cap Tags_v|}{|Tags_u \cup Tags_v|}\]
+        }
+        \vspace{-0.4cm}
         \begin{itemize}\setlength{\itemsep}{0pt}
             \item Shared interests
             \item Content-based
         \end{itemize}
     \end{columns}
     
-    \vspace{0.2cm}
+    \vspace{0.15cm}
     
     \begin{block}{Final Score}
-        $Score(u, v) = w_1 \cdot J(u,v) + w_2 \cdot AA(u,v) + w_3 \cdot T(u,v)$ \quad (Top-$k$ become recommendations)
+        {\small $Score = w_1 \cdot J + w_2 \cdot AA + w_3 \cdot T$ \quad (Top-$k$ recommended)}
     \end{block}
 \end{frame}
 
@@ -754,25 +752,24 @@
 \end{frame}
 
 \begin{frame}{Recommendation: Key Findings}
-    \small
+    \footnotesize
     \begin{block}{Performance Summary}
-        \begin{itemize}\setlength{\itemsep}{1pt}
-            \item Single-user: $<$ 10ms at $n=1000$ → suitable for interactive use
-            \item 40\% hit rate @ $k=10$ → 4/10 users get useful recommendations
-            \item 10× better than random, 27\% better than common neighbors
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item Single-user: $<$10ms at $n$=1000 \textrightarrow{} suitable for interactive use
+            \item 40\% hit rate @ $k$=10; 10$\times$ better than random
         \end{itemize}
     \end{block}
-    \vspace{-0.1cm}
+    \vspace{-0.15cm}
     \begin{block}{Multi-Signal Benefits}
-        \begin{itemize}\setlength{\itemsep}{1pt}
+        \begin{itemize}\setlength{\itemsep}{0pt}
             \item Jaccard: structural similarity via common friends
             \item Adamic-Adar: weighted neighbors (downweight hubs)
-            \item Tags: content-based, helps with cold-start; provides noise robustness
+            \item Tags: content-based, helps cold-start \& noise robustness
         \end{itemize}
     \end{block}
-    \vspace{-0.1cm}
+    \vspace{-0.15cm}
     \begin{block}{Practical Insights}
-        \begin{itemize}\setlength{\itemsep}{1pt}
+        \begin{itemize}\setlength{\itemsep}{0pt}
             \item Friends-of-friends filtering crucial for scalability
             \item 20\% noise tolerance suitable for real-world systems
         \end{itemize}
@@ -887,15 +884,13 @@
     \vspace{0.1cm}
     \small
     \begin{block}{Definition --- Measures quality of a community partition}
-        \vspace{-0.2cm}
-        \[
-        Q = \frac{1}{2m} \sum_{ij} \left[ A_{ij} - \frac{k_i k_j}{2m} \right] \delta(c_i, c_j)
-        \]
+        \vspace{-0.1cm}
+        {\small
+        \[Q = \frac{1}{2m} \sum_{ij} \left[ A_{ij} - \frac{k_i k_j}{2m} \right] \delta(c_i, c_j)\]
+        }
         \vspace{-0.3cm}
-        \begin{itemize}\setlength{\itemsep}{0pt}
-            \item $A_{ij}$: adjacency matrix; $k_i, k_j$: degrees; $m$: total edges
-            \item $\delta(c_i, c_j) = 1$ if $i, j$ in same community, 0 otherwise
-        \end{itemize}
+        
+        {\footnotesize $A_{ij}$: adjacency; $k_i, k_j$: degrees; $m$: edges; $\delta = 1$ if same community}
     \end{block}
     \vspace{-0.1cm}
     \begin{columns}[T]
@@ -904,7 +899,7 @@
         \begin{itemize}\setlength{\itemsep}{1pt}
             \item $Q \in [-0.5, 1]$
             \item $Q > 0.3$: significant structure
-            \item Actual vs expected edges (null model)
+            \item Actual vs expected edges
         \end{itemize}
         
         \column{0.5\textwidth}
@@ -923,61 +918,48 @@
         \hspace{0.3cm}\textbf{\large Community Detection: Experiments}\hfill\textcolor{red}{\textbf{BONUS}}\hspace{0.3cm}
     \end{beamercolorbox}
     
-    \vspace{0.1cm}
-    \footnotesize
-    \begin{block}{Five Comprehensive Experiments}
-    \end{block}
-    \vspace{-0.3cm}
+    \vspace{0.05cm}
+    \scriptsize
     \begin{columns}[T]
         \column{0.5\textwidth}
         \textbf{1. Size Scaling}
-        \begin{itemize}\setlength{\itemsep}{0pt}
-            \item Graphs: $n \in \{100, 200, 500, 1000, 2000, 5000\}$
-            \item Fixed $p=0.05$
-            \item Measures runtime and modularity
+        \begin{itemize}\setlength{\itemsep}{-1pt}
+            \item $n \in \{100, 200, 500, 1000, 2000, 5000\}$, fixed $p=0.05$
         \end{itemize}
         
-        \vspace{0.1cm}
+        \vspace{0.05cm}
         \textbf{2. Density Scaling}
-        \begin{itemize}\setlength{\itemsep}{0pt}
-            \item Fixed $n=500$
-            \item Vary $p \in \{0.02, 0.05, 0.10, 0.20, 0.35, 0.50\}$
-            \item Shows density effect on quality
+        \begin{itemize}\setlength{\itemsep}{-1pt}
+            \item Fixed $n=500$, vary $p \in \{0.02 \ldots 0.50\}$
         \end{itemize}
         
-        \vspace{0.1cm}
+        \vspace{0.05cm}
         \textbf{3. Quality Evaluation}
-        \begin{itemize}\setlength{\itemsep}{0pt}
-            \item Planted partition model
-            \item $k=4$ communities, $n=200$ per community
-            \item Vary $p_{\text{intra}} \in \{0.05, 0.10, 0.15, 0.20, 0.25, 0.30\}$
+        \begin{itemize}\setlength{\itemsep}{-1pt}
+            \item Planted partition: $k=4$, $n=200$/community
             \item Metrics: NMI, ARI
         \end{itemize}
         
         \column{0.5\textwidth}
         \textbf{4. Resolution Parameter $\gamma$}
-        \begin{itemize}\setlength{\itemsep}{0pt}
-            \item Fixed $n=800$, $k=4$, $p_{\text{intra}}=0.2$, $p_{\text{inter}}=0.01$
+        \begin{itemize}\setlength{\itemsep}{-1pt}
             \item Vary $\gamma \in \{0.5, 0.75, 1.0, 1.25, 1.5, 2.0\}$
-            \item Tests robustness to resolution
+            \item Tests robustness
         \end{itemize}
         
-        \vspace{0.1cm}
+        \vspace{0.05cm}
         \textbf{5. Algorithm Comparison}
-        \begin{itemize}\setlength{\itemsep}{0pt}
-            \item Louvain vs Leiden
-            \item Ambiguous graphs ($p_{\text{intra}}=0.15$, $p_{\text{inter}}=0.05$)
-            \item Compare quality and speed
-        \end{itemize}
-        
-        \vspace{0.1cm}
-        \textbf{Graph Model:}
-        \begin{itemize}\setlength{\itemsep}{0pt}
-            \item Planted partition: $k$ communities
-            \item $p_{\text{intra}}$: within-community edge prob.
-            \item $p_{\text{inter}}$: between-community edge prob.
+        \begin{itemize}\setlength{\itemsep}{-1pt}
+            \item Louvain vs Leiden on ambiguous graphs
         \end{itemize}
     \end{columns}
+    
+    \vspace{0.1cm}
+    \begin{block}{Graph Model: Planted Partition}
+        \begin{itemize}\setlength{\itemsep}{0pt}
+            \item $k$ communities with $p_{\text{intra}}$ (within) and $p_{\text{inter}}$ (between) edge probabilities
+        \end{itemize}
+    \end{block}
 \end{frame}
 
 \begin{frame}[t]
@@ -1393,29 +1375,23 @@
 \end{frame}
 
 \begin{frame}{Bonus Disclosure}
-    \small
-    \begin{block}{Bonus Components --- The following should be evaluated for bonus marks:}
-        \begin{enumerate}\setlength{\itemsep}{2pt}
-            \item \textbf{Community Detection Algorithms:}
-            \begin{itemize}\setlength{\itemsep}{0pt}
-                \item Louvain algorithm (modularity optimization)
-                \item Leiden algorithm (improved Louvain with quality guarantees)
-                \item Modularity metric implementation
-            \end{itemize}
-            
-            \item \textbf{Advanced Centrality:}
-            \begin{itemize}\setlength{\itemsep}{0pt}
-                \item Betweenness Centrality (Brandes algorithm)
-                \item Harmonic Closeness Centrality
-            \end{itemize}
-            
-            \item \textbf{Recommendation System Enhancements:}
-            \begin{itemize}\setlength{\itemsep}{0pt}
-                \item Multi-signal hybrid architecture (Jaccard + Adamic-Adar + Tags)
-                \item Noise robustness evaluation
-                \item Quality metrics (Precision, Recall, Hit Rate)
-            \end{itemize}
-        \end{enumerate}
+    \footnotesize
+    \begin{block}{Bonus Algorithms Implemented}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item \textbf{Louvain Algorithm} --- Greedy modularity optimization via iterative local moves and network aggregation.
+            \item \textbf{Leiden Algorithm} --- Improved Louvain that guarantees well-connected communities.
+            \item \textbf{Modularity Calculation} --- Quality metric comparing edge density inside vs between communities.
+        \end{itemize}
+    \end{block}
+    
+    \vspace{0.1cm}
+    
+    \begin{block}{Bonus Experimental Analysis}
+        \begin{itemize}\setlength{\itemsep}{1pt}
+            \item \textbf{Quality Experiments} --- Comparing modularity scores and community structures
+            \item \textbf{Size Scalability Analysis} --- Performance from 50 to 2000+ nodes
+            \item \textbf{Density Analysis} --- Impact of network density on community detection
+        \end{itemize}
     \end{block}
 \end{frame}
 
