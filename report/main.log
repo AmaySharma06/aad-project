@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.1.15)  2 DEC 2025 05:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.1.15)  2 DEC 2025 05:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -423,7 +423,7 @@ e is lo-cated in \OT1/cmtt/m/n/10 experiments/traversal/\OT1/cmr/m/n/10 :
  []
 
 [16]) (sections/algorithms/traversal/results.tex [17]
-<./plots/traversal/size_vs_time.png, id=338, 714.0276pt x 424.9476pt>
+<./plots/traversal/size_vs_time.png, id=368, 714.0276pt x 424.9476pt>
 File: ./plots/traversal/size_vs_time.png Graphic file (type png)
 <use ./plots/traversal/size_vs_time.png>
 Package pdftex.def Info: ./plots/traversal/size_vs_time.png  used on input line
@@ -435,7 +435,7 @@ Overfull \hbox (7.0567pt too wide) in paragraph at lines 33--35
 show roughly quadratic growth,
  []
 
-<./plots/traversal/density_vs_time.png, id=350, 714.0276pt x 424.9476pt>
+<./plots/traversal/density_vs_time.png, id=380, 714.0276pt x 424.9476pt>
 File: ./plots/traversal/density_vs_time.png Graphic file (type png)
 <use ./plots/traversal/density_vs_time.png>
 Package pdftex.def Info: ./plots/traversal/density_vs_time.png  used on input l
@@ -485,20 +485,20 @@ w[]rank\OT1/cmr/m/n/10 )
 
 ) (sections/algorithms/centrality/experimental_setup.tex)
 (sections/algorithms/centrality/results.tex [35]
-<./plots/centrality/images/size_vs_time.png, id=494, 722.7pt x 433.62pt>
+<./plots/centrality/images/size_vs_time.png, id=524, 722.7pt x 433.62pt>
 File: ./plots/centrality/images/size_vs_time.png Graphic file (type png)
 <use ./plots/centrality/images/size_vs_time.png>
 Package pdftex.def Info: ./plots/centrality/images/size_vs_time.png  used on in
 put line 10.
 (pdftex.def)             Requested size: 241.49895pt x 144.90134pt.
  [36 <./plots/centrality/images/size_vs_time.png>]
-<./plots/centrality/images/density_vs_time.png, id=505, 722.7pt x 433.62pt>
+<./plots/centrality/images/density_vs_time.png, id=535, 722.7pt x 433.62pt>
 File: ./plots/centrality/images/density_vs_time.png Graphic file (type png)
 <use ./plots/centrality/images/density_vs_time.png>
 Package pdftex.def Info: ./plots/centrality/images/density_vs_time.png  used on
  input line 29.
 (pdftex.def)             Requested size: 241.49895pt x 144.90134pt.
-<./plots/centrality/images/centrality_heatmap_grid.png, id=507, 860.013pt x 860
+<./plots/centrality/images/centrality_heatmap_grid.png, id=537, 860.013pt x 860
 .4948pt>
 File: ./plots/centrality/images/centrality_heatmap_grid.png Graphic file (type 
 png)
@@ -623,7 +623,7 @@ T1/cmr/m/n/10 100\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 200\OML/cmm/m/it/10 ; \OT1/
 cmr/m/n/10 500\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 1000\OMS/cmtt/m/n/10 g$
  []
 
-<plots/recommender/size_vs_time.png, id=681, 714.0276pt x 424.9476pt>
+<plots/recommender/size_vs_time.png, id=711, 714.0276pt x 424.9476pt>
 File: plots/recommender/size_vs_time.png Graphic file (type png)
 <use plots/recommender/size_vs_time.png>
 Package pdftex.def Info: plots/recommender/size_vs_time.png  used on input line
@@ -641,7 +641,7 @@ Overfull \hbox (1.95946pt too wide) in paragraph at lines 30--41
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [55] [56 <./plots/recommender/size_vs_time.png>]
-<plots/recommender/quality_vs_k.png, id=703, 1075.3776pt x 352.6776pt>
+<plots/recommender/quality_vs_k.png, id=733, 1075.3776pt x 352.6776pt>
 File: plots/recommender/quality_vs_k.png Graphic file (type png)
 <use plots/recommender/quality_vs_k.png>
 Package pdftex.def Info: plots/recommender/quality_vs_k.png  used on input line
@@ -663,7 +663,7 @@ OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 30\OMS/cmtt/m/n/10 g$
  []
 
 [58]
-<plots/recommender/noise_vs_quality.png, id=723, 714.0276pt x 424.9476pt>
+<plots/recommender/noise_vs_quality.png, id=753, 714.0276pt x 424.9476pt>
 File: plots/recommender/noise_vs_quality.png Graphic file (type png)
 <use plots/recommender/noise_vs_quality.png>
 Package pdftex.def Info: plots/recommender/noise_vs_quality.png  used on input 
@@ -809,7 +809,7 @@ Overfull \hbox (10.16737pt too wide) in paragraph at lines 3--4
 im-ple-men-ta-tions through
  []
 
-<plots/community/size_scaling.png, id=886, 714.0276pt x 424.9476pt>
+<plots/community/size_scaling.png, id=916, 714.0276pt x 424.9476pt>
 File: plots/community/size_scaling.png Graphic file (type png)
 <use plots/community/size_scaling.png>
 Package pdftex.def Info: plots/community/size_scaling.png  used on input line 1
@@ -822,7 +822,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [78]
-<plots/community/size_modularity.png, id=900, 714.0276pt x 424.9476pt>
+<plots/community/size_modularity.png, id=930, 714.0276pt x 424.9476pt>
 File: plots/community/size_modularity.png Graphic file (type png)
 <use plots/community/size_modularity.png>
 Package pdftex.def Info: plots/community/size_modularity.png  used on input lin
@@ -832,7 +832,7 @@ e 49.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<plots/community/density_scaling.png, id=902, 714.0276pt x 424.9476pt>
+<plots/community/density_scaling.png, id=932, 714.0276pt x 424.9476pt>
 File: plots/community/density_scaling.png Graphic file (type png)
 <use plots/community/density_scaling.png>
 Package pdftex.def Info: plots/community/density_scaling.png  used on input lin
@@ -849,7 +849,7 @@ eve nearly iden-ti-cal mod-u-lar-ity scores
  []
 
 [80 <./plots/community/size_modularity.png>]
-<plots/community/quality_nmi.png, id=923, 714.0276pt x 424.9476pt>
+<plots/community/quality_nmi.png, id=953, 714.0276pt x 424.9476pt>
 File: plots/community/quality_nmi.png Graphic file (type png)
 <use plots/community/quality_nmi.png>
 Package pdftex.def Info: plots/community/quality_nmi.png  used on input line 11
@@ -859,7 +859,7 @@ Package pdftex.def Info: plots/community/quality_nmi.png  used on input line 11
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<plots/community/quality_ari.png, id=924, 714.0276pt x 424.9476pt>
+<plots/community/quality_ari.png, id=954, 714.0276pt x 424.9476pt>
 File: plots/community/quality_ari.png Graphic file (type png)
 <use plots/community/quality_ari.png>
 Package pdftex.def Info: plots/community/quality_ari.png  used on input line 11
@@ -869,7 +869,7 @@ Package pdftex.def Info: plots/community/quality_ari.png  used on input line 11
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [81 <./plots/community/density_scaling.png>]
-<plots/community/resolution_effect.png, id=941, 1003.1076pt x 352.6776pt>
+<plots/community/resolution_effect.png, id=971, 1003.1076pt x 352.6776pt>
 File: plots/community/resolution_effect.png Graphic file (type png)
 <use plots/community/resolution_effect.png>
 Package pdftex.def Info: plots/community/resolution_effect.png  used on input l
@@ -890,7 +890,7 @@ mm/m/it/10 Q[] \OT1/cmr/m/n/10 = [] [][] [] \OML/cmm/m/it/10 ^^N\OT1/cmr/m/n/10
  []
 
 [83 <./plots/community/quality_ari.png>]
-<plots/community/algorithm_comparison.png, id=964, 1075.3776pt x 352.6776pt>
+<plots/community/algorithm_comparison.png, id=994, 1075.3776pt x 352.6776pt>
 File: plots/community/algorithm_comparison.png Graphic file (type png)
 <use plots/community/algorithm_comparison.png>
 Package pdftex.def Info: plots/community/algorithm_comparison.png  used on inpu
@@ -903,7 +903,25 @@ Overfull \hbox (6.61232pt too wide) in paragraph at lines 262--263
  10 mil-lion edges, sampling-
  []
 
-[85]) [86] [87] (main.ind) (main.aux)
+[85]) [86]
+Overfull \hbox (2.77727pt too wide) in paragraph at lines 143--144
+\OT1/cmr/m/n/10 struc-tures be-tween Lou-vain, Lei-den, and Net-workX im-ple-me
+n-ta-tions across
+ []
+
+[87]
+Overfull \hbox (84.4418pt too wide) in paragraph at lines 163--164
+[]\OT1/cmr/m/n/10 Source code in \OT1/cmtt/m/n/10 algorithms/community/louvain.
+py \OT1/cmr/m/n/10 and \OT1/cmtt/m/n/10 algorithms/community/leiden.py 
+ []
+
+
+Overfull \hbox (49.05623pt too wide) in paragraph at lines 165--166
+[]\OT1/cmr/m/n/10 Comprehensive ex-per-i-ment scripts in \OT1/cmtt/m/n/10 exper
+iments/community/run[]experiments.py 
+ []
+
+[88] [89] [90] [91] (main.ind) (main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
@@ -913,13 +931,13 @@ L3 programming layer <2024-01-04>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D763C944642400C674E40BA2867FD371;6064.
+(rerunfilecheck)             Checksum: B770C4BD78A16E33D1B529B7F927059B;7119.
  ) 
 Here is how much of TeX's memory you used:
- 10647 strings out of 474486
- 172630 string characters out of 5743755
+ 10663 strings out of 474486
+ 172818 string characters out of 5743755
  1939542 words of memory out of 5000000
- 32195 multiletter control sequences out of 15000+600000
+ 32201 multiletter control sequences out of 15000+600000
  570895 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,14n,79p,992b,663s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -955,9 +973,9 @@ onts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/sarth/AppData/Local/Programs
 ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Use
 rs/sarth/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm
 10.pfb>
-Output written on main.pdf (88 pages, 3108822 bytes).
+Output written on main.pdf (92 pages, 3122034 bytes).
 PDF statistics:
- 1245 PDF objects out of 1440 (max. 8388607)
- 529 named destinations out of 1000 (max. 500000)
- 316 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1293 PDF objects out of 1440 (max. 8388607)
+ 539 named destinations out of 1000 (max. 500000)
+ 364 words of extra memory for PDF output out of 10000 (max. 10000000)
 
