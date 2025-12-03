@@ -40,8 +40,9 @@ python -c "import matplotlib, numpy, pandas, sklearn, networkx; print('Setup com
 # Run traversal experiments
 python experiments/traversal/run_experiments.py
 
-# Run centrality experiments
-python experiments/centrality/run_experiments.py
+# Run centrality experiments (all 4 algorithms: degree, harmonic closeness, betweenness, pagerank)
+python experiments/centrality/run_size_experiment.py
+python experiments/centrality/run_density_experiment.py
 
 # Run recommender experiments
 python experiments/recommender/run_experiments.py
@@ -59,7 +60,8 @@ python experiments/community/run_experiments.py --experiment comparison
 ```bash
 # Generate plots for each module
 python plots/traversal/plot_experiments.py
-python plots/centrality/plot_experiments.py
+python plots/centrality/plot_size_vs_time.py         # Size vs time for all 4 algorithms
+python plots/centrality/plot_density_vs_time.py     # Density vs time for all 4 algorithms
 python plots/centrality/plot_centrality_heatmaps.py  # Centrality heatmap visualizations
 python plots/recommender/plot_experiments.py
 python plots/community/plot_experiments.py
